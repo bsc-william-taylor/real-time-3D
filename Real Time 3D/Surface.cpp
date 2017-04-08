@@ -3,7 +3,8 @@
 #include "Demo.h"
 
 Surface::Surface()
-	: m_Draw (false)
+	: m_Draw (false),
+    FirstTime(true)
 {
 	m_pMatrix = NULL;
 	VAO = NULL;
@@ -16,8 +17,6 @@ Surface::~Surface()
 	glDeleteBuffers(1, &VBO);
 	
 	SAFE_RELEASE(m_pMatrix);
-	m_Draw = TRUE;
-	FirstTime = true;
 }
 
 void Surface::Enable()

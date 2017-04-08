@@ -33,7 +33,7 @@ DemoMenu::DemoMenu()
 	
 	m_Footer->setText("Please be patient while the demo loads...");
 	m_Footer->setFont("data/img/MavenPro-Regular.ttf");
-	m_Footer->setPosition(vec2(825, 25));
+	m_Footer->setPosition(vec2(800, 25));
 	m_Footer->setSize(25);
 
 	m_pMenuRenderer->PushTexture(m_pBackground);

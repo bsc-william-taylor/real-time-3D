@@ -35,9 +35,13 @@ DemoOptions::DemoOptions()
 	m_pHeader->setSize(100);
 
 	m_pShowCollisionBoxes->SetPosition("Show Collision Boxes?", vec2(450, 400), vec2(400, 100));
+    m_pShowCollisionBoxes->getTexture()->setShade(vec4(1.0, 0.0, 0.0, 1.0));
 	m_pEnablePostEffects->SetPosition("Enable Post FX Effects", vec2(450, 250), vec2(400, 100));
+    m_pEnablePostEffects->getTexture()->setShade(vec4(1.0, 0.0, 0.0, 1.0));
 	m_pEnableWireframe->SetPosition("Enable Wireframe", vec2(450, 100), vec2(400, 100));
+    m_pEnableWireframe->getTexture()->setShade(vec4(1.0, 0.0, 0.0, 1.0));
 	m_pBackButton->SetPosition("Back", vec2(10, 625), vec2(200, 50));
+    m_pBackButton->getTexture()->setShade(vec4(1.0, 0.0, 0.0, 1.0));
 }
 
 DemoOptions::~DemoOptions()
@@ -92,7 +96,7 @@ void DemoOptions::ActivateButton(Button * button)
 		
 	if(v == vec4(0.0, 1.0, 0.0, 1.0)) 
 	{
-		v = vec4(1.0, 1.0, 1.0, 1.0);
+		v = vec4(1.0, 0.0, 0.0, 1.0);
 	} 
 	else 
 	{

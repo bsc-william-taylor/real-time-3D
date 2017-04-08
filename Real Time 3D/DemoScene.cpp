@@ -129,7 +129,9 @@ void DemoScene::Enter()
 		m_pQuit = new Button();
 
 		m_pOptions->SetPosition("Options", vec2(1050, 610), vec2(200, 50));
+        m_pOptions->getTexture()->setShade(vec4(1.0, 0.0, 0.0, 1.0));
 		m_pQuit->SetPosition("Quit", vec2(1050, 10), vec2(200, 50));
+        m_pQuit->getTexture()->setShade(vec4(1.0, 0.0, 0.0, 1.0));
 
 		m_pEffects->Initialise(1280, 720);
 		m_pSkybox->Folder("data/skybox/");
@@ -156,8 +158,8 @@ void DemoScene::SetupGraphics()
 	m_pCity->Rotate(RAIDAN(90), vec3(-1, 0, 0));
 	m_pCity->Translate(vec3(-5.0, -2.5, -15));
 
-	m_pPlayer->ReadTexture("data/models/yoshi.bmp");
-	m_pPlayer->ReadMD2Model("data/models/yoshi.md2", true);
+	m_pPlayer->ReadTexture("data/models/pac3D.bmp");
+	m_pPlayer->ReadMD2Model("data/models/pac3D.md2", true);
 	
 	m_pRenderer->PushHeightmap(m_Heightmap);
 	m_pRenderer->PushSkybox(m_pSkybox);
