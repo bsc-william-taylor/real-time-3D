@@ -30,6 +30,7 @@ private:
 	GLuint VBO;
 
 	vec3 m_Position;
+	vec4 m_Shade;
 	vec3 m_Size;
 	vec4 m_UV;
 
@@ -57,4 +58,7 @@ public:
 	GL_Program * getProgram(){ return m_pShader; }
 	GLuint getVAO(){ return VAO; }
 	GLuint getID();
+
+	GLvoid setShade(vec4);
+	vec4 getShade();
 };

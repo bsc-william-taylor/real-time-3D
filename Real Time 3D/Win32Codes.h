@@ -1,9 +1,18 @@
 
+/* -------------------------------------------------
+  
+ @Filename  : Win32Codes.h
+ @author	: William Taylor
+ @date		: 12/02/2014
+
+ @purpose	: Simple include file when reading 
+			  states.
+
+ ------------------------------------------------- */
+
 #pragma once
 
-/*
-	Usual Key MACROS.
-*/
+// Usual Key MACROS.
 
 #define A_KEY           30											
 #define S_KEY           31											
@@ -32,9 +41,7 @@
 #define N_KEY           49											
 #define M_KEY           50
 
-/*
-	Other Key MACROS.
-*/
+// Other Key MACROS
 
 #define ESCAPE          1	
 #define ONE             2		
@@ -66,9 +73,7 @@
 #define LEFT_ALT        56																					
 #define CAPS_LOCK       58	
 
-/*
-	Function Keys.
-*/
+// Function Keys.
 
 #define F1              59											
 #define F2              60											
@@ -86,9 +91,7 @@
 #define F14             101											
 #define F15             102		
 
-/*
-	Calculater Keys.
-*/
+// Calculater Keys.
 
 #define NUMLOCK         69											
 #define SCROLL          70											
@@ -105,9 +108,7 @@
 #define NUMPAD3         81											
 #define NUMPAD0         82		
 
-/*
-	Other Keys.
-*/
+// Other Keys.
 
 #define FULLSTOP        83	
 #define NUMPAD_ENTER    156			
@@ -133,9 +134,7 @@
 #define RIGHT_WINDOWS   220											
 #define ENTER			28	
 
-/*
-	Get Function MACROS.
-*/
+// Get Function MACROS.
 
 #define WINDOW_WIDTH	100
 #define WINDOW_HEIGHT   101
@@ -144,9 +143,7 @@
 #define WINDOW_RATIO	104
 #define INVALID_PARAM	1
 
-/*
-	Mouse Buttons Macros.
-*/
+// Mouse Buttons Macros.
 
 #define NOT_PRESSED		4	
 #define MOUSE_MIDDLE	2													
@@ -163,9 +160,11 @@
 #define PRESSED			0	
 
 /*
-	Usefull check funtions
+	Useful check funtions
 */
 
 #define KEY_HOLDING(k, i, b)( b == HOLDING && k == i ) ? true : false
 #define KEY_DOWN(k, i, b)( b == PRESSED && k == i ) ? true : false
 #define KEY_UP(k, i, b)( b == RELEASED && k == i ) ? true : false
+
+// END

@@ -11,18 +11,6 @@
     <Filter Include="Project Files\Game">
       <UniqueIdentifier>{74c52e02-7d33-4c57-bb6c-9ac835164354}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Project Files\Game\Demo">
-      <UniqueIdentifier>{609714db-830b-497b-9d3e-0bafe30710f1}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Project Files\Engine\Scenes">
-      <UniqueIdentifier>{8cab8897-eee2-482f-a394-840a9b9343ad}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Project Files\Engine\Scenes\Scene Manager">
-      <UniqueIdentifier>{c4b57da0-a618-451d-a962-56e92f5154d0}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Project Files\Engine\Scenes\Scene">
-      <UniqueIdentifier>{cae3d12b-c387-48fc-adea-6a3295f3c896}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Project Files\Engine\Win32">
       <UniqueIdentifier>{40c12e3b-7645-4a80-91e5-5d62d7f4cf2a}</UniqueIdentifier>
     </Filter>
@@ -53,9 +41,6 @@
     <Filter Include="Project Files\Engine\Physics\Surface Builder">
       <UniqueIdentifier>{6ec5a56c-efbf-45af-a38d-d9823bc4387e}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Project Files\Engine\Physics\Surface Manager">
-      <UniqueIdentifier>{9046698d-6c83-4f44-81ce-990c0bc5db46}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Project Files\Engine\Physics\Sub Surface">
       <UniqueIdentifier>{cae5b3bc-4ee7-4a66-a32c-fdfdfd26b676}</UniqueIdentifier>
     </Filter>
@@ -83,15 +68,6 @@
     <Filter Include="Project Files\Engine\Graphics\OpenGL Renderer">
       <UniqueIdentifier>{8150ed70-769b-4013-a5d5-f1e6b95b4342}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Project Files\Engine\Graphics\OpenGL Manager">
-      <UniqueIdentifier>{6d01eec6-860b-4428-879e-0cb4af044ba5}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Project Files\Engine\Graphics\OpenGL Manager\GL_Shader_Manager">
-      <UniqueIdentifier>{cfd5ccd7-aab6-410f-84f3-bf4096ad59ab}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Project Files\Engine\Graphics\OpenGL Manager\GL_Texture_Manager">
-      <UniqueIdentifier>{70e005d2-0205-40aa-92c3-a9c5e568b01d}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Project Files\Engine\Graphics\OpenGL Camera">
       <UniqueIdentifier>{c03128dd-334d-4ca8-8c89-f2d2535c40d4}</UniqueIdentifier>
     </Filter>
@@ -104,71 +80,71 @@
     <Filter Include="Project Files\Engine\Graphics\OpenGL Camera\Free Camera">
       <UniqueIdentifier>{e4cbbdc2-6e02-4ca8-896d-1052970687a0}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Project Files\Engine\Graphics\OpenGL Base">
-      <UniqueIdentifier>{749f6578-b77a-4c5b-a1d9-d56d10efd83a}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Project Files\Engine\Graphics\OpenGL Base\GL_Matrix">
-      <UniqueIdentifier>{74783b14-794d-424c-bff2-529a4c36f995}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Project Files\Engine\Graphics\OpenGL Base\GL_Object">
-      <UniqueIdentifier>{150793dc-991b-4533-9a31-9b2d9b7648ea}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Project Files\Engine\Graphics\OpenGL Base\GL_Program">
-      <UniqueIdentifier>{85571484-ae4e-4c6f-93a0-7162c855e999}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Project Files\Game\Scenes">
-      <UniqueIdentifier>{bc454e17-9290-46b9-858d-0dddbda9eb7a}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Project Files\Engine\Graphics\OpenGL Shaders">
-      <UniqueIdentifier>{b76a9393-d3dc-4cab-9129-256e5c5e690f}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Project Files\Engine\Graphics\OpenGL Shaders\Heightmap">
-      <UniqueIdentifier>{45b90ac5-32dd-4f45-9f67-d8a86cb66fd7}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Project Files\Engine\Graphics\OpenGL Shaders\Model">
-      <UniqueIdentifier>{786147b4-3347-41d3-a5f5-5656d6847fe1}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Project Files\Engine\Graphics\OpenGL Shaders\Post Processor">
-      <UniqueIdentifier>{77657595-2196-4573-8515-5b4d8b4a20e5}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Project Files\Engine\Graphics\OpenGL Shaders\Texture">
-      <UniqueIdentifier>{3f5b509d-cbb0-4acb-bce0-dcc7cc9c2cca}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Project Files\Engine\Graphics\OpenGL Objects\Static Model">
-      <UniqueIdentifier>{9e0560c8-d797-431c-b9a7-9d49059bea94}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Project Files\Engine\Graphics\OpenGL Objects\Dynamic Model">
-      <UniqueIdentifier>{bb7278c1-d529-4c03-bac3-30bf90d0ea61}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Project Files\Engine\Graphics\OpenGL Objects\Heightmap">
-      <UniqueIdentifier>{598d1b18-8a26-4ac1-87f5-77aaa679a7f7}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Project Files\Engine\Graphics\OpenGL Objects\Heightmap\GL_HeightmapOverlay">
-      <UniqueIdentifier>{c784ea66-152f-4621-b005-0b9eac02d1da}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Project Files\Engine\Graphics\OpenGL Objects\Minimap">
-      <UniqueIdentifier>{3bab5e72-97de-426c-aaa8-a65c72dba49e}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Project Files\Engine\Graphics\OpenGL Objects\Texture">
-      <UniqueIdentifier>{a8449133-04fc-4ac1-8428-59f6a9790718}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Project Files\Engine\Graphics\OpenGL Objects\Skybox">
-      <UniqueIdentifier>{eed1b324-be83-4727-98a9-82568b503ae4}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Project Files\Engine\Graphics\OpenGL Objects\Label">
-      <UniqueIdentifier>{d0f2b9f9-940a-40c2-9eeb-53bdf74bf687}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Project Files\Engine\Graphics\OpenGL Objects\Post Proccessor">
-      <UniqueIdentifier>{da0ef254-1a20-424c-bca0-46c800cf980b}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Project Files\Game\Scenes\Demo Level">
+    <Filter Include="Project Files\Game\Demo Level">
       <UniqueIdentifier>{96408c7f-3a76-4e99-b629-9350d9e63d23}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Project Files\Game\Scenes\Demo Menu">
+    <Filter Include="Project Files\Game\Demo Menu">
       <UniqueIdentifier>{a7a2ffad-94d6-4d33-8295-dc2642d0f060}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Project Files\Game\Scenes\Demo Options">
+    <Filter Include="Project Files\Game\Demo Options">
       <UniqueIdentifier>{150c9447-f795-4cd9-8cd9-c697c4ae03b2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Project Files\Engine\Graphics\OpenGL Objects\GL_Matrix">
+      <UniqueIdentifier>{74783b14-794d-424c-bff2-529a4c36f995}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Project Files\Engine\Graphics\OpenGL Objects\GL_Program">
+      <UniqueIdentifier>{85571484-ae4e-4c6f-93a0-7162c855e999}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Project Files\Engine\Graphics\OpenGL Objects\GL_Button">
+      <UniqueIdentifier>{4d8502aa-b334-4d07-85ce-e515362810bd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Project Files\Engine\Graphics\OpenGL Objects\GL_Heightmap">
+      <UniqueIdentifier>{598d1b18-8a26-4ac1-87f5-77aaa679a7f7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Project Files\Engine\Graphics\OpenGL Objects\GL_Heightmap\GL_HeightmapOverlay">
+      <UniqueIdentifier>{c784ea66-152f-4621-b005-0b9eac02d1da}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Project Files\Engine\Graphics\OpenGL Objects\GL_String">
+      <UniqueIdentifier>{d0f2b9f9-940a-40c2-9eeb-53bdf74bf687}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Project Files\Engine\Graphics\OpenGL Objects\GL_Minimap">
+      <UniqueIdentifier>{3bab5e72-97de-426c-aaa8-a65c72dba49e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Project Files\Engine\Graphics\OpenGL Objects\GL_FX">
+      <UniqueIdentifier>{da0ef254-1a20-424c-bca0-46c800cf980b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Project Files\Engine\Graphics\OpenGL Objects\GL_Skybox">
+      <UniqueIdentifier>{eed1b324-be83-4727-98a9-82568b503ae4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Project Files\Engine\Graphics\OpenGL Objects\GL_Texture">
+      <UniqueIdentifier>{a8449133-04fc-4ac1-8428-59f6a9790718}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Project Files\Engine\Graphics\OpenGL Objects\GL_Model">
+      <UniqueIdentifier>{511794ae-1869-4bf8-8aa1-8a58e22b619c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Project Files\Engine\Graphics\OpenGL Objects\GL_Model\GL_Static Model">
+      <UniqueIdentifier>{9e0560c8-d797-431c-b9a7-9d49059bea94}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Project Files\Engine\Graphics\OpenGL Objects\GL_Model\GL_Dynamic Model">
+      <UniqueIdentifier>{bb7278c1-d529-4c03-bac3-30bf90d0ea61}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Project Files\Engine\Managers">
+      <UniqueIdentifier>{c4b57da0-a618-451d-a962-56e92f5154d0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Project Files\Engine\Managers\Texture_Manager">
+      <UniqueIdentifier>{70e005d2-0205-40aa-92c3-a9c5e568b01d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Project Files\Engine\Managers\Shader_Manager">
+      <UniqueIdentifier>{cfd5ccd7-aab6-410f-84f3-bf4096ad59ab}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Project Files\Engine\Managers\Surface Manager">
+      <UniqueIdentifier>{9046698d-6c83-4f44-81ce-990c0bc5db46}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Project Files\Engine\Managers\Scene Manager">
+      <UniqueIdentifier>{ac88bf9b-aa3c-4244-bb09-614fef63ea38}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Project Files\Game\Demo Class">
+      <UniqueIdentifier>{609714db-830b-497b-9d3e-0bafe30710f1}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -176,10 +152,10 @@
       <Filter>Project Files\Engine\Win32</Filter>
     </ClCompile>
     <ClCompile Include="GL_Program.cpp">
-      <Filter>Project Files\Engine\Graphics\OpenGL Base\GL_Program</Filter>
+      <Filter>Project Files\Engine\Graphics\OpenGL Objects\GL_Program</Filter>
     </ClCompile>
     <ClCompile Include="GL_Matrix.cpp">
-      <Filter>Project Files\Engine\Graphics\OpenGL Base\GL_Matrix</Filter>
+      <Filter>Project Files\Engine\Graphics\OpenGL Objects\GL_Matrix</Filter>
     </ClCompile>
     <ClCompile Include="Win32Window.cpp">
       <Filter>Project Files\Engine\Win32\Win32 Window</Filter>
@@ -197,34 +173,31 @@
       <Filter>Project Files\Engine\Win32\Win32 Input\Mouse</Filter>
     </ClCompile>
     <ClCompile Include="GL_Texture_Manager.cpp">
-      <Filter>Project Files\Engine\Graphics\OpenGL Manager\GL_Texture_Manager</Filter>
+      <Filter>Project Files\Engine\Managers\Texture_Manager</Filter>
     </ClCompile>
     <ClCompile Include="GL_Texture.cpp">
-      <Filter>Project Files\Engine\Graphics\OpenGL Objects\Texture</Filter>
+      <Filter>Project Files\Engine\Graphics\OpenGL Objects\GL_Texture</Filter>
     </ClCompile>
     <ClCompile Include="GL_Skybox.cpp">
-      <Filter>Project Files\Engine\Graphics\OpenGL Objects\Skybox</Filter>
+      <Filter>Project Files\Engine\Graphics\OpenGL Objects\GL_Skybox</Filter>
     </ClCompile>
     <ClCompile Include="GL_Heightmap.cpp">
-      <Filter>Project Files\Engine\Graphics\OpenGL Objects\Heightmap</Filter>
+      <Filter>Project Files\Engine\Graphics\OpenGL Objects\GL_Heightmap</Filter>
     </ClCompile>
     <ClCompile Include="GL_Text.cpp">
-      <Filter>Project Files\Engine\Graphics\OpenGL Objects\Label</Filter>
+      <Filter>Project Files\Engine\Graphics\OpenGL Objects\GL_String</Filter>
     </ClCompile>
     <ClCompile Include="GL_Renderer.cpp">
       <Filter>Project Files\Engine\Graphics\OpenGL Renderer</Filter>
     </ClCompile>
     <ClCompile Include="GL_MapOverlay.cpp">
-      <Filter>Project Files\Engine\Graphics\OpenGL Objects\Heightmap\GL_HeightmapOverlay</Filter>
+      <Filter>Project Files\Engine\Graphics\OpenGL Objects\GL_Heightmap\GL_HeightmapOverlay</Filter>
     </ClCompile>
     <ClCompile Include="GL_Shader_Manager.cpp">
-      <Filter>Project Files\Engine\Graphics\OpenGL Manager\GL_Shader_Manager</Filter>
-    </ClCompile>
-    <ClCompile Include="SceneManager.cpp">
-      <Filter>Project Files\Engine\Scenes\Scene Manager</Filter>
+      <Filter>Project Files\Engine\Managers\Shader_Manager</Filter>
     </ClCompile>
     <ClCompile Include="GL_PostProcessor.cpp">
-      <Filter>Project Files\Engine\Graphics\OpenGL Objects\Post Proccessor</Filter>
+      <Filter>Project Files\Engine\Graphics\OpenGL Objects\GL_FX</Filter>
     </ClCompile>
     <ClCompile Include="Surface.cpp">
       <Filter>Project Files\Engine\Physics\Surface</Filter>
@@ -233,25 +206,25 @@
       <Filter>Project Files\Engine\Physics\Surface Builder</Filter>
     </ClCompile>
     <ClCompile Include="SurfaceManager.cpp">
-      <Filter>Project Files\Engine\Physics\Surface Manager</Filter>
+      <Filter>Project Files\Engine\Managers\Surface Manager</Filter>
     </ClCompile>
     <ClCompile Include="SubSurface.cpp">
       <Filter>Project Files\Engine\Physics\Sub Surface</Filter>
     </ClCompile>
     <ClCompile Include="DemoScene.cpp">
-      <Filter>Project Files\Game\Scenes\Demo Level</Filter>
+      <Filter>Project Files\Game\Demo Level</Filter>
     </ClCompile>
     <ClCompile Include="DemoMenu.cpp">
-      <Filter>Project Files\Game\Scenes\Demo Menu</Filter>
+      <Filter>Project Files\Game\Demo Menu</Filter>
     </ClCompile>
     <ClCompile Include="GL_Minimap.cpp">
-      <Filter>Project Files\Engine\Graphics\OpenGL Objects\Minimap</Filter>
+      <Filter>Project Files\Engine\Graphics\OpenGL Objects\GL_Minimap</Filter>
     </ClCompile>
     <ClCompile Include="DynamicModel.cpp">
-      <Filter>Project Files\Engine\Graphics\OpenGL Objects\Dynamic Model</Filter>
+      <Filter>Project Files\Engine\Graphics\OpenGL Objects\GL_Model\GL_Dynamic Model</Filter>
     </ClCompile>
     <ClCompile Include="StaticModel.cpp">
-      <Filter>Project Files\Engine\Graphics\OpenGL Objects\Static Model</Filter>
+      <Filter>Project Files\Engine\Graphics\OpenGL Objects\GL_Model\GL_Static Model</Filter>
     </ClCompile>
     <ClCompile Include="FreeCamera.cpp">
       <Filter>Project Files\Engine\Graphics\OpenGL Camera\Free Camera</Filter>
@@ -266,7 +239,7 @@
       <Filter>Project Files\Engine\Audio\Audio Controller</Filter>
     </ClCompile>
     <ClCompile Include="Demo.cpp">
-      <Filter>Project Files\Game\Demo</Filter>
+      <Filter>Project Files\Game\Demo Class</Filter>
     </ClCompile>
     <ClCompile Include="Main.cpp">
       <Filter>Project Files\Game</Filter>
@@ -280,8 +253,14 @@
     <ClCompile Include="AudioNode.cpp">
       <Filter>Project Files\Engine\Audio\Audio Node</Filter>
     </ClCompile>
-    <ClCompile Include="Options.cpp">
-      <Filter>Project Files\Game\Scenes\Demo Options</Filter>
+    <ClCompile Include="Button.cpp">
+      <Filter>Project Files\Engine\Graphics\OpenGL Objects\GL_Button</Filter>
+    </ClCompile>
+    <ClCompile Include="SceneManager.cpp">
+      <Filter>Project Files\Engine\Managers\Scene Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="DemoOptions.cpp">
+      <Filter>Project Files\Game\Demo Options</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -289,10 +268,10 @@
       <Filter>Project Files\Engine\Win32</Filter>
     </ClInclude>
     <ClInclude Include="GL_Program.h">
-      <Filter>Project Files\Engine\Graphics\OpenGL Base\GL_Program</Filter>
+      <Filter>Project Files\Engine\Graphics\OpenGL Objects\GL_Program</Filter>
     </ClInclude>
     <ClInclude Include="GL_Matrix.h">
-      <Filter>Project Files\Engine\Graphics\OpenGL Base\GL_Matrix</Filter>
+      <Filter>Project Files\Engine\Graphics\OpenGL Objects\GL_Matrix</Filter>
     </ClInclude>
     <ClInclude Include="Win32Window.h">
       <Filter>Project Files\Engine\Win32\Win32 Window</Filter>
@@ -316,43 +295,37 @@
       <Filter>Project Files\Engine\Win32\Win32 Header</Filter>
     </ClInclude>
     <ClInclude Include="GL_Texture_Manager.h">
-      <Filter>Project Files\Engine\Graphics\OpenGL Manager\GL_Texture_Manager</Filter>
+      <Filter>Project Files\Engine\Managers\Texture_Manager</Filter>
     </ClInclude>
     <ClInclude Include="GL_Texture.h">
-      <Filter>Project Files\Engine\Graphics\OpenGL Objects\Texture</Filter>
+      <Filter>Project Files\Engine\Graphics\OpenGL Objects\GL_Texture</Filter>
     </ClInclude>
     <ClInclude Include="GL_Skybox.h">
-      <Filter>Project Files\Engine\Graphics\OpenGL Objects\Skybox</Filter>
+      <Filter>Project Files\Engine\Graphics\OpenGL Objects\GL_Skybox</Filter>
     </ClInclude>
     <ClInclude Include="GL_Heightmap.h">
-      <Filter>Project Files\Engine\Graphics\OpenGL Objects\Heightmap</Filter>
+      <Filter>Project Files\Engine\Graphics\OpenGL Objects\GL_Heightmap</Filter>
     </ClInclude>
     <ClInclude Include="GL_Text.h">
-      <Filter>Project Files\Engine\Graphics\OpenGL Objects\Label</Filter>
+      <Filter>Project Files\Engine\Graphics\OpenGL Objects\GL_String</Filter>
     </ClInclude>
     <ClInclude Include="GL_Renderer.h">
       <Filter>Project Files\Engine\Graphics\OpenGL Renderer</Filter>
     </ClInclude>
     <ClInclude Include="GL_MapOverlay.h">
-      <Filter>Project Files\Engine\Graphics\OpenGL Objects\Heightmap\GL_HeightmapOverlay</Filter>
+      <Filter>Project Files\Engine\Graphics\OpenGL Objects\GL_Heightmap\GL_HeightmapOverlay</Filter>
     </ClInclude>
     <ClInclude Include="GL_Shader_Manager.h">
-      <Filter>Project Files\Engine\Graphics\OpenGL Manager\GL_Shader_Manager</Filter>
-    </ClInclude>
-    <ClInclude Include="SceneManager.h">
-      <Filter>Project Files\Engine\Scenes\Scene Manager</Filter>
-    </ClInclude>
-    <ClInclude Include="Scene.h">
-      <Filter>Project Files\Engine\Scenes\Scene</Filter>
+      <Filter>Project Files\Engine\Managers\Shader_Manager</Filter>
     </ClInclude>
     <ClInclude Include="GL_PostProcessor.h">
-      <Filter>Project Files\Engine\Graphics\OpenGL Objects\Post Proccessor</Filter>
+      <Filter>Project Files\Engine\Graphics\OpenGL Objects\GL_FX</Filter>
     </ClInclude>
     <ClInclude Include="Surface.h">
       <Filter>Project Files\Engine\Physics\Surface</Filter>
     </ClInclude>
     <ClInclude Include="SurfaceManager.h">
-      <Filter>Project Files\Engine\Physics\Surface Manager</Filter>
+      <Filter>Project Files\Engine\Managers\Surface Manager</Filter>
     </ClInclude>
     <ClInclude Include="SurfaceBuilder.h">
       <Filter>Project Files\Engine\Physics\Surface Builder</Filter>
@@ -360,26 +333,20 @@
     <ClInclude Include="SubSurface.h">
       <Filter>Project Files\Engine\Physics\Sub Surface</Filter>
     </ClInclude>
-    <ClInclude Include="AudioHeader.h">
-      <Filter>Project Files\Engine\Audio</Filter>
-    </ClInclude>
-    <ClInclude Include="DemoScene.h">
-      <Filter>Project Files\Game\Scenes\Demo Level</Filter>
-    </ClInclude>
     <ClInclude Include="DemoMenu.h">
-      <Filter>Project Files\Game\Scenes\Demo Menu</Filter>
+      <Filter>Project Files\Game\Demo Menu</Filter>
     </ClInclude>
     <ClInclude Include="GL_Header.h">
       <Filter>Project Files\Engine\Graphics</Filter>
     </ClInclude>
     <ClInclude Include="GL_Minimap.h">
-      <Filter>Project Files\Engine\Graphics\OpenGL Objects\Minimap</Filter>
+      <Filter>Project Files\Engine\Graphics\OpenGL Objects\GL_Minimap</Filter>
     </ClInclude>
     <ClInclude Include="DynamicModel.h">
-      <Filter>Project Files\Engine\Graphics\OpenGL Objects\Dynamic Model</Filter>
+      <Filter>Project Files\Engine\Graphics\OpenGL Objects\GL_Model\GL_Dynamic Model</Filter>
     </ClInclude>
     <ClInclude Include="StaticModel.h">
-      <Filter>Project Files\Engine\Graphics\OpenGL Objects\Static Model</Filter>
+      <Filter>Project Files\Engine\Graphics\OpenGL Objects\GL_Model\GL_Static Model</Filter>
     </ClInclude>
     <ClInclude Include="FreeCamera.h">
       <Filter>Project Files\Engine\Graphics\OpenGL Camera\Free Camera</Filter>
@@ -394,10 +361,7 @@
       <Filter>Project Files\Engine\Audio\Audio Controller</Filter>
     </ClInclude>
     <ClInclude Include="Demo.h">
-      <Filter>Project Files\Game\Demo</Filter>
-    </ClInclude>
-    <ClInclude Include="IModel.h">
-      <Filter>Project Files\Engine\Graphics\OpenGL Objects</Filter>
+      <Filter>Project Files\Game\Demo Class</Filter>
     </ClInclude>
     <ClInclude Include="ICamera.h">
       <Filter>Project Files\Engine\Graphics\OpenGL Camera</Filter>
@@ -411,52 +375,20 @@
     <ClInclude Include="AudioNode.h">
       <Filter>Project Files\Engine\Audio\Audio Node</Filter>
     </ClInclude>
-    <ClInclude Include="Options.h">
-      <Filter>Project Files\Game\Scenes\Demo Options</Filter>
+    <ClInclude Include="Button.h">
+      <Filter>Project Files\Engine\Graphics\OpenGL Objects\GL_Button</Filter>
     </ClInclude>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="data\shaders\heightmap.frag">
-      <Filter>Project Files\Engine\Graphics\OpenGL Shaders\Heightmap</Filter>
-    </None>
-    <None Include="data\shaders\heightmap.vert">
-      <Filter>Project Files\Engine\Graphics\OpenGL Shaders\Heightmap</Filter>
-    </None>
-    <None Include="data\shaders\model.vert">
-      <Filter>Project Files\Engine\Graphics\OpenGL Shaders\Model</Filter>
-    </None>
-    <None Include="data\shaders\model.frag">
-      <Filter>Project Files\Engine\Graphics\OpenGL Shaders\Model</Filter>
-    </None>
-    <None Include="data\shaders\postprocessor.vert">
-      <Filter>Project Files\Engine\Graphics\OpenGL Shaders\Post Processor</Filter>
-    </None>
-    <None Include="data\shaders\postprocessor.frag">
-      <Filter>Project Files\Engine\Graphics\OpenGL Shaders\Post Processor</Filter>
-    </None>
-    <None Include="data\shaders\box.frag">
-      <Filter>Project Files\Engine\Graphics\OpenGL Shaders\Texture</Filter>
-    </None>
-    <None Include="data\shaders\box.vert">
-      <Filter>Project Files\Engine\Graphics\OpenGL Shaders\Texture</Filter>
-    </None>
-    <None Include="data\shaders\text.frag">
-      <Filter>Project Files\Engine\Graphics\OpenGL Shaders\Texture</Filter>
-    </None>
-    <None Include="data\shaders\text.vert">
-      <Filter>Project Files\Engine\Graphics\OpenGL Shaders\Texture</Filter>
-    </None>
-    <None Include="data\shaders\texture.frag">
-      <Filter>Project Files\Engine\Graphics\OpenGL Shaders\Texture</Filter>
-    </None>
-    <None Include="data\shaders\texture.vert">
-      <Filter>Project Files\Engine\Graphics\OpenGL Shaders\Texture</Filter>
-    </None>
-    <None Include="cube.vert">
-      <Filter>Project Files\Engine\Graphics\OpenGL Shaders</Filter>
-    </None>
-    <None Include="cube.frag">
-      <Filter>Project Files\Engine\Graphics\OpenGL Shaders</Filter>
-    </None>
+    <ClInclude Include="IModel.h">
+      <Filter>Project Files\Engine\Graphics\OpenGL Objects\GL_Model</Filter>
+    </ClInclude>
+    <ClInclude Include="SceneManager.h">
+      <Filter>Project Files\Engine\Managers\Scene Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="DemoOptions.h">
+      <Filter>Project Files\Game\Demo Options</Filter>
+    </ClInclude>
+    <ClInclude Include="DemoScene.h">
+      <Filter>Project Files\Game\Demo Level</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

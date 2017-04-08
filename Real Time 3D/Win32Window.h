@@ -1,53 +1,56 @@
 
+/* -------------------------------------------------
+  
+ @Filename  : Win32Window.h
+ @author	: William Taylor
+ @date		: 12/02/2014
+ @purpose	: A Window class that constructs & 
+			  manages a win32 window.
+
+ ------------------------------------------------- */
+
 #pragma once
 
 #include "Win32Header.h"
-
-#define WND_CALLBACK static LRESULT __stdcall
-
-struct SIZES {
-	int x;
-	int y;
-	int w;
-	int h;
-};
 
 class Win32Window 
 {
 public:
 
-	enum Type { FULLSCREEN, WINDOWED };
+	struct SIZES { UINT x, y, w, h; };			// Type to simplify setting the windows size.
+	enum Type { FULLSCREEN, WINDOWED };			// Enum to set the type of window to open
 
 private:
 
-	WND_CALLBACK WndProc(HWND, UINT, WPARAM, LPARAM);
-
-	static CHAR m_Key;
-	BOOL m_Fullscreen;
-	TCHAR * m_Title;
-	SIZES m_Sizes;
-	MSG m_Msg;
+	HGLRC m_Context;		// Window Context;
+	HWND m_Window;			// Window Handle
+	TCHAR * m_Title;		// Window Title
+	SIZES m_Sizes;			// Window Sizes
+	MSG m_Msg;				// Window Msgs
 
 public:
 
+	// Constructor & Deconstructor
 	Win32Window();
 	~Win32Window();
 
-	void DrawFunc(void *);
+	// Member Functions
+	void EnableOpenGL();
 	void Display(Type);
 	void Initialise();
 	bool Update();
 
-	void SetTraits(TCHAR *, int, int, int, int);
-	void MakeFullscreen();
-	void EnableOpenGL();
+	// Get & Set Functions
+	void setTraits(TCHAR *, int, int, int, int);
+	void setWindowTraits(Type);
 
-	HWND& GetHandle(){ return m_Window; }
-	MSG& GetMsg(){ return m_Msg; }
+	HWND& GetHandle();
+	MSG& GetMsg();
 
-	static CHAR getLastKey();
+private:
 
-public:
-
-	static HWND m_Window;
+	static LRESULT __stdcall WndProc(HWND, UINT, WPARAM, LPARAM);	// Window Message handler
 };
+
+// Typedef to make accessing types nicer 
+typedef Win32Window Window;

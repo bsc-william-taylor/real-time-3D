@@ -13,6 +13,9 @@
 // Constructor & Deconstructor
 GL_Program::GL_Program() 
 {
+	VertexFilename = "";
+	FragFilename = "";
+	Program = NULL;
 	Shaders[0] = 0;
 	Shaders[1] = 0;
 }
@@ -24,7 +27,7 @@ GL_Program::~GL_Program()
 // Member Functions
 void GL_Program::OutputLog(Types types) 
 {
-	GLint progress;
+	GLint progress = NULL;
 	
 	// Check to see if it compiled without errors
 	glGetShaderiv(Shaders[types], GL_COMPILE_STATUS, &progress);
@@ -67,11 +70,14 @@ std::string GL_Program::ReadFile(const std::string& Filename)
 			Data.append(line + "\n");
 		}
 
+		std::cout << Filename << " : Shader Loaded" << std::endl;
 		File.close();
     }
 	else
 	{
-		printf("error couldnt open file");
+		std::string str = Filename;
+		str += "Error opening this file";
+		printf(str.c_str());
 	}
 
     return(Data);

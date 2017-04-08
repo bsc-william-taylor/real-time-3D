@@ -12,6 +12,8 @@ private:
 
 	unsigned int count;
 
+	GLboolean positionCalculated;
+
 	vec3 m_RealPosition;
 	vec3 m_RealSize;
 	vec3 m_Position;

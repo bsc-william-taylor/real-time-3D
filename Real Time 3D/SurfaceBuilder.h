@@ -22,6 +22,7 @@ public:
 	void PushSurface(GL_Matrix *);
 	void PushPoint(aiVector3D);
 	void EndOfMesh(int);
+	
 	void Ignore() {
 		IgnoreArea = true;
 	}

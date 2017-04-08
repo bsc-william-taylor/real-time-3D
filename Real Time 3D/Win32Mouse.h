@@ -1,45 +1,64 @@
 
+/* -------------------------------------------------
+  
+ @Filename  : Win32Mouse.h
+ @author	: William Taylor
+ @date		: 12/02/2014
+
+ @purpose	: A mouse class that grabs mouse data
+			  from a direct input driver and outputs
+			  data to a set state.
+
+ ------------------------------------------------- */
+
 #pragma once
 
 #include "Win32Header.h"
-#include "Scene.h"
+#include "SceneManager.h"
 
+// Simple implementation could be expanded
 class Win32Mouse
 {
-	private:
+private:
 
-	struct CursorPoint
+	struct FLOAT_POINT					// Custom struct for position
 	{
-		float x; float y;
+		FLOAT x; 
+		FLOAT y;
 	};
 
-	private:
+private:
 
-		LPDIRECTINPUTDEVICE8 m_Mouse;
-		DIMOUSESTATE2 m_State;
+	LPDIRECTINPUTDEVICE8 m_Mouse;		// Pointer to device
+	DIMOUSESTATE2 m_State;				// Mouse State var
 
-		CursorPoint m_Position;
-		HWND * m_Hwnd;
+	FLOAT_POINT m_Position;				// Cursor Velocity
+	HWND m_Hwnd;						// Handle to window
 
-		bool m_MouseRelease[3];
-		bool m_ReleaseMsg[3];
+	bool m_MouseRelease[3];				// Track Current state arrays
+	bool m_ReleaseMsg[3];				// Track Current state arrays
 
-	public:
+public:
 
+	// Constructor & Deconstructor
 	Win32Mouse();
-
-		CursorPoint GetMousePosition();
-
-		void OutputInput(Scene *);
-		void InitialiseInput(HWND *);
-		void UpdateInput();
-		void ClearInput();
-		void RemoveMsgs();
-
-		operator LPDIRECTINPUTDEVICE8()
-		{
-			return m_Mouse;
-		}
-
 	~Win32Mouse();
+
+	// Member Functions
+	void InitialiseInput(HWND * hWnd);
+	void OutputInput(Scene * scene);
+	void UpdateInput();
+	void ClearInput();
+	void RemoveMsgs();
+
+	// Rather this that another get function
+	operator LPDIRECTINPUTDEVICE8()
+	{
+		return m_Mouse;
+	}
+
+	// Get & Set Functions
+	FLOAT_POINT getMousePosition();
 };
+
+// END

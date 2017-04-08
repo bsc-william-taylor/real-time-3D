@@ -36,7 +36,7 @@ GLvoid GL_PostProcessor::Execute()
 	glBindVertexArray(VertexArrayObject);
 	glBindTexture(GL_TEXTURE_2D, TextureBuffer);
 	glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
-	glViewport(0, 0, 1600, 900);
+	glViewport(0, 0, 1280, 720);
 	glBindVertexArray(0);
 
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
@@ -47,6 +47,8 @@ GLvoid GL_PostProcessor::Execute()
 
 GLvoid GL_PostProcessor::Initialise(GLuint w, GLuint h)
 {
+	VertexArrayObject = NULL;
+
 	glGenVertexArrays(1, &VertexArrayObject);
 	glBindVertexArray(VertexArrayObject);
 
@@ -70,6 +72,7 @@ GLvoid GL_PostProcessor::Initialise(GLuint w, GLuint h)
 	GLchar * fs = "data/shaders/postprocessor.frag";
 	 
 	m_pProgram = GL_Shader_Manager::get()->GetShader(vs, fs);
+
 	m_pMatrix->Ortho(vec2(0, w), vec2(0, h));
 
 	glGenTextures(1, &TextureBuffer);
@@ -80,18 +83,24 @@ GLvoid GL_PostProcessor::Initialise(GLuint w, GLuint h)
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 	
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, 1600, 900, 0, GL_RGBA, GL_UNSIGNED_BYTE, NULL);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, w, h, 0, GL_RGBA, GL_UNSIGNED_BYTE, NULL);
 	glBindTexture(GL_TEXTURE_2D, 0);
+
+	FrameBuffer = NULL;
 
 	glGenFramebuffers(1, &FrameBuffer);
 	glBindFramebuffer(GL_FRAMEBUFFER, FrameBuffer);
 	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, TextureBuffer, 0);
 
+	DepthBuffer = NULL;
+
 	glGenRenderbuffers(1, &DepthBuffer);
     glBindRenderbuffer(GL_RENDERBUFFER, DepthBuffer);
-    glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT, 1600, 900);
+    glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT, w, h);
 	
 	glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, DepthBuffer);
+
+	glBindVertexArray(0);
 }
 
 GLvoid GL_PostProcessor::setColourChannels(vec4 vec)

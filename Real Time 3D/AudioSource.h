@@ -1,7 +1,11 @@
 
 #pragma once
 
-#include "AudioHeader.h"
+#include "include/bass/bass.h"
+#include <iostream>
+#include <string>
+
+#pragma comment(lib, "lib/bass/bass.lib")
 
 class AudioSource
 {

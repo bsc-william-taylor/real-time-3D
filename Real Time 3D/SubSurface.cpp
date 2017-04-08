@@ -5,6 +5,7 @@ SubSurface::SubSurface()
 {
 	m_Position = vec3(0, 0, 0);
 	m_Size = vec3(0, 0, 0);
+	positionCalculated = false;
 	count = 0;
 }
 
@@ -28,14 +29,19 @@ bool SubSurface::CollisionTest(GL_Matrix * matrix, vec3 position, vec3 size)
 
 bool SubSurface::CollisionTest(mat4 mat, vec3 position)
 {
-	vec3 pos = vec3();//vec3(mat * (vec4(m_Position, 1.0)));
-	vec3 sx = vec3();//vec3(mat * (vec4(m_Size, 1.0)));
-	
-	if(position.x >= pos.x && position.x <= sx.x)
+	if(!positionCalculated)
 	{
-		if(position.z >= pos.z && position.z <= sx.z)
+		m_Position = vec3(mat * (vec4(m_Position, 1.0)));
+		m_Size = vec3(mat * (vec4(m_Size, 1.0)));
+		
+		positionCalculated = true;
+	}
+	
+	if(position.x >= m_Position.x && position.x <= m_Size.x)
+	{
+		if(position.z >= m_Position.z && position.z <= m_Size.z)
 		{
-			if(position.y >= pos.y && position.y <= sx.y)
+			if(position.y >= m_Position.y && position.y <= m_Size.y)
 			{
 				return true;	
 			}

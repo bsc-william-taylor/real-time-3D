@@ -1,6 +1,10 @@
 
 #include "AudioObject.h"
 
+using std::string;
+using std::cout;
+using std::endl;
+
 AudioObject::AudioObject()
 	: m_pSource(new AudioSource()),
 	  m_pNode(new AudioNode()),

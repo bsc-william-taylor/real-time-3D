@@ -1,14 +1,13 @@
 
 #include "Surface.h"
+#include "Demo.h"
 
 Surface::Surface()
 	: m_Draw (false)
 {
-	glGenVertexArrays(1, &VAO);
-	glBindVertexArray(VAO);
-	glGenBuffers(1, &VBO);
-	glBindBuffer(GL_ARRAY_BUFFER, VBO);
-	glBindVertexArray(0);
+	m_pMatrix = NULL;
+	VAO = NULL;
+	VBO = NULL;
 }
 
 Surface::~Surface()
@@ -54,8 +53,9 @@ bool Surface::CheckForCollision(SubSurface * surface, ICamera * camera)
 	if(!m_Surfaces.empty())
 	{
 		vec3 point = vec3(sin(RAIDAN(camera->getRotation())), 0, cos(RAIDAN(camera->getRotation())));
-		vec3 position =  camera->getPosition() + (point*= 5);
+		vec3 position =  camera->getPosition() + (point *= 5);
 		mat4 mat = m_pMatrix->getProjection() * m_pMatrix->getModel();
+
 		for(unsigned int i = 0; i < m_Surfaces.size(); i++)
 		{
 			if(m_Surfaces[i]->CollisionTest(mat, position))
@@ -77,28 +77,25 @@ void Surface::SetSize(vec3 position, vec3 size)
 void Surface::Render()
 {
 	m_pProgram->Use();
-
-	glBindVertexArray(VAO);
-	glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
-	glLineWidth(0.1f);
-	
 	m_pProgram->setMatrix("Projection", m_pMatrix->getProjection());
 	m_pProgram->setMatrix("Model", m_pMatrix->getModel());
 	m_pProgram->setMatrix("View", m_pMatrix->getView());
 
+	glBindVertexArray(VAO);
+	glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 	glDrawArrays(GL_TRIANGLES, 0, Count);
-	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
-	glLineWidth(1.0f);
+
+	if(!Demo::m_gSettings.Wireframe) {
+		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+	}
+
 	glBindVertexArray(0);
 	m_pProgram->Release();
 }
 
 void Surface::Setup()
 {
-	const GLchar * vs = "data/shaders/box.vert";
-	const GLchar * fs = "data/shaders/box.frag";
-
-	m_pProgram = GL_Shader_Manager::get()->GetShader(vs, fs);
+	m_pProgram = GL_Shader_Manager::get()->GetShader("data/shaders/box.vert", "data/shaders/box.frag");
 
 	vector<vec3> m_Faces;
 
@@ -143,11 +140,16 @@ void Surface::Setup()
 	
 	Count = m_Faces.size();
 
+	glGenVertexArrays(1, &VAO);
 	glBindVertexArray(VAO);
+	
+	glGenBuffers(1, &VBO);
 	glBindBuffer(GL_ARRAY_BUFFER, VBO);
 	glBufferData(GL_ARRAY_BUFFER, sizeof(vec3) * m_Faces.size(), &m_Faces[0], GL_STATIC_DRAW);
+	
 	glEnableVertexAttribArray(0);
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, 0);
+	
 	glBindVertexArray(0);
 }
 

@@ -17,6 +17,8 @@ GL_Texture::GL_Texture()
 	: m_Matrix(new GL_Matrix()),
 	  m_Filename("")
 {	
+	m_Shade = vec4(1.0, 1.0, 1.0, 1.0);
+	m_Setting = GL_CLAMP_TO_EDGE;
 	m_UV = vec4(0, 0, 1, 1);
 
 }
@@ -68,6 +70,11 @@ void GL_Texture::Prepare()
 	glBindVertexArray(0);
 }
 
+vec4 GL_Texture::getShade()
+{
+	return this->m_Shade;
+}
+
 // Get & Set Functions
 const std::string& GL_Texture::getPath()
 {
@@ -80,6 +87,11 @@ GLvoid GL_Texture::setPosition(vec3 p, vec3 s)
 	m_Size = p + s;
 }
 
+GLvoid GL_Texture::setShade(vec4 vec)
+{
+	this->m_Shade = vec;
+}
+
 void GL_Texture::setTexture(std::string filename, GLenum e)
 {
 	m_Filename = filename;
@@ -90,8 +102,6 @@ GLvoid GL_Texture::setTexturePositions(vec2 a, vec2 b)
 {
 	m_UV = vec4(a, b);
 }
-
-
 
 GLuint GL_Texture::getID()
 {

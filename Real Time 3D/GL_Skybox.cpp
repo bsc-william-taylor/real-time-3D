@@ -14,10 +14,6 @@ GL_Skybox::GL_Skybox()
 
 GL_Skybox::~GL_Skybox()
 {
-	for(int i = 0; i < 5; i++)
-	{
-		delete m_SkyboxTextures[i];
-	}
 }
 
 GLvoid GL_Skybox::Folder(std::string filename)

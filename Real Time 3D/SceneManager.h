@@ -12,7 +12,21 @@
 
 #pragma once
 
-#include "Scene.h"
+class Scene 
+{
+public:
+
+	virtual ~Scene(){}
+
+	virtual void MousePress(int, int, int, int){}
+	virtual void Motion(float, float) {}
+	virtual void KeyPress(int, int) {}
+	virtual void Update(){}
+	virtual void Render(){}
+	virtual void Enter(){}
+	virtual void Exit(){}
+};
+
 #include <vector>
 
 class Demo;

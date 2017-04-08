@@ -29,12 +29,18 @@ GLvoid ThirdPersonCamera::CancelMovement()
 	m_Movement = vec3(0, 0, 0);
 }
 
-void ThirdPersonCamera::Update()
+void ThirdPersonCamera::Update(bool updateModel)
 {
 	m_CameraTranslate += m_Movement;
 
-	m_Model->getMatrix()->RotateView(RAIDAN(m_Pitch), vec3(1.0, 0.0, 0.0));
-	m_Model->getMatrix()->TranslateView(m_Movement + vec3(0.0, -1.5, -3.0));
+	mat4 cameraMat = mat4(1.0f);
+
+	
+	if(updateModel)
+	{
+		m_Model->getMatrix()->RotateView(RAIDAN(m_Pitch), vec3(1.0, 0.0, 0.0));
+		m_Model->getMatrix()->TranslateView(m_Movement + vec3(0.0, -1.5, -3.0));
+	}
 
 	m_pWorld->TranslateView(m_CameraTranslate);
 	m_pWorld->TranslateView(-m_CameraTranslate);
@@ -44,10 +50,18 @@ void ThirdPersonCamera::Update()
 
 	CancelMovement();
 
-	m_Model->Animate(m_Animation, m_AnimationStep);
-	m_Model->Update();
-
-	m_pWorld->RenderModel(m_Model);
+	if(updateModel)
+	{
+		cameraMat = glm::translate(cameraMat, m_CameraTranslate);
+		cameraMat = glm::translate(cameraMat, -m_CameraTranslate);
+		cameraMat = glm::rotate(cameraMat, RAIDAN(m_Rotation), vec3(0.0, 1.0, 0.0));
+		cameraMat = glm::translate(cameraMat, m_CameraTranslate);
+		
+		m_Model->Animate(m_Animation, m_AnimationStep);
+		m_Model->Update();
+	
+		m_pWorld->RenderModel(m_Model, cameraMat);
+	}
 }
 
 GLvoid ThirdPersonCamera::Reset()
@@ -66,7 +80,7 @@ void ThirdPersonCamera::KeyPress(int Key, int State)
 			{
 				m_Movement.x += GLfloat(sin(RotationRadians)) / 3;
 				m_Movement.z += GLfloat(cos(RotationRadians)) / 3;
-				m_AnimationStep = 0.075f;
+				m_AnimationStep = 0.15f;
 				m_Animation = 1;
 				break;
 			}
@@ -75,7 +89,7 @@ void ThirdPersonCamera::KeyPress(int Key, int State)
 			{
 				m_Movement.x -= GLfloat(sin(RotationRadians)) / 3;
 				m_Movement.z -= GLfloat(cos(RotationRadians)) / 3;
-				m_AnimationStep = 0.25f;
+				m_AnimationStep = 0.4f;
 				m_Animation = 7;
 				break;
 			}
@@ -101,18 +115,20 @@ void ThirdPersonCamera::KeyPress(int Key, int State)
 
 void ThirdPersonCamera::Motion(float pos_x, float pos_y)
 {
-	if(m_Rotation >= 360) 
-	{
+	if(m_Rotation >= 360) {
 		m_Rotation = 0;
 	}
 
-	if(m_Rotation < 0) 
-	{
+	if(m_Rotation < 0) {
 		m_Rotation = 360;
 	}
 
+	if(m_Pitch + pos_y < 60  && m_Pitch + pos_y > -25)
+	{
+		m_Pitch += GLfloat(pos_y);
+	}
+
 	m_Rotation += GLfloat(pos_x);
-	m_Pitch += GLfloat(pos_y);
 }
 
 // get & set functions

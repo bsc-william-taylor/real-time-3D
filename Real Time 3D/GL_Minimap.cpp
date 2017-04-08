@@ -23,14 +23,14 @@ GLvoid GL_Minimap::Initialise(ICamera * camera)
 	GLchar * fs = "data/shaders/postprocessor.frag";
 	 
 	GLfloat position[] = {
-		 10,  650, 0,  0,
-		 10,  850, 0,  1,
-		 250, 650, 1,  0,
-		 250, 850, 1,  1
+		 10,  550, 0,  0,
+		 10,  700, 0,  1,
+		 160, 550, 1,  0,
+		 160, 700, 1,  1
 	};
 
 	m_pShader = GL_Shader_Manager::get()->GetShader(vs, fs);
-	m_pMatrix->Ortho(vec2(0, 1600), vec2(0, 900));
+	m_pMatrix->Ortho(vec2(0, 1280), vec2(0, 720));
 	m_pCamera = camera;
 
 	glBindVertexArray(VAO);
@@ -85,7 +85,7 @@ GLvoid GL_Minimap::RenderToScreen()
 	m_pShader->setMatrix("Model", m_pMatrix->getModel());
 	m_pShader->setMatrix("View", m_pMatrix->getView());
 
-	glViewport(0, 0, 1600, 900);
+	glViewport(0, 0, 1280, 720);
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);	
 	glBindVertexArray(VAO);
 	glBindTexture(GL_TEXTURE_2D, ColourBuffer);

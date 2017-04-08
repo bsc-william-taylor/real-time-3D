@@ -1,7 +1,16 @@
 
+/* -------------------------------------------------
+  
+ @Filename  : Demo.cpp
+ @author	: William Taylor
+ @date		: 23/03/2014
+ @purpose	: Class implementation
+
+ ------------------------------------------------- */
+
 #include "GL_Texture_Manager.h"
 #include "GL_Shader_Manager.h"
-#include "Options.h"
+#include "DemoOptions.h"
 #include "Win32Codes.h"
 #include "SceneManager.h"
 #include "DemoMenu.h"
@@ -9,60 +18,43 @@
 #include "Demo.h"
 #include "Memory.h"
 
+// Initialise Settings
+Demo::DemoSettings Demo::m_gSettings;
+
+// Constructor & Deconstructor
 Demo::Demo()
+	: m_FPS(60)
 {
-	SetConsoleTitle("Debug Console");
+	// Get scene manager
 	m_pScenes = SceneManager::get();
 	m_pScenes->PassEngine(this);
-	m_FPS = 60;
+
+	// Set global settings
+	m_gSettings.Wireframe = false;
+	m_gSettings.Boxes = false;
+	m_gSettings.FX = false;
 }
 
 Demo::~Demo()
 {
+	// Delete managers
 	delete GL_TextureManager::get();
 	delete GL_Shader_Manager::get();
 	delete SceneManager::get();
 
+	// Release all variables
 	SAFE_RELEASE(m_pTimer);
 	SAFE_RELEASE(m_pWin32);
 }
 
-void Demo::SetWindowSize(int x, int y, int w, int h)
-{
-	SIZES WindowSizes;
-
-	WindowSizes.w = w;
-	WindowSizes.h = h;
-	WindowSizes.x = x;
-	WindowSizes.y = y;
-
-	m_pWin32 = new Win32System();
-	m_pWin32->SetWindowTraits("Real Time 3D", WindowSizes);
-	m_pWin32->Initialise();
-}
-
-
-void Demo::KeyPress(int Key, int State)
-{
-	if(Key == ARROW_UP && State == PRESSED) {
-		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
-	} 
-	
-	if(Key == ARROW_DOWN && State == PRESSED) {
-		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
-	}
-}
-
-void Demo::SetRedrawRate(int FPS)
-{
-	m_FPS = FPS;
-}
-
+// Member Functions
 void Demo::Execute()
 {
+	// Initialise the demo
 	Init_Scenes();
 	Init_OpenGL();
 
+	// Game Loop
 	while(m_pWin32->WindowRunning()) 
 	{		
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -83,44 +75,70 @@ void Demo::Execute()
 	}
 }
 
+void Demo::HideConsole()
+{
+	// Hide console & report any error
+	if(FreeConsole() != NULL) {
+		return;
+	} 
+	
+	printf("Error cant hide console");
+}
+
+// Private Functions
 void Demo::Init_OpenGL()
 {
-	glClearColor(0.0, 0.0, 0.0, 0.0);
+	// Enable GL States
 	glEnable(GL_DEPTH_TEST);
-	glDepthFunc(GL_LESS);
+	
 	
 	glEnable(GL_BLEND);
-	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	glBlendFunc(GL_SRC_ALPHA,GL_ONE_MINUS_SRC_ALPHA);
 	
+	// Set GL Hints
 	glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);
 	glHint(GL_POLYGON_SMOOTH_HINT, GL_NICEST);
 	glHint(GL_LINE_SMOOTH_HINT, GL_NICEST);
+	glClearColor(1.0, 1.0, 1.0, 1.0);
 }
-
 
 void Demo::Init_Scenes()
 {
+	// Initialise Scenes
 	m_pScenes = SceneManager::get();
 	m_pScenes->PushState(new DemoMenu());
 	m_pScenes->PushState(new DemoScene());
-	m_pScenes->PushState(new Options());
+	m_pScenes->PushState(new DemoOptions());
 	m_pScenes->StartFrom(0);
 
 	m_pScenes->getCurrent()->Enter();
-
+	
+	// Init timer for controlling window redraw rate
 	m_pTimer = new Win32Timer();
 	m_pTimer->Start();
 
 }
 
-void Demo::HideConsole()
+// Set & Get Functions
+void Demo::WindowSize(int x, int y, int w, int h)
 {
-	if(FreeConsole()) 
-	{
-		printf("Console Hidden");
-	} 
-	else
-	{
-		printf("Error Cant Hide Console");
-	}
+	// Set window sizes
+	Win32Window::SIZES WindowSizes;
+
+	WindowSizes.w = w;
+	WindowSizes.h = h;
+	WindowSizes.x = x;
+	WindowSizes.y = y;
+
+	// Initialise the windows system
+	m_pWin32 = new Win32System();
+	m_pWin32->setWindowTraits("Real Time 3D", WindowSizes);
+	m_pWin32->setWindowType(Win32Window::Type::WINDOWED);
+	m_pWin32->Initialise();
+	m_pWin32->Show();
+}
+
+void Demo::RedrawRate(int FPS)
+{
+	m_FPS = FPS;
 }

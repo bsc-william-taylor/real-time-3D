@@ -128,7 +128,7 @@ private:
 	GLuint vertDataSize;
 	GLfloat *animVerts;
 
-	GL_Texture * m_Texture;
+	GL_Sprite * m_Texture;
 	GL_Program * Program;
 	GL_Matrix * Matrix;
 
@@ -156,7 +156,7 @@ public:
 	GLvoid Animate(GLuint, GLfloat);
 	GLvoid Animate(GLfloat);
 	GLvoid FreeModel();
-	GLvoid Render();
+	GLvoid Render(mat4);
 	
 	GLuint setCurrentAnim(int n);
 	GLuint getVertDataCount();

@@ -63,6 +63,8 @@ GLvoid GL_Renderer::RenderTexture(GL_Texture * texture)
 	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D, texture->getID());
 
+	GLuint ID = glGetUniformLocation(Program->getID(), "shade");
+	glUniform4fv(ID, 1, glm::value_ptr(texture->getShade()));
 	Program->setMatrix("Projection", Matrix->getProjection());
 	Program->setMatrix("Model", Matrix->getModel());
 	Program->setMatrix("View", Matrix->getView());
@@ -72,7 +74,35 @@ GLvoid GL_Renderer::RenderTexture(GL_Texture * texture)
 	glBindVertexArray(0);
 }
 
-GLvoid GL_Renderer::RenderModel(IModel * model)
+GLvoid GL_Renderer::Render3D(GLboolean wireframe)
+{
+	glEnable(GL_DEPTH_TEST);
+
+	if(!wireframe)
+	{
+		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+	}
+	else
+	{
+		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+	}
+}
+
+GLvoid GL_Renderer::Render2D(GLboolean wireframe)
+{
+	glDisable(GL_DEPTH_TEST);
+
+	if(!wireframe)
+	{
+		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+	}
+	else
+	{
+		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+	}
+}
+
+GLvoid GL_Renderer::RenderModel(IModel * model, mat4 mat)
 {
 	if(!model->isDynamic())
 	{
@@ -84,10 +114,11 @@ GLvoid GL_Renderer::RenderModel(IModel * model)
 
 		Program->Use();
 		Program->setMatrix("Projection", Matrix->getProjection());
+		Program->setMatrix("NormalMat", mat4(1.0));
 		Program->setMatrix("Model", Matrix->getModel());
 		Program->setMatrix("View", Matrix->getView());
 
-		for(int i = 0; i < Model->getMeshNumber(); i++)
+		for(unsigned int i = 0; i < Model->getMeshNumber(); i++)
 		{
 			GLuint Index = Model->getMaterialIndex(i);
 			GLuint ID = Model->getTextureID(Index);
@@ -108,7 +139,7 @@ GLvoid GL_Renderer::RenderModel(IModel * model)
 	}
 	else
 	{
-		((DynamicModel *)model)->Render();
+		((DynamicModel *)model)->Render(mat);
 	}
 }
 
@@ -199,11 +230,20 @@ GLvoid GL_Renderer::Update()
 
 GLvoid GL_Renderer::Prepare()
 {
+
 	if(m_Heightmap)m_Heightmap->Prepare();
+
+
 	for(unsigned int i = 0; i < m_Textures.size(); i++)
+	{
 		m_Textures[i]->Prepare();
+	}
+
+
 	for(unsigned int i = 0; i < m_Labels.size(); i++)
 		m_Labels[i]->Prepare();
+
+
 	for(unsigned int i = 0; i < m_Models.size(); i++)
 		m_Models[i]->Prepare();
 }
@@ -214,7 +254,7 @@ GLvoid GL_Renderer::Render()
 	for(unsigned int i = 0; i < m_Textures.size(); i++)
 		RenderTexture(m_Textures[i]);
 	for(unsigned int i = 0; i < m_Models.size(); i++)
-		RenderModel(m_Models[i]);
+		RenderModel(m_Models[i], mat4(1.0f));
 	for(unsigned int i = 0; i < m_Labels.size(); i++)
 		m_Labels[i]->Render();
 	for(unsigned int i = 0; i < m_Surfaces.size(); i++)

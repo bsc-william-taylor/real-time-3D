@@ -1,39 +1,54 @@
 
+/* -------------------------------------------------
+  
+ @Filename  : Win32Keyboard.h
+ @author	: William Taylor
+ @date		: 12/02/2014
+
+ @purpose	: A keyboard class that grabs keyboard data
+			  from a direct input driver and outputs
+			  data to a set state.
+
+ ------------------------------------------------- */
+
 #pragma once
 
 #include "Win32Header.h"
-#include "Scene.h"
+#include "SceneManager.h"
 
-class Demo;
-
+// Simple implementation could be expanded
 class Win32Keyboard
 {
-	private:
+private:
 
-		typedef LPDIRECTINPUTDEVICE8 Keyboard;
+	typedef LPDIRECTINPUTDEVICE8 Keyboard;		// Someone left cap lock on at microsoft
 
-		Keyboard m_Keyboard;
+private:
 
-		bool m_KeyRelease[256];
-		bool m_ReleaseMsg[256];
-		char m_KeyBuffer[256];
+	Keyboard m_Keyboard;						// Keyboard Device
 
-		HWND * m_Hwnd;
+	bool m_KeyRelease[256];						// Array to store state
+	bool m_ReleaseMsg[256];						// More information
+	char m_KeyBuffer[256];						// Data taken from device
 
-	public:
+	HWND * m_Hwnd;								// Handle to the window
 
+public:
+
+	// Constructor & Deconstructor
 	Win32Keyboard();
-
-		void OutputInput(Demo *, Scene *);
-		void InitialiseInput(HWND *);
-		void UpdateInput();
-		void ClearInput();
-		void RemoveMsgs();
-
-		operator Keyboard()
-		{
-			return m_Keyboard;
-		}
-
 	~Win32Keyboard();
+
+	// Member Functions
+	void InitialiseInput(HWND *);
+	void OutputInput(Scene *);
+	void UpdateInput();
+	void ClearInput();
+	void RemoveMsgs();
+
+	// Simple alternative to a get function
+	operator Keyboard()
+	{
+		return m_Keyboard;
+	}
 };

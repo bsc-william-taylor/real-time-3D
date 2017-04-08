@@ -43,8 +43,7 @@ public:
 	// Constructor & Deconstuctor
 	GL_Renderer();	
 	~GL_Renderer();
-		static int abc;
-
+		
 	// Member Functions
 	GLvoid PushHeightmap(GL_Heightmap *);
 	GLvoid PushAudioNode(AudioNode *);
@@ -59,7 +58,9 @@ public:
 	GLvoid Render();
 
 	GLvoid RenderTexture(GL_Texture *);
-	GLvoid RenderModel(IModel *);
+	GLvoid RenderModel(IModel *, mat4);
+	GLvoid Render3D(GLboolean);
+	GLvoid Render2D(GLboolean);
 
 	// Object Operations
 	GLvoid Perspective(const float, const vec2, const vec2);

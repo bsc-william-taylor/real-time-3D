@@ -16,7 +16,7 @@
 
 #include <ft2build.h>
 #include FT_FREETYPE_H
-#include <GL/glew.h>
+#include "lib/glew/glew.h"
 #include <algorithm>
 #include <iostream>
 #include <fstream>
@@ -26,8 +26,8 @@
 
 #pragma comment(lib, "lib/freeimage/freeimage.lib")
 #pragma comment(lib, "lib/assimp/assimp.lib")
-#pragma comment(lib, "freetype252_D.lib")
-#pragma comment(lib, "glew32.lib")
+#pragma comment(lib, "lib/freetype/freetype271.lib")
+#pragma comment(lib, "lib/glew/glew32.lib")
 
 #define PI 3.14159265359f
 #define RAIDAN(v)(v / 180.0f) * PI
@@ -36,13 +36,3 @@ using namespace glm;
 
 using std::vector;
 using std::map;
-
-#define GET(var) \
-{ \
-	if(var) return var; else return 0; \
-} 
-
-#define SET(var, value) \
-{ \
-	if(value) var = value; \
-} 

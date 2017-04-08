@@ -22,7 +22,13 @@ SceneManager::SceneManager()
 
 SceneManager::~SceneManager()
 {
-	m_vScenes.erase(m_vScenes.cbegin(), m_vScenes.cend());
+	for(int i = 0; i < m_vScenes.size(); i++)
+	{
+		delete m_vScenes[i];
+		m_vScenes[i] = NULL;
+	}
+
+	m_vScenes.clear();
 }
 
 // Member Functions

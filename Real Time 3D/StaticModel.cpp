@@ -219,11 +219,6 @@ GLvoid StaticModel::Update()
 	}
 }
 
-GLvoid StaticModel::Forward()
-{
-	m_Translate += vec3(0.0, 0.0, 1.0f);
-}
-
 GLvoid StaticModel::Rotate(GLfloat f, vec3 vec)
 {
 	m_RotateNormal = vec;
@@ -243,7 +238,7 @@ GLuint StaticModel::getTextureID(GLuint i)
 	} 
 	else
 	{
-		return -1;
+		return 0;
 	}
 }
 

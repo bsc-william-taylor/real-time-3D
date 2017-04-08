@@ -1,6 +1,11 @@
 
 #include "AudioSource.h"
 
+using std::string;
+using std::cout;
+using std::endl;
+
+
 AudioSource::AudioSource()
 {
 	m_pTranslate = BASS_3DVECTOR(0, 0, 0);

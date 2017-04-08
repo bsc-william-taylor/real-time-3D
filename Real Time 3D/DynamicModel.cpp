@@ -41,10 +41,7 @@ DynamicModel::DynamicModel()
 	CurrentAnim = 0;
 	NextFrame = 1;
 	interp = 0.0f;
-
-	glGenVertexArrays(1, &VAO);
-	glBindVertexArray(VAO);
-	glBindVertexArray(0);
+    Matrix = new GL_Matrix();
 }
 
 DynamicModel::~DynamicModel()
@@ -61,48 +58,63 @@ DynamicModel::~DynamicModel()
 
 GLvoid DynamicModel::ReadTexture(const GLchar * filename) 
 {
-	m_Texture = new GL_Texture();
-	m_Texture->setTexture(filename, GL_REPEAT);
-	m_Texture->Prepare();
+	m_Texture = GL_Textures::get()->CreateTexture(filename, GL_REPEAT);
 }
 
 GLvoid DynamicModel::ReadMD2Model(const GLchar *filename, GLboolean bound)
 {
 	FILE *fp;
+	int i;
 
 	fopen_s(&fp, filename, "rb");
-	if(!fp) {
-		fprintf(stderr, "Error: couldn't open \"%s\"!\n", filename);
+	if (!fp)
+	{
+		fprintf (stderr, "Error: couldn't open \"%s\"!\n", filename);
+		return;
 	}
 
-	fread(&mdl.header, 1, sizeof(struct md2_header_t), fp);
-	if((mdl.header.ident != 844121161) || (mdl.header.version != 8))
+	/* Read header */
+	fread (&mdl.header, 1, sizeof (struct md2_header_t), fp);
+
+	if ((mdl.header.ident != 844121161) ||
+		(mdl.header.version != 8))
 	{
-		fprintf(stderr, "Error: bad version or identifier\n");
-		fclose(fp);
+		/* Error! */
+		fprintf (stderr, "Error: bad version or identifier\n");
+		fclose (fp);
 		return;
 	}
 
 	/* Memory allocations */
-	mdl.skins = (struct md2_skin_t *)malloc(sizeof (struct md2_skin_t) * mdl.header.num_skins);
-	mdl.texcoords = (struct md2_texCoord_t *) malloc (sizeof (struct md2_texCoord_t) * mdl.header.num_st);
-	mdl.triangles = (struct md2_triangle_t *) malloc (sizeof (struct md2_triangle_t) * mdl.header.num_tris);
-	mdl.frames = (struct md2_frame_t *)	malloc (sizeof (struct md2_frame_t) * mdl.header.num_frames);
+	mdl.skins = (struct md2_skin_t *)
+		malloc (sizeof (struct md2_skin_t) * mdl.header.num_skins);
+	mdl.texcoords = (struct md2_texCoord_t *)
+		malloc (sizeof (struct md2_texCoord_t) * mdl.header.num_st);
+	mdl.triangles = (struct md2_triangle_t *)
+		malloc (sizeof (struct md2_triangle_t) * mdl.header.num_tris);
+	mdl.frames = (struct md2_frame_t *)
+		malloc (sizeof (struct md2_frame_t) * mdl.header.num_frames);
 	mdl.glcmds = (int *)malloc (sizeof (int) * mdl.header.num_glcmds);
 
-	fseek(fp, mdl.header.offset_skins, SEEK_SET);
-	fread(mdl.skins, sizeof(struct md2_skin_t), mdl.header.num_skins, fp);
+	/* Read model data */
+	fseek (fp, mdl.header.offset_skins, SEEK_SET);
+	fread (mdl.skins, sizeof (struct md2_skin_t),
+		mdl.header.num_skins, fp);
 
-	fseek(fp, mdl.header.offset_st, SEEK_SET);
-	fread(mdl.texcoords, sizeof (struct md2_texCoord_t), mdl.header.num_st, fp);
+	fseek (fp, mdl.header.offset_st, SEEK_SET);
+	fread (mdl.texcoords, sizeof (struct md2_texCoord_t),
+		mdl.header.num_st, fp);
 
-	fseek(fp, mdl.header.offset_tris, SEEK_SET);
-	fread(mdl.triangles, sizeof (struct md2_triangle_t), mdl.header.num_tris, fp);
+	fseek (fp, mdl.header.offset_tris, SEEK_SET);
+	fread (mdl.triangles, sizeof (struct md2_triangle_t),
+		mdl.header.num_tris, fp);
 
-	fseek(fp, mdl.header.offset_glcmds, SEEK_SET);
-	fread(mdl.glcmds, sizeof (int), mdl.header.num_glcmds, fp);
+	fseek (fp, mdl.header.offset_glcmds, SEEK_SET);
+	fread (mdl.glcmds, sizeof (int), mdl.header.num_glcmds, fp);
+
+	/* Read frames */
 	fseek (fp, mdl.header.offset_frames, SEEK_SET);
-	for (int i = 0; i < mdl.header.num_frames; ++i)
+	for (i = 0; i < mdl.header.num_frames; ++i)
 	{
 		/* Memory allocation for vertices of this frame */
 		mdl.frames[i].verts = (struct md2_vertex_t *)
@@ -118,37 +130,33 @@ GLvoid DynamicModel::ReadMD2Model(const GLchar *filename, GLboolean bound)
 
 	fclose (fp);
 
+	// now generate VBO data and create mesh
+	// then save the data we actually need and free all the stuff we no longer need
+	// this is required to allow the correct generation of normals etc
+
 	int j;
 	GLfloat s, t;
 	md2vec3 v, *norm;
 	struct md2_frame_t *pframe;
 	struct md2_vertex_t *pvert;
 
-	//std::vector<GLfloat> verts;
-	// these automatic variables will be created on stack and automatically deleted when this
-	// function ends - no need to delete
+	
 	std::vector<GLfloat> tex_coords;
 	std::vector<GLfloat> norms;
 	std::vector<GLuint> indices;
 
 	pframe = &mdl.frames[0]; // first frame
-	// For each triangle 
-	// The bad news for MD2 is that we need to expand the triangles to get the data
-	// The number of tex coords need not match the number of vertices, and the number of normals
-	// is different again. So we need to calculate each vertex
-	// Is it possible to use indexing and remove duplicates though...
-	// But I'll not bother doing that for this aged format that I'm definately dumping next year
-	// (about 8 years overdue...! :-D )
-	for (int i = 0; i < mdl.header.num_tris; ++i)
+
+
+	for (i = 0; i < mdl.header.num_tris; ++i)
 	{
 		// For each vertex 
-		for (int j = 0; j < 3; ++j)
+		for (j = 0; j < 3; ++j)
 		{
 			// Get texture coordinates 
 			tex_coords.push_back( (GLfloat)mdl.texcoords[mdl.triangles[i].st[j]].s / mdl.header.skinwidth );
 			tex_coords.push_back( (GLfloat)mdl.texcoords[mdl.triangles[i].st[j]].t / mdl.header.skinheight );
-			tex_coords.push_back(0.0f);
-	
+
 			// get current vertex
 			pvert = &pframe->verts[mdl.triangles[i].vertex[j]];
 
@@ -158,24 +166,17 @@ GLvoid DynamicModel::ReadMD2Model(const GLchar *filename, GLboolean bound)
 			norms.push_back(anorms_table[pvert->normalIndex][1]);
 			norms.push_back(anorms_table[pvert->normalIndex][2]);
 
-			// Vertices 
-			// Doing these scaling operations *every* refresh is *very* wasteful
-			// Should do all the scaling calculations once only, when loading the file
-			//verts.push_back( pframe->scale[0] * pvert->v[0] + pframe->translate[0] );
-			//verts.push_back( pframe->scale[1] * pvert->v[1] + pframe->translate[1] );
-			//verts.push_back( pframe->scale[2] * pvert->v[2] + pframe->translate[2] );
-			
 		}
 	}
 	
-	// now repeat for each frame...
+
 	int k = 0;
 	GLfloat *verts;
 	vertDataSize = mdl.header.num_tris * 9;
 	for (k=0;k<mdl.header.num_frames;++k) {
 		verts = new GLfloat[vertDataSize];
-		pframe = &mdl.frames[k]; // first frame
-		for (int i = 0; i < mdl.header.num_tris; ++i)
+		pframe = &mdl.frames[k];
+		for (i = 0; i < mdl.header.num_tris; ++i)
 		{
 			// For each vertex 
 			for (j = 0; j < 3; ++j)
@@ -187,18 +188,60 @@ GLvoid DynamicModel::ReadMD2Model(const GLchar *filename, GLboolean bound)
 				verts[(i*3 + j)*3+2] = GLfloat(pframe->scale[2] * pvert->v[2] + pframe->translate[2]);
 			}
 		}
-
 		vertData.push_back(verts);
 	}
 
+	animVerts = new GLfloat[vertDataSize];
+	memcpy(animVerts,vertData[0],vertDataSize*sizeof(float));
+
+	Program = GL_Shader_Manager::get()->GetShader("data/shaders/model.vert", "data/shaders/model.frag");
+
+
+	// generate and set up a VAO for the mesh
+	glGenVertexArrays(1, &VAO);
+	glBindVertexArray(VAO);
+
+	std::cout << tex_coords.size() << std::endl;
+
+	// generate and set up the VBOs for the data
+	GLuint VBO;
 	
-	Matrix = new GL_Matrix();
+	int numVerts = mdl.header.num_tris * 3;
+
+	// VBO for vertex data
+	glGenBuffers(1, &VBO);
+	glBindBuffer(GL_ARRAY_BUFFER, VBO);
+	glBufferData(GL_ARRAY_BUFFER, 3*numVerts*sizeof(GLfloat), vertData[0], GL_STATIC_DRAW);
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, 0); 
+	glEnableVertexAttribArray(0);
+
+	VertexBuffer = VBO;
+
+
+	glGenBuffers(1, &VBO);
+	glBindBuffer(GL_ARRAY_BUFFER, VBO);
+	glBufferData(GL_ARRAY_BUFFER, 3*numVerts*sizeof(GLfloat), norms.data(), GL_STATIC_DRAW);
+	glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, 0, 0);
+	glEnableVertexAttribArray(2);
+	NormalBuffer = VBO;
+
+	glGenBuffers(1, &VBO);
+	glBindBuffer(GL_ARRAY_BUFFER, VBO);
+	glBufferData(GL_ARRAY_BUFFER, 2*numVerts*sizeof(GLfloat), tex_coords.data(), GL_STATIC_DRAW);
+	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 0, 0);
+	glEnableVertexAttribArray(1);
+	TextureBuffer = VBO;
+
+	// unbind vertex array
+	glBindVertexArray(0);
+	
+	
 	Matrix->Perspective(70.0f, vec2(16, 9), vec2(0.1, 1000));
 
 	if(bound)
 	{
 		SurfaceBuilder * builder = new SurfaceBuilder();
-		for(int i = 0; i < vertData.size(); i++) {
+		for(unsigned int i = 0; i < vertData.size(); i++) {
 			aiVector3D point;
 	
 			point.x = vertData[i][0];
@@ -214,36 +257,7 @@ GLvoid DynamicModel::ReadMD2Model(const GLchar *filename, GLboolean bound)
 		m_BoundingBox = builder->Release();
 		delete builder;
 	}
-
-	animVerts = new GLfloat[vertDataSize];
-	memcpy(animVerts,vertData[0],vertDataSize*sizeof(float));	
-
-	glBindVertexArray(VAO);
-	glGenBuffers(1, &VertexBuffer);
-	glBindBuffer(GL_ARRAY_BUFFER, VertexBuffer);
-	glBufferData(GL_ARRAY_BUFFER, 3 * (mdl.header.num_tris * 3 * sizeof(GLfloat)), vertData[0], GL_STATIC_DRAW);
 	
-	glEnableVertexAttribArray(0);
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, 0); 
-
-	glGenBuffers(1, &TextureBuffer);
-	glBindBuffer(GL_ARRAY_BUFFER, TextureBuffer);
-	glBufferData(GL_ARRAY_BUFFER,(tex_coords.size() * 3 * sizeof(GLfloat)), tex_coords.data(), GL_STATIC_DRAW);
-	
-	glEnableVertexAttribArray(1);
-	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 0, 0); 
-
-
-	glGenBuffers(1, &NormalBuffer);
-	glBindBuffer(GL_ARRAY_BUFFER, NormalBuffer);
-	glBufferData(GL_ARRAY_BUFFER,(norms.size() * 3 * sizeof(GLfloat)), norms.data(), GL_STATIC_DRAW);
-	
-	glEnableVertexAttribArray(2);
-	glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, 0, 0); 
-	
-	glBindVertexArray(0);
-	
-	Program = GL_Shader_Manager::get()->GetShader("data/shaders/model.vert", "data/shaders/model.frag");
 	FreeModel();
 }
 
@@ -252,15 +266,16 @@ GLvoid DynamicModel::Update()
 	
 }
 
-void DynamicModel::Render()
+void DynamicModel::Render(mat4 m)
 {
 	Program->Use();
 	Program->setMatrix("Projection", Matrix->getProjection());
+	Program->setMatrix("NormalMat", glm::transpose(m));
 	Program->setMatrix("Model", Matrix->getModel());
 	Program->setMatrix("View", Matrix->getView());
 
 	glBindVertexArray(VAO);
-	glBindTexture(GL_TEXTURE_2D, m_Texture->getID());
+	glBindTexture(GL_TEXTURE_2D, m_Texture->m_ID);
 	glDrawArrays(GL_TRIANGLES, 0, getVertDataCount());
 	glBindTexture(GL_TEXTURE_2D, 0);
 	glBindVertexArray(0);
@@ -360,14 +375,12 @@ void DynamicModel::Animate(GLuint animation, GLfloat dt)
 	}
 
 	glBindVertexArray(VAO);
-	glDeleteBuffers(1, &VertexBuffer);
-
 	glBindBuffer(GL_ARRAY_BUFFER, VertexBuffer);
 	glBufferData(GL_ARRAY_BUFFER, getVertDataSize() * sizeof(GLfloat), getAnimVerts(), GL_STATIC_DRAW);
-	
-	glEnableVertexAttribArray(0);
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, 0); 
+	glEnableVertexAttribArray(0);
 	glBindVertexArray(0);
+	
 }
 
 GLvoid DynamicModel::Animate(float dt) 
@@ -377,7 +390,7 @@ GLvoid DynamicModel::Animate(float dt)
 
 GLuint DynamicModel::getVertDataCount() 
 { 
-	return vertDataSize/3; 
+	return vertDataSize; 
 }
 
 GLuint DynamicModel::getVertDataSize() 

@@ -12,7 +12,7 @@ AudioNode::~AudioNode()
 
 GLvoid AudioNode::Initialise(vec3 p, vec3 s)
 {	
-	m_pShader = GL_Shader_Manager::get()->GetShader("cube.vert", "cube.frag");
+	m_pShader = GL_Shader_Manager::get()->GetShader("data/shaders/cube.vert", "data/shaders/cube.frag");
 
 	m_pSprite = new GL_Texture();
 	m_pSprite->setTexture("data/img/audio.png", GL_CLAMP_TO_EDGE);
@@ -94,7 +94,7 @@ GLvoid AudioNode::Render()
 
 	glBindVertexArray(VAO);
 	glBindTexture(GL_TEXTURE_2D, m_pSprite->getID());
-	glDrawArrays(GL_TRIANGLES, 0, 12 * 3);
+	glDrawArrays(GL_TRIANGLES, 0, 36);
 	glBindTexture(GL_TEXTURE_2D, 0);
 	glBindVertexArray(0);
 

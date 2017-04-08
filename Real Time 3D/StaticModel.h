@@ -39,7 +39,6 @@ public:
 	GLvoid Prepare();
 	GLvoid Update();
 
-	GLvoid Forward();
 	GLvoid Translate(vec3);
 	GLvoid SetScale(vec3);
 	GLvoid SetScale(GLfloat);

@@ -1,8 +1,13 @@
+# Folders
+.vs
+Debug
+
 # Compiled Object files
 *.slo
 *.lo
 *.o
 *.obj
+*.db
 
 # Precompiled Headers
 *.gch

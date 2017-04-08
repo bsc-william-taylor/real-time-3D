@@ -1,7 +1,7 @@
 
 #include "SurfaceManager.h"
 
-SurfaceManager * SurfaceManager::m_pInstance = 0;
+SurfaceManager * SurfaceManager::m_pInstance = NULL;
 
 SurfaceManager::SurfaceManager()
 {
@@ -24,7 +24,7 @@ vector<Surface *>& SurfaceManager::getSurfaces()
 
 SurfaceManager * SurfaceManager::get()
 {
-	if(m_pInstance == 0)
+	if(m_pInstance == NULL)
 	{
 		m_pInstance = new SurfaceManager();
 	}
@@ -52,25 +52,30 @@ void SurfaceManager::PushCameraObject(Surface * surface)
 
 void SurfaceManager::CheckForCollision()
 {
-	if(m_pSceneCamera != NULL)
+	if(m_pCameraSurface != NULL)
 	{
-		SubSurface * surface = m_pCameraSurface->getSubSurface()[0];
-		for(int i = 0; i < m_pSurfaces.size(); ++i)
-		{
-			if(m_pSurfaces[i]->CheckForCollision(surface, m_pSceneCamera) ||
-			   m_pSurfaces[i]->CheckForCollision(m_pSceneCamera))
-			{
-				m_pSceneCamera->CancelMovement();
-				break;
-			}			
-		}
+        auto& surfaces = m_pCameraSurface->getSubSurface();
+
+        if (!surfaces.empty())
+        {
+            SubSurface * surface = surfaces.front();
+            for (int i = 0; i < m_pSurfaces.size(); ++i)
+            {
+                if (m_pSurfaces[i]->CheckForCollision(surface, m_pSceneCamera) ||
+                    m_pSurfaces[i]->CheckForCollision(m_pSceneCamera))
+                {
+                    m_pSceneCamera->CancelMovement();
+                    break;
+                }
+            }
+        }
 	}
 }
 
 void SurfaceManager::RenderSurfaces()
 {
-	for(auto i = m_pSurfaces.begin(); i != m_pSurfaces.end(); ++i)
+	for(int i = 0; i < m_pSurfaces.size(); i++)
 	{
-		(*i)->Render();
+		m_pSurfaces[i]->Render();
 	}
 }

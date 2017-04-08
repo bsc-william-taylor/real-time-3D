@@ -1,17 +1,22 @@
 
+/* -------------------------------------------------
+  
+ @Filename  : Win32System.cpp
+ @author	: William Taylor
+ @date		: 12/02/2014
+ @purpose	: Class implementation.
+
+ ------------------------------------------------- */
+
 #include "Win32System.h"
-#include <stdio.h>
 
+// Constructor & Deconstrucor
 Win32System::Win32System()
-	: m_Quit (FALSE)
+	: m_pWindow(new Win32Window()), 
+	  m_pInput(new Win32Driver()),
+	  m_Type(Window::WINDOWED),
+	  m_Quit(FALSE)
 {
-	if(FAILED(CoInitialize(NULL)))
-	{
-		MessageBox(NULL, "Error With Com", "Error !", MB_OK);
-	}
-
-	m_pWindow = new Win32Window();
-	m_pInput = new Win32Driver();
 }
 
 Win32System::~Win32System()
@@ -20,40 +25,36 @@ Win32System::~Win32System()
 	SAFE_RELEASE(m_pInput);
 }
 
-void Win32System::SetWindowTraits(CHAR * c, SIZES s)
-{
-	m_pWindow->SetTraits(c, s.x, s.y, s.w, s.h);
-}
-
+// Member Functions
 bool Win32System::WindowRunning() 
 {
 	return(m_pWindow->Update());
 }
 
+void Win32System::Show()
+{
+	UpdateWindow(m_pWindow->GetHandle());
+	ShowWindow(m_pWindow->GetHandle(), SW_SHOW);
+}
+
 void Win32System::Initialise()
 {
+	// Initialise the window & opengl
 	m_pWindow->Initialise();
-	m_pWindow->Display(Win32Window::WINDOWED);
+	m_pWindow->Display(m_Type);
 	m_pWindow->EnableOpenGL();
 
+	// Initialise input
 	HWND Handle = m_pWindow->GetHandle();
-
 	m_pInput->Initialise(&Handle);
 
+	// And glew
 	GLenum error = glewInit();
-	
-	glewExperimental = GL_TRUE;
-
 	if(error != GLEW_OK) 
 	{
 		printf("Error: %s\n", glewGetErrorString(error));
 		system("pause");
 	}
-}
-
-Win32Window * Win32System::VGetWindow()
-{
-	return m_pWindow;
 }
 
 void Win32System::SwapWindowBuffers()
@@ -65,4 +66,20 @@ void Win32System::Update()
 {
 	m_pWindow->Update();
 	m_pInput->Update();
+}
+
+// Get & Set Functions
+void Win32System::setWindowType(Window::Type type)
+{
+	this->m_Type = type;
+}
+
+void Win32System::setWindowTraits(CHAR * c, Window::SIZES s)
+{
+	m_pWindow->setTraits(c, s.x, s.y, s.w, s.h);
+}
+
+Win32Window * Win32System::getWindow()
+{
+	return m_pWindow;
 }

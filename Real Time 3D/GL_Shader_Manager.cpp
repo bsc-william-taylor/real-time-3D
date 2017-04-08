@@ -16,6 +16,7 @@ GL_Shader_Manager * GL_Shader_Manager::m_pInstance = NULL;
 // Constructor & Deconstructor
 GL_Shader_Manager::GL_Shader_Manager()
 {
+	m_Programs.reserve(10);
 }
 
 GL_Shader_Manager::~GL_Shader_Manager()
@@ -48,14 +49,13 @@ GL_Program * GL_Shader_Manager::GetShader(const std::string& vs, const std::stri
 
 	Program->Load(Shader::VERTEX_SHADER, vs);
 	Program->Load(Shader::FRAG_SHADER, fs);
-	
 	Program->OutputLog(Shader::VERTEX_SHADER);
 	Program->OutputLog(Shader::FRAG_SHADER);
 	
 	Program->Link();
 
 	m_Programs.push_back(Program);
-	return Program;
+	return m_Programs[m_Programs.size() - 1];
 }
 
 // Set & Get Functions

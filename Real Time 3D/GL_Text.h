@@ -24,15 +24,13 @@ private:
 	std::string m_Fontname;					// Font Filename
 	std::string m_Text;						// Text To Render
 
-	GLuint m_FontSize;						// Font Size
 	vec2 m_Position;						// Position to render from.
 
-	GLuint VBO;
-	GLuint VAO;
-
+	GLboolean m_Loaded;
+	GLuint m_FontSize;						// Font Size
+	
 	GL_Program * m_pShader;		
 	GL_Matrix * m_Matrix;
-
 
 public:
 
@@ -56,4 +54,14 @@ public:
 
 	GL_Program * getProgram() { return m_pShader; }
 	GL_Matrix * getMatrix() { return m_Matrix; }
+
+private:
+
+	struct Character
+	{
+		GL_Sprite * Sprite;
+		GLuint VBO;
+	};
+
+	vector<Character *> m_Characters;
 };

@@ -33,7 +33,7 @@ public:
 	GLvoid KeyPress(int, int);
 	GLvoid Motion(float, float);
 	GLvoid CancelMovement();
-	GLvoid Update();
+	GLvoid Update(bool);
 	GLvoid Reset();
 
 	GLvoid setPlayerModel(DynamicModel *);
