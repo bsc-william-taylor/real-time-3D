@@ -1,0 +1,185 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{45E4ABE4-3E27-446C-B155-CFF30F0C0AB8}</ProjectGuid>
+    <Keyword>Win32Proj</Keyword>
+    <RootNamespace>RealTime3D</RootNamespace>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v120</PlatformToolset>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v120</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <LinkIncremental>true</LinkIncremental>
+    <IncludePath>L:\Real Time 3D\Real Time 3D\include\freetype;$(IncludePath)</IncludePath>
+    <LibraryPath>L:\Real Time 3D\Real Time 3D\lib\freetype;$(LibraryPath)</LibraryPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <LinkIncremental>false</LinkIncremental>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <SDLCheck>true</SDLCheck>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <SDLCheck>true</SDLCheck>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="AudioPlayer.cpp" />
+    <ClCompile Include="AudioNode.cpp" />
+    <ClCompile Include="AudioObject.cpp" />
+    <ClCompile Include="AudioSource.cpp" />
+    <ClCompile Include="DemoMenu.cpp" />
+    <ClCompile Include="DemoScene.cpp" />
+    <ClCompile Include="Demo.cpp" />
+    <ClCompile Include="FirstPersonCamera.cpp" />
+    <ClCompile Include="FreeCamera.cpp" />
+    <ClCompile Include="GL_Heightmap.cpp" />
+    <ClCompile Include="GL_MapOverlay.cpp" />
+    <ClCompile Include="GL_Minimap.cpp" />
+    <ClCompile Include="GL_PostProcessor.cpp" />
+    <ClCompile Include="GL_Renderer.cpp" />
+    <ClCompile Include="GL_Matrix.cpp" />
+    <ClCompile Include="Options.cpp" />
+    <ClCompile Include="StaticModel.cpp" />
+    <ClCompile Include="GL_Shader_Manager.cpp" />
+    <ClCompile Include="GL_Skybox.cpp" />
+    <ClCompile Include="GL_Text.cpp" />
+    <ClCompile Include="GL_Texture_Manager.cpp" />
+    <ClCompile Include="Main.cpp" />
+    <ClCompile Include="GL_Program.cpp" />
+    <ClCompile Include="DynamicModel.cpp" />
+    <ClCompile Include="SceneManager.cpp" />
+    <ClCompile Include="GL_Texture.cpp" />
+    <ClCompile Include="SubSurface.cpp" />
+    <ClCompile Include="Surface.cpp" />
+    <ClCompile Include="SurfaceBuilder.cpp" />
+    <ClCompile Include="SurfaceManager.cpp" />
+    <ClCompile Include="ThirdPersonCamera.cpp" />
+    <ClCompile Include="Win32Driver.cpp" />
+    <ClCompile Include="Win32Keyboard.cpp" />
+    <ClCompile Include="Win32Mouse.cpp" />
+    <ClCompile Include="Win32System.cpp" />
+    <ClCompile Include="Win32Timer.cpp" />
+    <ClCompile Include="Win32Window.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="AudioPlayer.h" />
+    <ClInclude Include="AudioNode.h" />
+    <ClInclude Include="AudioObject.h" />
+    <ClInclude Include="AudioSource.h" />
+    <ClInclude Include="AudioHeader.h" />
+    <ClInclude Include="DemoMenu.h" />
+    <ClInclude Include="DemoScene.h" />
+    <ClInclude Include="Demo.h" />
+    <ClInclude Include="FirstPersonCamera.h" />
+    <ClInclude Include="FreeCamera.h" />
+    <ClInclude Include="GL_Heightmap.h" />
+    <ClInclude Include="GL_MapOverlay.h" />
+    <ClInclude Include="GL_Minimap.h" />
+    <ClInclude Include="GL_PostProcessor.h" />
+    <ClInclude Include="GL_Renderer.h" />
+    <ClInclude Include="GL_Header.h" />
+    <ClInclude Include="GL_Matrix.h" />
+    <ClInclude Include="ICamera.h" />
+    <ClInclude Include="IModel.h" />
+    <ClInclude Include="Options.h" />
+    <ClInclude Include="StaticModel.h" />
+    <ClInclude Include="GL_Program.h" />
+    <ClInclude Include="GL_Shader_Manager.h" />
+    <ClInclude Include="GL_Skybox.h" />
+    <ClInclude Include="GL_Text.h" />
+    <ClInclude Include="GL_Texture_Manager.h" />
+    <ClInclude Include="DynamicModel.h" />
+    <ClInclude Include="Scene.h" />
+    <ClInclude Include="SceneManager.h" />
+    <ClInclude Include="GL_Texture.h" />
+    <ClInclude Include="SubSurface.h" />
+    <ClInclude Include="Surface.h" />
+    <ClInclude Include="SurfaceBuilder.h" />
+    <ClInclude Include="SurfaceManager.h" />
+    <ClInclude Include="ThirdPersonCamera.h" />
+    <ClInclude Include="Win32Codes.h" />
+    <ClInclude Include="Win32Driver.h" />
+    <ClInclude Include="Win32Header.h" />
+    <ClInclude Include="Win32Keyboard.h" />
+    <ClInclude Include="Win32Mouse.h" />
+    <ClInclude Include="Win32System.h" />
+    <ClInclude Include="Win32Timer.h" />
+    <ClInclude Include="Win32Window.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="cube.frag" />
+    <None Include="cube.vert" />
+    <None Include="data\shaders\box.frag" />
+    <None Include="data\shaders\box.vert" />
+    <None Include="data\shaders\heightmap.frag" />
+    <None Include="data\shaders\heightmap.vert" />
+    <None Include="data\shaders\model.frag" />
+    <None Include="data\shaders\model.vert" />
+    <None Include="data\shaders\postprocessor.frag" />
+    <None Include="data\shaders\postprocessor.vert" />
+    <None Include="data\shaders\text.frag" />
+    <None Include="data\shaders\text.vert" />
+    <None Include="data\shaders\texture.frag" />
+    <None Include="data\shaders\texture.vert" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>
