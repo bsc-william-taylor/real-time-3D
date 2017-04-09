@@ -1,6 +1,7 @@
 # Folders
 .vs
 Debug
+Release
 src/Debug
 
 # Compiled Object files
