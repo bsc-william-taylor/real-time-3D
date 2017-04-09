@@ -1,6 +1,7 @@
 # Folders
 .vs
 Debug
+src/Debug
 
 # Compiled Object files
 *.slo
