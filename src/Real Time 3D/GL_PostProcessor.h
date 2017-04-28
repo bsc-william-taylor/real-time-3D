@@ -26,7 +26,7 @@ public:
 	~GL_PostProcessor();
 
 	GLvoid Initialise(GLuint, GLuint);
-	GLvoid Execute();
+	GLvoid execute();
 	GLvoid Enable();
 
 	GLvoid setColourChannels(vec4);

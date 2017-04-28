@@ -40,7 +40,7 @@ public:
 	bool WindowRunning();
 
 	// Set & Get Functions
-	void setWindowTraits(CHAR *, Window::SIZES);
+	void setWindowTraits(CHAR *, Window::Sizes);
 	void setWindowType(Window::Type);
 
 	Win32Window * getWindow();

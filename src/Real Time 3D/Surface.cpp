@@ -84,7 +84,7 @@ void Surface::Render()
 	glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 	glDrawArrays(GL_TRIANGLES, 0, Count);
 
-	if(!Demo::m_gSettings.Wireframe) {
+	if(!Demo::demoSettings.wireframeEnabled) {
 		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 	}
 

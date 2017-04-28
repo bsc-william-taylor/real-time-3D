@@ -1,6 +1,6 @@
 
 /* -------------------------------------------------
-  
+
  @Filename  : Main.cpp
  @author	: William Taylor
  @date		: 23/03/2014
@@ -14,33 +14,24 @@
 
 #ifdef CONSOLE_MAIN
 
-int main(int argc, const char * argv) 
+int main(int argc, const char * argv)
 {
-	Demo * Example = new Demo();
-
-	Example->WindowSize(0, 0, 1280, 720);
-	Example->RedrawRate(60);
-	Example->Execute();
-
-	delete(Example);
-	return NULL;
+    Demo demo;
+    demo.setWindowSize(0, 0, 1280, 720);
+    demo.setRedrawRate(60);
+    demo.execute();
+    return 0;
 }
 
 #else
 
-// Entry Point
 int WINAPI WinMain(HINSTANCE h, HINSTANCE p, LPSTR l, int cc)
 {
-	Demo * Example = new Demo();
-
-	// Initialise Demo
-	Example->WindowSize(0, 0, 1280, 720);
-	Example->RedrawRate(60);
-	Example->Execute();
-	
-	// Memory Cleanup
-	delete(Example);
-	return NULL;
+    Demo demo;
+    demo.WindowSize(0, 0, 1280, 720);
+    demo.RedrawRate(60);
+    demo.Execute();
+    return 0;
 }
 
 #endif

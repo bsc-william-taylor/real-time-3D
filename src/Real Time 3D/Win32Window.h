@@ -17,7 +17,7 @@ class Win32Window
 {
 public:
 
-	struct SIZES { UINT x, y, w, h; };			// Type to simplify setting the windows size.
+	struct Sizes { UINT x, y, w, h; };			// Type to simplify setting the windows size.
 	enum Type { FULLSCREEN, WINDOWED };			// Enum to set the type of window to open
 
 private:
@@ -25,7 +25,7 @@ private:
 	HGLRC m_Context;		// Window Context;
 	HWND m_Window;			// Window Handle
 	TCHAR * m_Title;		// Window Title
-	SIZES m_Sizes;			// Window Sizes
+	Sizes m_Sizes;			// Window Sizes
 	MSG m_Msg;				// Window Msgs
 
 public:

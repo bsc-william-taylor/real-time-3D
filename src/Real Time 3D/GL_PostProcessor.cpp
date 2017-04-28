@@ -20,7 +20,7 @@ GLvoid GL_PostProcessor::Enable()
 	glClearColor(1.0, 1.0, 1.0, 1.0);
 }
 
-GLvoid GL_PostProcessor::Execute()
+GLvoid GL_PostProcessor::execute()
 {
 	m_pProgram->Use();
 	m_pProgram->setMatrix("Projection", m_pMatrix->getProjection());

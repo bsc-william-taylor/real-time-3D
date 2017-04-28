@@ -74,7 +74,7 @@ void Win32System::setWindowType(Window::Type type)
 	this->m_Type = type;
 }
 
-void Win32System::setWindowTraits(CHAR * c, Window::SIZES s)
+void Win32System::setWindowTraits(CHAR * c, Window::Sizes s)
 {
 	m_pWindow->setTraits(c, s.x, s.y, s.w, s.h);
 }

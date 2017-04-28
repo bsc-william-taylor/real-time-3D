@@ -1,12 +1,4 @@
 
-/* -------------------------------------------------
-  
- @Filename  : Demo.cpp
- @author	: William Taylor
- @date		: 23/03/2014
- @purpose	: Class implementation
-
- ------------------------------------------------- */
 
 #include "GL_Texture_Manager.h"
 #include "GL_Shader_Manager.h"
@@ -18,127 +10,104 @@
 #include "Demo.h"
 #include "Memory.h"
 
-// Initialise Settings
-Demo::DemoSettings Demo::m_gSettings;
+Demo::DemoSettings Demo::demoSettings;
 
-// Constructor & Deconstructor
 Demo::Demo()
-	: m_FPS(60)
+    : fps(60)
 {
-	// Get scene manager
-	m_pScenes = SceneManager::get();
-	m_pScenes->PassEngine(this);
+    sceneManager = SceneManager::get();
+    sceneManager->PassEngine(this);
 
-	// Set global settings
-	m_gSettings.Wireframe = false;
-	m_gSettings.Boxes = false;
-	m_gSettings.FX = false;
+    demoSettings.wireframeEnabled = false;
+    demoSettings.showBoundingBoxes = false;
+    demoSettings.enableFx = false;
 }
 
 Demo::~Demo()
 {
-	// Delete managers
-	delete GL_TextureManager::get();
-	delete GL_Shader_Manager::get();
-	delete SceneManager::get();
+    delete GL_TextureManager::get();
+    delete GL_Shader_Manager::get();
+    delete SceneManager::get();
 
-	// Release all variables
-	SAFE_RELEASE(m_pTimer);
-	SAFE_RELEASE(m_pWin32);
+    SAFE_RELEASE(timer);
+    SAFE_RELEASE(win32System);
 }
 
-// Member Functions
-void Demo::Execute()
+void Demo::execute()
 {
-	// Initialise the demo
-	Init_Scenes();
-	Init_OpenGL();
+    setupScenes();
+    setupOpenGL();
 
-	// Game Loop
-	while(m_pWin32->WindowRunning()) 
-	{		
-		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    while (win32System->WindowRunning())
+    {
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-		m_pWin32->Update();
-		m_TimeLeft = 0;
+        win32System->Update();
+        timeLeft = 0;
 
-		m_pScenes->UpdateManager();		
-		m_pWin32->SwapWindowBuffers();
+        sceneManager->UpdateManager();
+        win32System->SwapWindowBuffers();
 
-		while(m_TimeLeft < (GLfloat)1.0e9/m_FPS)
-		{
-			m_pTimer->Stop();
-			m_TimeLeft = m_pTimer->Difference(TimeType::NS);
-		}
-		
-		m_pTimer->Start();
-	}
+        while (timeLeft < (GLfloat)1.0e9 / fps)
+        {
+            timer->Stop();
+            timeLeft = timer->Difference(TimeType::NS);
+        }
+
+        timer->Start();
+    }
 }
 
-void Demo::HideConsole()
+void Demo::hideConsole()
 {
-	// Hide console & report any error
-	if(FreeConsole() != NULL) {
-		return;
-	} 
-	
-	printf("Error cant hide console");
+    if (FreeConsole() != NULL)
+    {
+        return;
+    }
+
+    std::cerr << "Cant hide the console" << std::endl;
 }
 
-// Private Functions
-void Demo::Init_OpenGL()
+void Demo::setupOpenGL()
 {
-	// Enable GL States
-	glEnable(GL_DEPTH_TEST);
-	
-	
-	glEnable(GL_BLEND);
-	glBlendFunc(GL_SRC_ALPHA,GL_ONE_MINUS_SRC_ALPHA);
-	
-	// Set GL Hints
-	glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);
-	glHint(GL_POLYGON_SMOOTH_HINT, GL_NICEST);
-	glHint(GL_LINE_SMOOTH_HINT, GL_NICEST);
-	glClearColor(1.0, 1.0, 1.0, 1.0);
+    glEnable(GL_DEPTH_TEST);
+    glEnable(GL_BLEND);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+    glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);
+    glHint(GL_POLYGON_SMOOTH_HINT, GL_NICEST);
+    glHint(GL_LINE_SMOOTH_HINT, GL_NICEST);
+    glClearColor(1.0, 1.0, 1.0, 1.0);
 }
 
-void Demo::Init_Scenes()
+void Demo::setupScenes()
 {
-	// Initialise Scenes
-	m_pScenes = SceneManager::get();
-	m_pScenes->PushState(new DemoMenu());
-	m_pScenes->PushState(new DemoScene());
-	m_pScenes->PushState(new DemoOptions());
-	m_pScenes->StartFrom(0);
+    sceneManager = SceneManager::get();
+    sceneManager->PushState(new DemoMenu());
+    sceneManager->PushState(new DemoScene());
+    sceneManager->PushState(new DemoOptions());
+    sceneManager->StartFrom(0);
+    sceneManager->getCurrent()->Enter();
 
-	m_pScenes->getCurrent()->Enter();
-	
-	// Init timer for controlling window redraw rate
-	m_pTimer = new Win32Timer();
-	m_pTimer->Start();
-
+    timer = new Win32Timer();
+    timer->Start();
 }
 
-// Set & Get Functions
-void Demo::WindowSize(int x, int y, int w, int h)
+void Demo::setWindowSize(int x, int y, int w, int h)
 {
-	// Set window sizes
-	Win32Window::SIZES WindowSizes;
+    Win32Window::Sizes sizes;
+    sizes.w = w;
+    sizes.h = h;
+    sizes.x = x;
+    sizes.y = y;
 
-	WindowSizes.w = w;
-	WindowSizes.h = h;
-	WindowSizes.x = x;
-	WindowSizes.y = y;
-
-	// Initialise the windows system
-	m_pWin32 = new Win32System();
-	m_pWin32->setWindowTraits("Real Time 3D", WindowSizes);
-	m_pWin32->setWindowType(Win32Window::Type::WINDOWED);
-	m_pWin32->Initialise();
-	m_pWin32->Show();
+    win32System = new Win32System();
+    win32System->setWindowTraits("Real Time 3D", sizes);
+    win32System->setWindowType(Win32Window::Type::WINDOWED);
+    win32System->Initialise();
+    win32System->Show();
 }
 
-void Demo::RedrawRate(int FPS)
+void Demo::setRedrawRate(int FPS)
 {
-	m_FPS = FPS;
+    fps = FPS;
 }

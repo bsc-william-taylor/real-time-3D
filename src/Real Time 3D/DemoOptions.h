@@ -1,13 +1,4 @@
 
-/* -------------------------------------------------
-  
- @Filename  : DemoOptions.h
- @author	: William Taylor
- @date		: 23/03/2014
- @purpose	: The options scene
-
- ------------------------------------------------- */
-
 #pragma once
 
 #include "SceneManager.h"
@@ -17,30 +8,19 @@
 
 class DemoOptions : public Scene
 {
-private:
-
-	GL_Renderer * m_pRenderer;					// The scenes renderer
-	GL_Texture * m_pTexture;					// The background
-	GL_Text * m_pHeader;						// The scenes header (title)
-
-	/* All buttons that allow you to alter the options */
-	Button * m_pShowCollisionBoxes;	
-	Button * m_pEnablePostEffects;
-	Button * m_pEnableWireframe;
-	Button * m_pBackButton;
-
+    GL_Renderer* m_pRenderer;
+    GL_Texture* m_pTexture;
+    GL_Text* m_pHeader;
+    Button* m_pShowCollisionBoxes;
+    Button* m_pEnablePostEffects;
+    Button* m_pEnableWireframe;
+    Button* m_pBackButton;
 public:
+    DemoOptions();
+    ~DemoOptions();
 
-	// Constructor & Deconstructor
-	DemoOptions();
-	~DemoOptions();
-
-	void MousePress(int, int, int, int);		// Mouse press handler
-	void Update();								// Update Function
-	void Render();								// Draw Function
-
-private:
-
-	/* Private function to activate button upon press */
-	void ActivateButton(Button *);				
+    void MousePress(int, int, int, int);
+    void ActivateButton(Button*);
+    void Update();
+    void Render();
 };
