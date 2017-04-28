@@ -1,19 +1,9 @@
 
-/* -------------------------------------------------
-
- @Filename  : DemoScene.h
- @author	: William Taylor
- @date		: 23/03/2014
- @purpose	: The main scene for the demo.
-
- ------------------------------------------------- */
-
 #include "SurfaceManager.h"
 #include "Win32Codes.h"
 #include "DemoScene.h"
 #include "Demo.h"
 
- // Constructor & deconstructor
 DemoScene::DemoScene()
     : m_Loaded(false)
 {
@@ -35,10 +25,10 @@ DemoScene::~DemoScene()
     SAFE_RELEASE(m_pEffects);
     SAFE_RELEASE(m_pCamera);
     SAFE_RELEASE(m_pSkybox);
+    SAFE_RELEASE(m_pMiniMap);
 }
 
-// Member functions
-void DemoScene::Update()
+void DemoScene::update()
 {
     if (Demo::demoSettings.enableFx)
     {
@@ -46,7 +36,7 @@ void DemoScene::Update()
     }
 
     m_pRenderer->LoadIdentity();
-    m_pRenderer->Update();
+    m_pRenderer->update();
 
     m_pPlayer->getMatrix()->LoadIdenditity();
     m_pPlayer->getMatrix()->Rotate(RAIDAN(90), vec3(0.0, 0.0, 1.0));
@@ -55,12 +45,12 @@ void DemoScene::Update()
 
 
     SurfaceManager::get()->CheckForCollision();
-    m_pCamera->Update(true);
+    m_pCamera->update(true);
 }
 
-void DemoScene::Render()
+void DemoScene::render()
 {
-    m_pRenderer->Render();
+    m_pRenderer->render();
     m_pAudioPlayer->Stream();
 
     if (Demo::demoSettings.enableFx)
@@ -73,55 +63,54 @@ void DemoScene::Render()
         SurfaceManager::get()->RenderSurfaces();
     }
 
-
     m_pRenderer->Render2D(GL_FALSE);
-    m_pOptions->Render(m_pRenderer);
-    m_pQuit->Render(m_pRenderer);
-
+    m_pOptions->render(m_pRenderer);
+    m_pQuit->render(m_pRenderer);
 
     m_pRenderer->Render3D(Demo::demoSettings.wireframeEnabled);
     m_pMiniMap->RenderToBuffer();
-
     m_pRenderer->LoadIdentity();
-    m_pRenderer->Update();
-
-    m_pCamera->Update(GL_FALSE);
-    m_pRenderer->Render();
+    m_pRenderer->update();
+    m_pCamera->update(GL_FALSE);
+    m_pRenderer->render();
     m_pMiniMap->RenderToScreen();
     m_pCamera->Reset();
 }
 
-
-void DemoScene::KeyPress(int Key, int State)
+void DemoScene::keyPress(int Key, int State)
 {
-    m_pCamera->KeyPress(Key, State);
+    m_pCamera->keyPress(Key, State);
 
-    if (Key == ENTER && State == PRESSED) {
+    if (Key == ENTER && State == PRESSED) 
+    {
         SceneManager::get()->SwitchTo(2);
     }
 
-    if (Key == ESCAPE && State == RELEASED) {
+    if (Key == ESCAPE && State == RELEASED) 
+    {
         PostQuitMessage(0);
     }
 }
 
-void DemoScene::Motion(float pos_x, float pos_y)
+void DemoScene::motion(float pos_x, float pos_y)
 {
-    m_pCamera->Motion(pos_x, pos_y);
+    m_pCamera->motion(pos_x, pos_y);
 }
 
-void DemoScene::MousePress(int Key, int State, int x, int y)
+void DemoScene::mousePress(int Key, int State, int x, int y)
 {
-    if (m_pOptions->MouseState(Key, State, x, y)) {
+    if (m_pOptions->MouseState(Key, State, x, y)) 
+    {
         SceneManager::get()->SwitchTo(2);
     }
 
-    if (m_pQuit->MouseState(Key, State, x, y)) {
+    if (m_pQuit->MouseState(Key, State, x, y)) 
+    {
         PostQuitMessage(0);
     }
 }
 
-void DemoScene::Enter()
+void DemoScene::enter()
 {
     if (!m_Loaded)
     {
@@ -146,12 +135,12 @@ void DemoScene::Enter()
 
         m_Loaded = !m_Loaded;
 
-        SetupGraphics();
-        SetupAudio();
+        setupGraphics();
+        setupAudio();
     }
 }
 
-void DemoScene::SetupGraphics()
+void DemoScene::setupGraphics()
 {
     m_pCity->Load("data/models/Metro 1.3ds", "data/models/", true);
     m_pCity->SetScale(0.75f);
@@ -165,7 +154,6 @@ void DemoScene::SetupGraphics()
     m_pRenderer->PushSkybox(m_pSkybox);
     m_pRenderer->PushModel(m_pCity);
     m_pRenderer->Prepare();
-
     m_pRenderer->Perspective(70, vec2(16, 9), vec2(0.1, 10000));
     m_pRenderer->setSurfaceSize(vec4(0, 0, 1280, 720));
 
@@ -177,7 +165,7 @@ void DemoScene::SetupGraphics()
     SurfaceManager::get()->PushCameraObject(m_pPlayer->getSurface());
 }
 
-void DemoScene::SetupAudio()
+void DemoScene::setupAudio()
 {
     m_pMusic = new AudioObject();
     m_pMusic->SetAudioSource("data/audio/PianoMono.mp3");

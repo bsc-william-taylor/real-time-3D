@@ -23,7 +23,7 @@ public:
 	~AudioNode();
 
 	GLvoid Initialise(vec3, vec3);
-	GLvoid Render();
+	GLvoid render();
 
 	GL_Matrix * getMatrix() {
 		return m_pMatrix;

@@ -36,7 +36,7 @@ void AudioObject::SetPosition(vec3 vec)
 
 void AudioObject::RenderNode()
 {
-	m_pNode->Render();
+	m_pNode->render();
 }
 
 void AudioObject::Pause()

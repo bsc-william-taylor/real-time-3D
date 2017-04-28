@@ -54,8 +54,8 @@ public:
 	
 	GLvoid PushSurface(Surface *);
 	GLvoid Prepare();
-	GLvoid Update();
-	GLvoid Render();
+	GLvoid update();
+	GLvoid render();
 
 	GLvoid RenderTexture(GL_Texture *);
 	GLvoid RenderModel(IModel *, mat4);

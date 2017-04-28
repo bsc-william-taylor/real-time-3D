@@ -85,7 +85,7 @@ GLvoid AudioNode::Initialise(vec3 p, vec3 s)
 	glBindVertexArray(0);
 }
 
-GLvoid AudioNode::Render()
+GLvoid AudioNode::render()
 {
 	m_pShader->Use();
 	m_pShader->setMatrix("Projection", m_pMatrix->getProjection());

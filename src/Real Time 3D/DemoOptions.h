@@ -8,19 +8,20 @@
 
 class DemoOptions : public Scene
 {
-    GL_Renderer* m_pRenderer;
-    GL_Texture* m_pTexture;
-    GL_Text* m_pHeader;
-    Button* m_pShowCollisionBoxes;
-    Button* m_pEnablePostEffects;
-    Button* m_pEnableWireframe;
-    Button* m_pBackButton;
+    GL_Renderer m_pRenderer;
+    GL_Texture m_pTexture;
+    GL_Text m_pHeader;
+
+    Button m_pShowCollisionBoxes;
+    Button m_pEnablePostEffects;
+    Button m_pEnableWireframe;
+    Button m_pBackButton;
 public:
     DemoOptions();
     ~DemoOptions();
 
-    void MousePress(int, int, int, int);
-    void ActivateButton(Button*);
-    void Update();
-    void Render();
+    void mousePress(int, int, int, int);
+    void activateButton(Button*);
+    void update();
+    void render();
 };

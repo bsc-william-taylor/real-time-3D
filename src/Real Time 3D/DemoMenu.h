@@ -10,17 +10,17 @@
 class DemoMenu : public Scene
 {
     GL_Renderer* renderer;
-    GL_Texture* background;
-    GL_Text* footer;
-    GL_Text* header;
+    GL_Texture* image;
+    GL_Text footer;
+    GL_Text header;
 
-    Win32Timer* timer;
+    Win32Timer timer;
     float alpha;
 public:
     DemoMenu();
     ~DemoMenu();
 
-    void Update();
-    void Render();
-    void Enter();
+    void update();
+    void render();
+    void enter();
 };

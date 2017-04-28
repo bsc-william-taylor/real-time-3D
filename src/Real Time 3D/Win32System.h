@@ -34,7 +34,7 @@ public:
 	// Member Functions
 	void SwapWindowBuffers();
 	void Initialise();
-	void Update();
+	void update();
 	void Show();
 
 	bool WindowRunning();

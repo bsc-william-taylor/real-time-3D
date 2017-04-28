@@ -35,6 +35,6 @@ public:
 	GLvoid SetDistance(GLfloat);
 	GLvoid Folder(std::string);
 	GLvoid Translate(vec3);
-	GLvoid Update();
+	GLvoid update();
 	GLvoid Setup();
 };

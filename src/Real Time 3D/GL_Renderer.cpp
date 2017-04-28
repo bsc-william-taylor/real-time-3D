@@ -139,7 +139,7 @@ GLvoid GL_Renderer::RenderModel(IModel * model, mat4 mat)
 	}
 	else
 	{
-		((DynamicModel *)model)->Render(mat);
+		((DynamicModel *)model)->render(mat);
 	}
 }
 
@@ -216,16 +216,16 @@ GLvoid GL_Renderer::LoadIdentity()
 	}
 }
 
-GLvoid GL_Renderer::Update()
+GLvoid GL_Renderer::update()
 {
-	m_Skybox ? m_Skybox->Update() : 0;
-	if(m_Heightmap)m_Heightmap->Update();
+	m_Skybox ? m_Skybox->update() : 0;
+	if(m_Heightmap)m_Heightmap->update();
 	for(unsigned int i = 0; i < m_Textures.size(); i++)
-		m_Textures[i]->Update();
+		m_Textures[i]->update();
 	for(unsigned int i = 0; i < m_Labels.size(); i++)
-		m_Labels[i]->Update();
+		m_Labels[i]->update();
 	for(unsigned int i = 0; i < m_Models.size(); i++)
-		m_Models[i]->Update();
+		m_Models[i]->update();
 }
 
 GLvoid GL_Renderer::Prepare()
@@ -248,7 +248,7 @@ GLvoid GL_Renderer::Prepare()
 		m_Models[i]->Prepare();
 }
 
-GLvoid GL_Renderer::Render()
+GLvoid GL_Renderer::render()
 {
 	if(m_Heightmap)m_Heightmap->Draw();
 	for(unsigned int i = 0; i < m_Textures.size(); i++)
@@ -256,13 +256,13 @@ GLvoid GL_Renderer::Render()
 	for(unsigned int i = 0; i < m_Models.size(); i++)
 		RenderModel(m_Models[i], mat4(1.0f));
 	for(unsigned int i = 0; i < m_Labels.size(); i++)
-		m_Labels[i]->Render();
+		m_Labels[i]->render();
 	for(unsigned int i = 0; i < m_Surfaces.size(); i++)
-		m_Surfaces[i]->Render();
+		m_Surfaces[i]->render();
 
 	for(unsigned int i = 0; i < m_AudioNodes.size(); i++)
 	{
-		m_AudioNodes[i]->Render();
+		m_AudioNodes[i]->render();
 	} 
 }
 

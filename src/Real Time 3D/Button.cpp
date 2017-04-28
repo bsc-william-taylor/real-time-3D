@@ -61,10 +61,10 @@ bool Button::MouseState(int Key, int State, int x, int y)
 	return false;
 }
 
-void Button::Render(GL_Renderer * renderer)
+void Button::render(GL_Renderer * renderer)
 {
 	renderer->RenderTexture(m_pSprite);
-	m_pString->Render();
+	m_pString->render();
 }
 
 // Get & Set Functions

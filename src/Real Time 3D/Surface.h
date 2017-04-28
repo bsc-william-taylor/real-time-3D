@@ -34,11 +34,11 @@ public:
 	bool CheckForCollision(ICamera *);
 	
 	void SetSize(vec3, vec3);
-	void Update(GL_Matrix *);
+	void update(GL_Matrix *);
 	void AddMaxMeshes(int);
 	void Disable();
 	void Enable();
-	void Render();
+	void render();
 	void Setup();
 
 	

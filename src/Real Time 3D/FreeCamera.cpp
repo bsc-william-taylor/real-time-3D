@@ -20,7 +20,7 @@ GLvoid FreeCamera::CancelMovement()
 	m_Movement = vec3(0, 0, 0);
 }
 
-void FreeCamera::Update()
+void FreeCamera::update()
 {
 	m_CameraTranslate += m_Movement;
 	
@@ -34,7 +34,7 @@ void FreeCamera::Update()
 	CancelMovement();
 }
 
-void FreeCamera::KeyPress(int Key, int State)
+void FreeCamera::keyPress(int Key, int State)
 {
 	if(State == HOLDING || State == PRESSED)
 	{
@@ -76,7 +76,7 @@ void FreeCamera::KeyPress(int Key, int State)
 	}
 }
 
-void FreeCamera::Motion(float pos_x, float pos_y)
+void FreeCamera::motion(float pos_x, float pos_y)
 {
 	if(m_Rotation >= 360) 
 	{

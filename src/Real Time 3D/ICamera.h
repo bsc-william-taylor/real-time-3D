@@ -6,10 +6,10 @@
 class ICamera
 {
 public:
-	virtual GLvoid KeyPress(int, int) = 0;
-	virtual GLvoid Motion(float, float) = 0;
+	virtual GLvoid keyPress(int, int) = 0;
+	virtual GLvoid motion(float, float) = 0;
 	virtual GLvoid CancelMovement() = 0;
-	virtual GLvoid Update(){}
+	virtual GLvoid update(){}
 
 	virtual GLvoid setRotation(GLfloat) = 0;
 	virtual GLvoid setPitch(GLfloat) = 0;

@@ -56,7 +56,7 @@ void Win32Window::Initialise()
 	RegisterClassEx(&WindowClass);
 }
 
-bool Win32Window::Update()
+bool Win32Window::update()
 {
 	// Peek to see a WM_QUIT message
 	PeekMessage(&GetMsg(), NULL, NULL, NULL, PM_REMOVE);

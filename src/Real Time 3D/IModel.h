@@ -8,7 +8,7 @@ class IModel
 {
 public:
 
-	 virtual void Update() = 0;
+	 virtual void update() = 0;
 	 virtual void Prepare() = 0;
 	 virtual bool isDynamic() = 0;
 

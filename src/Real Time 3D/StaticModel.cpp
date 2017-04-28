@@ -206,7 +206,7 @@ GLvoid StaticModel::SetScale(vec3 v)
 	m_Scale = v;
 }
 
-GLvoid StaticModel::Update()
+GLvoid StaticModel::update()
 {
 	m_Matrix->LoadIdenditity();
 	m_Matrix->Scale(m_Scale);
@@ -215,7 +215,7 @@ GLvoid StaticModel::Update()
 	
 	if(m_BoundingBox != NULL)
 	{
-		m_BoundingBox->Update(m_Matrix);
+		m_BoundingBox->update(m_Matrix);
 	}
 }
 

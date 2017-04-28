@@ -76,6 +76,6 @@ void SurfaceManager::RenderSurfaces()
 {
 	for(int i = 0; i < m_pSurfaces.size(); i++)
 	{
-		m_pSurfaces[i]->Render();
+		m_pSurfaces[i]->render();
 	}
 }

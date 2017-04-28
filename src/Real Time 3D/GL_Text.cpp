@@ -35,13 +35,13 @@ GLvoid GL_Text::Prepare()
 	
 }
 
-GLvoid GL_Text::Update()
+GLvoid GL_Text::update()
 {
 	m_Matrix->LoadIdenditity();
 	m_Matrix->Ortho(vec2(0, 1280), vec2(0, 720));
 }
 
-GLvoid GL_Text::Render()
+GLvoid GL_Text::render()
 {
 	glBindVertexArray(0);
 

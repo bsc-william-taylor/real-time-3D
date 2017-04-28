@@ -1,63 +1,43 @@
 
-/* -------------------------------------------------
-  
- @Filename  : SceneManager.h
- @author	: William Taylor
- @date		: 12/02/2014
-
- @purpose	: A singletone which manages scenes
-			  in the applications.
-
- ------------------------------------------------- */
-
 #pragma once
 
-class Scene 
+#include <vector>
+
+class Scene
 {
 public:
-
-	virtual ~Scene(){}
-
-	virtual void MousePress(int, int, int, int){}
-	virtual void Motion(float, float) {}
-	virtual void KeyPress(int, int) {}
-	virtual void Update(){}
-	virtual void Render(){}
-	virtual void Enter(){}
-	virtual void Exit(){}
+    virtual ~Scene() {}
+    virtual void mousePress(int, int, int, int) {}
+    virtual void motion(float, float) {}
+    virtual void keyPress(int, int) {}
+    virtual void update() {}
+    virtual void render() {}
+    virtual void enter() {}
+    virtual void exit() {}
 };
-
-#include <vector>
 
 class Demo;
 
 class SceneManager
 {
-private:
-
-	unsigned int m_CurrentPlace;		// Current scene to render
-	std::vector<Scene *> m_vScenes;		// All scenes available
-	static SceneManager * m_pManager;	// Singleton instance
-	Demo * m_pEngine;
-
-
+    static SceneManager * m_pManager;
+    std::vector<Scene *> m_vScenes;
+    unsigned int m_CurrentPlace;
+    Demo * m_pEngine;
 public:
+    SceneManager();
+    ~SceneManager();
 
-	// Constructor & Deconstructor
-	SceneManager();
-	~SceneManager();
+    static SceneManager * get();
 
-	// Member functions
-	void PassEngine(Demo *);
-	void UpdateManager();
-	void StartFrom(unsigned int);	
-	void SwitchTo(unsigned int);
-	void PushState(Scene *);
-	void PreviousScene();
-	void NextScene();
+    void StartFrom(unsigned int);
+    void SwitchTo(unsigned int);
+    void PassEngine(Demo*);
+    void PushState(Scene*);
+    void UpdateManager();
+    void PreviousScene();
+    void NextScene();
 
-	// Get & Set Functions
-	static SceneManager * get();		// Singleton get function
-	Demo * getEngine();
-	Scene * getCurrent();
+    Scene* getCurrent();
+    Demo* getEngine();
 };

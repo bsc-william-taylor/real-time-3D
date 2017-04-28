@@ -67,15 +67,15 @@ void SceneManager::PushState(Scene * state)
 
 void SceneManager::UpdateManager()
 {
-	m_vScenes[m_CurrentPlace]->Update();
-	m_vScenes[m_CurrentPlace]->Render();
+	m_vScenes[m_CurrentPlace]->update();
+	m_vScenes[m_CurrentPlace]->render();
 }
 
 void SceneManager::SwitchTo(unsigned int newPlace)
 {
-	m_vScenes[m_CurrentPlace]->Exit();
+	m_vScenes[m_CurrentPlace]->exit();
 	m_CurrentPlace = newPlace;
-	m_vScenes[m_CurrentPlace]->Enter();
+	m_vScenes[m_CurrentPlace]->enter();
 }
 
 

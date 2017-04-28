@@ -61,7 +61,7 @@ void Win32Mouse::OutputInput(Scene * scene)
 	// Only pass if there is a velocity
 	if(pos.x != 0 || pos.y != 0)
 	{
-		scene->Motion(pos.x, pos.y);
+		scene->motion(pos.x, pos.y);
 	}
 	
 	// Prepare to get real mouse position
@@ -79,7 +79,7 @@ void Win32Mouse::OutputInput(Scene * scene)
 		// Check for a pressed button
 		if((m_State.rgbButtons[i] & 0x80) && !m_MouseRelease[i])
 		{
-			scene->MousePress(i, PRESSED, Info.x, Rect.bottom - Info.y);
+			scene->mousePress(i, PRESSED, Info.x, Rect.bottom - Info.y);
 			m_MouseRelease[i] = true;
 			m_ReleaseMsg[i] = false;
 		}
@@ -87,14 +87,14 @@ void Win32Mouse::OutputInput(Scene * scene)
 		// Check for a button being held
 		if((m_State.rgbButtons[i] & 0x80) && m_MouseRelease[i])
 		{
-			scene->MousePress(i, HOLDING, Info.x, Rect.bottom - Info.y);
+			scene->mousePress(i, HOLDING, Info.x, Rect.bottom - Info.y);
 			m_ReleaseMsg[i] = false;
 		}
 
 		// Check for a released button
 		if(!(m_State.rgbButtons[i] & 0x80) && m_MouseRelease[i])
 		{
-			scene->MousePress(i, RELEASED, Info.x, Rect.bottom - Info.y);
+			scene->mousePress(i, RELEASED, Info.x, Rect.bottom - Info.y);
 			m_MouseRelease[i] = false;
 			m_ReleaseMsg[i] = true;
 		}

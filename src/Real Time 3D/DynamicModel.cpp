@@ -261,12 +261,12 @@ GLvoid DynamicModel::ReadMD2Model(const GLchar *filename, GLboolean bound)
 	FreeModel();
 }
 
-GLvoid DynamicModel::Update()
+GLvoid DynamicModel::update()
 {
 	
 }
 
-void DynamicModel::Render(mat4 m)
+void DynamicModel::render(mat4 m)
 {
 	Program->Use();
 	Program->setMatrix("Projection", Matrix->getProjection());

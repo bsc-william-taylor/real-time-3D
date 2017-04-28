@@ -37,7 +37,7 @@ public:
 
 	GLvoid PushOverlay(GL_MapOverlay *);
 	GLvoid Prepare();
-	GLvoid Update();
+	GLvoid update();
 	GLvoid Draw();
 
 	GLvoid setMapTexture(std::string);

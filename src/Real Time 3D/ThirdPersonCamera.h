@@ -30,10 +30,10 @@ public:
 	~ThirdPersonCamera();
 
 	GLvoid Initialise(GL_Renderer *);
-	GLvoid KeyPress(int, int);
-	GLvoid Motion(float, float);
+	GLvoid keyPress(int, int);
+	GLvoid motion(float, float);
 	GLvoid CancelMovement();
-	GLvoid Update(bool);
+	GLvoid update(bool);
 	GLvoid Reset();
 
 	GLvoid setPlayerModel(DynamicModel *);

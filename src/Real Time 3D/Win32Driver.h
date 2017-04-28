@@ -38,7 +38,7 @@ public:
 
 	// Member Functions
 	void Initialise(HWND * hWnd);
-	void Update();
+	void update();
 
 	// Get & Set Functions
 	Win32Controller getDirectInput();

@@ -38,7 +38,7 @@ public:
 	void EnableOpenGL();
 	void Display(Type);
 	void Initialise();
-	bool Update();
+	bool update();
 
 	// Get & Set Functions
 	void setTraits(TCHAR *, int, int, int, int);

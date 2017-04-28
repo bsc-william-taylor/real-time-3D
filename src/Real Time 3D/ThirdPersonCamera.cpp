@@ -29,7 +29,7 @@ GLvoid ThirdPersonCamera::CancelMovement()
 	m_Movement = vec3(0, 0, 0);
 }
 
-void ThirdPersonCamera::Update(bool updateModel)
+void ThirdPersonCamera::update(bool updateModel)
 {
 	m_CameraTranslate += m_Movement;
 
@@ -58,7 +58,7 @@ void ThirdPersonCamera::Update(bool updateModel)
 		cameraMat = glm::translate(cameraMat, m_CameraTranslate);
 		
 		m_Model->Animate(m_Animation, m_AnimationStep);
-		m_Model->Update();
+		m_Model->update();
 	
 		m_pWorld->RenderModel(m_Model, cameraMat);
 	}
@@ -69,7 +69,7 @@ GLvoid ThirdPersonCamera::Reset()
 	m_Animation = 0;
 }
 
-void ThirdPersonCamera::KeyPress(int Key, int State)
+void ThirdPersonCamera::keyPress(int Key, int State)
 {
 	if(State == HOLDING || State == PRESSED)
 	{
@@ -113,7 +113,7 @@ void ThirdPersonCamera::KeyPress(int Key, int State)
 	}
 }
 
-void ThirdPersonCamera::Motion(float pos_x, float pos_y)
+void ThirdPersonCamera::motion(float pos_x, float pos_y)
 {
 	if(m_Rotation >= 360) {
 		m_Rotation = 0;

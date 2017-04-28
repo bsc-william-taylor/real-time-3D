@@ -45,7 +45,7 @@ public:
 
 	// Member Functions
 	GLvoid SurfacePlacements(GLuint);
-	GLvoid Update(){}
+	GLvoid update(){}
 	GLvoid Prepare();
 
 	// Get & Set Function

@@ -24,10 +24,10 @@ public:
 	~FreeCamera();
 
 	GLvoid Initialise(GL_Renderer *);
-	GLvoid KeyPress(int, int);
-	GLvoid Motion(float, float);
+	GLvoid keyPress(int, int);
+	GLvoid motion(float, float);
 	GLvoid CancelMovement();
-	GLvoid Update();
+	GLvoid update();
 
 	GLvoid setRotation(GLfloat);
 	GLvoid setPitch(GLfloat);

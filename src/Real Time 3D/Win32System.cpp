@@ -28,7 +28,7 @@ Win32System::~Win32System()
 // Member Functions
 bool Win32System::WindowRunning() 
 {
-	return(m_pWindow->Update());
+	return(m_pWindow->update());
 }
 
 void Win32System::Show()
@@ -62,10 +62,10 @@ void Win32System::SwapWindowBuffers()
 	SwapBuffers(GetDC(m_pWindow->GetHandle()));
 }
 
-void Win32System::Update()
+void Win32System::update()
 {
-	m_pWindow->Update();
-	m_pInput->Update();
+	m_pWindow->update();
+	m_pInput->update();
 }
 
 // Get & Set Functions

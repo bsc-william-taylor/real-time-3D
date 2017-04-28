@@ -21,7 +21,7 @@ GLvoid FirstPersonCamera::CancelMovement()
 	m_Movement = vec3(0, 0, 0);
 }
 
-void FirstPersonCamera::Update()
+void FirstPersonCamera::update()
 {
 	m_CameraTranslate += m_Movement;
 	
@@ -35,7 +35,7 @@ void FirstPersonCamera::Update()
 	CancelMovement();
 }
 
-void FirstPersonCamera::KeyPress(int Key, int State)
+void FirstPersonCamera::keyPress(int Key, int State)
 {
 	if(State == HOLDING || State == PRESSED)
 	{
@@ -75,7 +75,7 @@ void FirstPersonCamera::KeyPress(int Key, int State)
 	}
 }
 
-void FirstPersonCamera::Motion(float pos_x, float pos_y)
+void FirstPersonCamera::motion(float pos_x, float pos_y)
 {
 	if(m_Rotation >= 360) 
 	{

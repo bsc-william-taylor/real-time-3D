@@ -170,7 +170,7 @@ GLfloat GL_Heightmap::getMapY(vec3 camera)
 	return 0;
 }
 
-GLvoid GL_Heightmap::Update()
+GLvoid GL_Heightmap::update()
 {
 	m_Matrix->LoadIdenditity();
 	m_Matrix->Translate(vec3(0, -59.5, 0));

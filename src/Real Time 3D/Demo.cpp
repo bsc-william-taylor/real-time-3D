@@ -42,7 +42,7 @@ void Demo::execute()
     {
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-        win32System->Update();
+        win32System->update();
         timeLeft = 0;
 
         sceneManager->UpdateManager();
@@ -86,7 +86,7 @@ void Demo::setupScenes()
     sceneManager->PushState(new DemoScene());
     sceneManager->PushState(new DemoOptions());
     sceneManager->StartFrom(0);
-    sceneManager->getCurrent()->Enter();
+    sceneManager->getCurrent()->enter();
 
     timer = new Win32Timer();
     timer->Start();

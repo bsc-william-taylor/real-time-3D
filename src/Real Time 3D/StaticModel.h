@@ -37,7 +37,7 @@ public:
 
 	GLvoid Load(const std::string&, const std::string&, bool);
 	GLvoid Prepare();
-	GLvoid Update();
+	GLvoid update();
 
 	GLvoid Translate(vec3);
 	GLvoid SetScale(vec3);

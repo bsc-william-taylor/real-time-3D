@@ -73,7 +73,7 @@ void Surface::SetSize(vec3 position, vec3 size)
 	this->m_Size.push_back(size);
 }
 
-void Surface::Render()
+void Surface::render()
 {
 	m_pProgram->Use();
 	m_pProgram->setMatrix("Projection", m_pMatrix->getProjection());
@@ -152,7 +152,7 @@ void Surface::Setup()
 	glBindVertexArray(0);
 }
 
-void Surface::Update(GL_Matrix * matrix)
+void Surface::update(GL_Matrix * matrix)
 {
 	m_pMatrix = matrix;
 

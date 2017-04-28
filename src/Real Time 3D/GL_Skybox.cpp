@@ -25,7 +25,7 @@ GLvoid GL_Skybox::Folder(std::string filename)
 	m_Filenames.push_back(filename + "top.jpg");
 }
 
-void GL_Skybox::Update()
+void GL_Skybox::update()
 {
 	GLfloat position = (GLfloat)(m_Distance / 2.0f);
 

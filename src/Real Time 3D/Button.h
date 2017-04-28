@@ -33,7 +33,7 @@ public:
 	// Member Functions
 	bool MouseState(int, int, int, int);
 	void SetPosition(std::string, vec2, vec2);
-	void Render(GL_Renderer *);
+	void render(GL_Renderer *);
 
 	// Get & Set Functions
 	GL_Texture * getTexture();

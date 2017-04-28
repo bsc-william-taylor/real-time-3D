@@ -146,7 +146,7 @@ public:
 	DynamicModel();
 	~DynamicModel();
 
-	GLvoid Update();
+	GLvoid update();
 	void Prepare(){}
 	bool isDynamic() { return true; }
 
@@ -156,7 +156,7 @@ public:
 	GLvoid Animate(GLuint, GLfloat);
 	GLvoid Animate(GLfloat);
 	GLvoid FreeModel();
-	GLvoid Render(mat4);
+	GLvoid render(mat4);
 	
 	GLuint setCurrentAnim(int n);
 	GLuint getVertDataCount();

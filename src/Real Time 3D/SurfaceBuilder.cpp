@@ -12,7 +12,7 @@ SurfaceBuilder::SurfaceBuilder()
 
 SurfaceBuilder::~SurfaceBuilder()
 {
-	surface->Update(m_Matrix);
+	surface->update(m_Matrix);
 	SurfaceManager::get()->PushSurface(surface);
 }
 

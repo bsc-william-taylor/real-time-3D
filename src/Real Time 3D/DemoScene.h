@@ -14,32 +14,32 @@
 
 class DemoScene : public Scene
 {
-    ThirdPersonCamera * m_pCamera;
-    DynamicModel * m_pPlayer;
-    StaticModel * m_pCity;
+    ThirdPersonCamera* m_pCamera;
+    DynamicModel* m_pPlayer;
+    StaticModel* m_pCity;
+    Button* m_pOptions;
+    Button* m_pQuit;
 
-    GL_PostProcessor * m_pEffects;
-    GL_MapOverlay * m_Overlaymap;
-    GL_Heightmap * m_Heightmap;
-    GL_Renderer * m_pRenderer;
-    GL_Minimap * m_pMiniMap;
-    GL_Skybox * m_pSkybox;
+    GL_PostProcessor* m_pEffects;
+    GL_MapOverlay* m_Overlaymap;
+    GL_Heightmap* m_Heightmap;
+    GL_Renderer* m_pRenderer;
+    GL_Minimap* m_pMiniMap;
+    GL_Skybox* m_pSkybox;
     GLboolean m_Loaded;
 
-    AudioPlayer * m_pAudioPlayer;
-    AudioObject * m_pMusic;
-    Button * m_pOptions;
-    Button * m_pQuit;
+    AudioPlayer* m_pAudioPlayer;
+    AudioObject* m_pMusic;
 public:
     DemoScene();
     ~DemoScene();
 
-    void MousePress(int, int, int, int);
-    void Motion(float, float);
-    void KeyPress(int, int);
-    void Update();
-    void Render();
-    void Enter();
-    void SetupGraphics();
-    void SetupAudio();
+    void mousePress(int, int, int, int);
+    void motion(float, float);
+    void keyPress(int, int);
+    void setupGraphics();
+    void setupAudio();
+    void update();
+    void render();
+    void enter();
 };

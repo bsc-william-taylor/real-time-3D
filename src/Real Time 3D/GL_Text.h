@@ -39,9 +39,9 @@ public:
 	~GL_Text();
 
 	// Member Functions
-	GLvoid Render();
+	GLvoid render();
 	GLvoid Prepare();
-	GLvoid Update();
+	GLvoid update();
 
 	// Set & Get Functions
 	GLvoid setPosition(vec2);
