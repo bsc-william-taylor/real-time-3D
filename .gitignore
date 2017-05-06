@@ -10,6 +10,7 @@ src/Debug
 *.o
 *.obj
 *.db
+*.opendb
 
 # Precompiled Headers
 *.gch

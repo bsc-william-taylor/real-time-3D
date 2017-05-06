@@ -98,5 +98,6 @@ void DemoOptions::render()
     header.render();
 
     glEnable(GL_DEPTH_TEST);
+
     renderer.Render2D(Demo::demoSettings.wireframeEnabled);
 }
