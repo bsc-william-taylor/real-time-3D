@@ -1,82 +1,57 @@
 
-/* -------------------------------------------------
-  
- @Filename  : Win32Driver.cpp
- @author	: William Taylor
- @date		: 12/02/2014
- @purpose	: Class implementation
-
- ------------------------------------------------- */
-
 #include "Win32Driver.h"
 #include "SceneManager.h"
 
-// Constructor & Deconstructor
 Win32Driver::Win32Driver()
-	: m_pKeyboard (new Win32Keyboard()),
-	  m_pMouse (new Win32Mouse())
 {
 }
 
 Win32Driver::~Win32Driver()
 {
-	SAFE_RELEASE(m_pKeyboard);
-	SAFE_RELEASE(m_pMouse);
 }
 
-// Member Functions
-void Win32Driver::Initialise(HWND * Handle)
+void Win32Driver::initialise(HWND * handle)
 {
-	// Get applications instance
-	HINSTANCE Inst = GetModuleHandle(NULL);
-	
-	// Create the direct input driver
-	DirectInput8Create(Inst, DIRECTINPUT_VERSION, IID_IDirectInput8, (void **)&m_pDriver,NULL);
+    HINSTANCE instance = GetModuleHandle(NULL);
+    DirectInput8Create(instance, DIRECTINPUT_VERSION, IID_IDirectInput8, (void**)&driver, NULL);
+    this->handle = handle;
 
-	// Set the handle
-	m_pHandle = Handle;
+    driver->CreateDevice(GUID_SysKeyboard, (Win32Device *)&keyboard, NULL);
+    driver->CreateDevice(GUID_SysMouse, (Win32Device *)&mouse, NULL);
 
-	// Create both input devices
-	m_pDriver->CreateDevice(GUID_SysKeyboard, (Win32Device *)m_pKeyboard, NULL);
-	m_pDriver->CreateDevice(GUID_SysMouse, (Win32Device *)m_pMouse, NULL);
-
-	// Initialise input
-	m_pKeyboard->InitialiseInput(m_pHandle);
-	m_pMouse->InitialiseInput(m_pHandle);
+    keyboard.initialiseInput(handle);
+    mouse.initialiseInput(handle);
 }
 
-void Win32Driver::update()
+void Win32Driver::onUpdate()
 {
-	// Get current scene
-	auto Scene = SceneManager::get()->getCurrent();
+    auto scene = SceneManager::get()->getCurrent();
 
-	// Update & Present data to the scene
-	m_pKeyboard->UpdateInput();
-	m_pKeyboard->OutputInput(Scene);
-	m_pKeyboard->RemoveMsgs();
+    keyboard.updateInput();
+    keyboard.outputInput(scene);
+    keyboard.removeMsgs();
 
-	m_pMouse->UpdateInput();
-	m_pMouse->OutputInput(Scene);
-	m_pMouse->RemoveMsgs();
+    mouse.updateInput();
+    mouse.outputInput(scene);
+    mouse.removeMsgs();
 }
 
-// Get & Set Functions
 Win32Driver::Win32Controller Win32Driver::getDirectInput()
 {
-	return m_pDriver;
+    return driver;
 }
 
-Win32Keyboard * Win32Driver::getKeyboard()
+Win32Keyboard* Win32Driver::getKeyboard()
 {
-	return m_pKeyboard;
+    return &keyboard;
 }
 
-Win32Mouse * Win32Driver::getMouse()
+Win32Mouse* Win32Driver::getMouse()
 {
-	return m_pMouse;
+    return &mouse;
 }
 
-HWND * Win32Driver::getWindowHandle()
+HWND* Win32Driver::getWindowHandle()
 {
-	return m_pHandle;
+    return handle;
 }

@@ -1,6 +1,6 @@
 
 #include "StaticModel.h"
-#include "GL_Shader_Manager.h"
+#include "ShaderManagerGL.h"
 #include "SurfaceBuilder.h"
 #include "SurfaceManager.h"
 
@@ -138,7 +138,7 @@ GLvoid StaticModel::Load(const std::string& sFilePath, const std::string& sTextu
 				}
 				else
 				{
-					GL_Texture * Texture = new GL_Texture();
+					TextureGL * Texture = new TextureGL();
 					Texture->setTexture(FullPath, GL_REPEAT);
 					Texture->Prepare();
 					//std::cout << FullPath.c_str() << std::endl;
@@ -191,7 +191,7 @@ GLvoid StaticModel::Prepare()
 	GLchar * vs = "data/shaders/model.vert";
 	GLchar * fs = "data/shaders/model.frag";
 
-	m_pShader = GL_Shader_Manager::get()->GetShader(vs, fs);
+	m_pShader = ShaderManagerGL::get()->GetShader(vs, fs);
 
 	glBindVertexArray(0);
 }

@@ -7,6 +7,9 @@
     <Filter Include="Framework">
       <UniqueIdentifier>{a41170d7-0d60-49cc-a8b4-cb84c0f76e42}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Framework\TODO">
+      <UniqueIdentifier>{3e5aaaa7-fd5e-4e73-a431-4e9b60b4bab1}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
@@ -23,39 +26,6 @@
     </ClCompile>
     <ClCompile Include="DemoOptions.cpp">
       <Filter>Game</Filter>
-    </ClCompile>
-    <ClCompile Include="AudioSource.cpp">
-      <Filter>Framework</Filter>
-    </ClCompile>
-    <ClCompile Include="AudioObject.cpp">
-      <Filter>Framework</Filter>
-    </ClCompile>
-    <ClCompile Include="AudioNode.cpp">
-      <Filter>Framework</Filter>
-    </ClCompile>
-    <ClCompile Include="AudioPlayer.cpp">
-      <Filter>Framework</Filter>
-    </ClCompile>
-    <ClCompile Include="GL_Texture_Manager.cpp">
-      <Filter>Framework</Filter>
-    </ClCompile>
-    <ClCompile Include="SurfaceManager.cpp">
-      <Filter>Framework</Filter>
-    </ClCompile>
-    <ClCompile Include="GL_Shader_Manager.cpp">
-      <Filter>Framework</Filter>
-    </ClCompile>
-    <ClCompile Include="SceneManager.cpp">
-      <Filter>Framework</Filter>
-    </ClCompile>
-    <ClCompile Include="SurfaceBuilder.cpp">
-      <Filter>Framework</Filter>
-    </ClCompile>
-    <ClCompile Include="Surface.cpp">
-      <Filter>Framework</Filter>
-    </ClCompile>
-    <ClCompile Include="SubSurface.cpp">
-      <Filter>Framework</Filter>
     </ClCompile>
     <ClCompile Include="Win32Window.cpp">
       <Filter>Framework</Filter>
@@ -75,53 +45,86 @@
     <ClCompile Include="Win32System.cpp">
       <Filter>Framework</Filter>
     </ClCompile>
-    <ClCompile Include="ThirdPersonCamera.cpp">
-      <Filter>Framework</Filter>
+    <ClCompile Include="AudioNode.cpp">
+      <Filter>Framework\TODO</Filter>
     </ClCompile>
-    <ClCompile Include="FreeCamera.cpp">
-      <Filter>Framework</Filter>
+    <ClCompile Include="AudioObject.cpp">
+      <Filter>Framework\TODO</Filter>
     </ClCompile>
-    <ClCompile Include="FirstPersonCamera.cpp">
-      <Filter>Framework</Filter>
+    <ClCompile Include="AudioPlayer.cpp">
+      <Filter>Framework\TODO</Filter>
     </ClCompile>
-    <ClCompile Include="GL_Renderer.cpp">
-      <Filter>Framework</Filter>
-    </ClCompile>
-    <ClCompile Include="GL_Texture.cpp">
-      <Filter>Framework</Filter>
-    </ClCompile>
-    <ClCompile Include="GL_Text.cpp">
-      <Filter>Framework</Filter>
-    </ClCompile>
-    <ClCompile Include="GL_Skybox.cpp">
-      <Filter>Framework</Filter>
-    </ClCompile>
-    <ClCompile Include="GL_Program.cpp">
-      <Filter>Framework</Filter>
-    </ClCompile>
-    <ClCompile Include="StaticModel.cpp">
-      <Filter>Framework</Filter>
-    </ClCompile>
-    <ClCompile Include="DynamicModel.cpp">
-      <Filter>Framework</Filter>
-    </ClCompile>
-    <ClCompile Include="GL_Minimap.cpp">
-      <Filter>Framework</Filter>
-    </ClCompile>
-    <ClCompile Include="GL_Matrix.cpp">
-      <Filter>Framework</Filter>
-    </ClCompile>
-    <ClCompile Include="GL_Heightmap.cpp">
-      <Filter>Framework</Filter>
-    </ClCompile>
-    <ClCompile Include="GL_PostProcessor.cpp">
-      <Filter>Framework</Filter>
+    <ClCompile Include="AudioSource.cpp">
+      <Filter>Framework\TODO</Filter>
     </ClCompile>
     <ClCompile Include="Button.cpp">
-      <Filter>Framework</Filter>
+      <Filter>Framework\TODO</Filter>
     </ClCompile>
-    <ClCompile Include="GL_MapOverlay.cpp">
-      <Filter>Framework</Filter>
+    <ClCompile Include="DynamicModel.cpp">
+      <Filter>Framework\TODO</Filter>
+    </ClCompile>
+    <ClCompile Include="FirstPersonCamera.cpp">
+      <Filter>Framework\TODO</Filter>
+    </ClCompile>
+    <ClCompile Include="FreeCamera.cpp">
+      <Filter>Framework\TODO</Filter>
+    </ClCompile>
+    <ClCompile Include="HeightmapGL.cpp">
+      <Filter>Framework\TODO</Filter>
+    </ClCompile>
+    <ClCompile Include="MapOverlayGL.cpp">
+      <Filter>Framework\TODO</Filter>
+    </ClCompile>
+    <ClCompile Include="MatrixGL.cpp">
+      <Filter>Framework\TODO</Filter>
+    </ClCompile>
+    <ClCompile Include="MinimapGL.cpp">
+      <Filter>Framework\TODO</Filter>
+    </ClCompile>
+    <ClCompile Include="PostProcessorGL.cpp">
+      <Filter>Framework\TODO</Filter>
+    </ClCompile>
+    <ClCompile Include="ProgramGL.cpp">
+      <Filter>Framework\TODO</Filter>
+    </ClCompile>
+    <ClCompile Include="RendererGL.cpp">
+      <Filter>Framework\TODO</Filter>
+    </ClCompile>
+    <ClCompile Include="ShaderManagerGL.cpp">
+      <Filter>Framework\TODO</Filter>
+    </ClCompile>
+    <ClCompile Include="SkyboxGL.cpp">
+      <Filter>Framework\TODO</Filter>
+    </ClCompile>
+    <ClCompile Include="TextGL.cpp">
+      <Filter>Framework\TODO</Filter>
+    </ClCompile>
+    <ClCompile Include="TextureGL.cpp">
+      <Filter>Framework\TODO</Filter>
+    </ClCompile>
+    <ClCompile Include="TextureManagerGL.cpp">
+      <Filter>Framework\TODO</Filter>
+    </ClCompile>
+    <ClCompile Include="SceneManager.cpp">
+      <Filter>Framework\TODO</Filter>
+    </ClCompile>
+    <ClCompile Include="StaticModel.cpp">
+      <Filter>Framework\TODO</Filter>
+    </ClCompile>
+    <ClCompile Include="SubSurface.cpp">
+      <Filter>Framework\TODO</Filter>
+    </ClCompile>
+    <ClCompile Include="Surface.cpp">
+      <Filter>Framework\TODO</Filter>
+    </ClCompile>
+    <ClCompile Include="SurfaceBuilder.cpp">
+      <Filter>Framework\TODO</Filter>
+    </ClCompile>
+    <ClCompile Include="SurfaceManager.cpp">
+      <Filter>Framework\TODO</Filter>
+    </ClCompile>
+    <ClCompile Include="ThirdPersonCamera.cpp">
+      <Filter>Framework\TODO</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -136,39 +139,6 @@
     </ClInclude>
     <ClInclude Include="DemoOptions.h">
       <Filter>Game</Filter>
-    </ClInclude>
-    <ClInclude Include="AudioSource.h">
-      <Filter>Framework</Filter>
-    </ClInclude>
-    <ClInclude Include="AudioObject.h">
-      <Filter>Framework</Filter>
-    </ClInclude>
-    <ClInclude Include="AudioNode.h">
-      <Filter>Framework</Filter>
-    </ClInclude>
-    <ClInclude Include="AudioPlayer.h">
-      <Filter>Framework</Filter>
-    </ClInclude>
-    <ClInclude Include="GL_Texture_Manager.h">
-      <Filter>Framework</Filter>
-    </ClInclude>
-    <ClInclude Include="SurfaceManager.h">
-      <Filter>Framework</Filter>
-    </ClInclude>
-    <ClInclude Include="GL_Shader_Manager.h">
-      <Filter>Framework</Filter>
-    </ClInclude>
-    <ClInclude Include="SceneManager.h">
-      <Filter>Framework</Filter>
-    </ClInclude>
-    <ClInclude Include="SurfaceBuilder.h">
-      <Filter>Framework</Filter>
-    </ClInclude>
-    <ClInclude Include="Surface.h">
-      <Filter>Framework</Filter>
-    </ClInclude>
-    <ClInclude Include="SubSurface.h">
-      <Filter>Framework</Filter>
     </ClInclude>
     <ClInclude Include="Win32Window.h">
       <Filter>Framework</Filter>
@@ -194,62 +164,95 @@
     <ClInclude Include="Win32System.h">
       <Filter>Framework</Filter>
     </ClInclude>
-    <ClInclude Include="ICamera.h">
-      <Filter>Framework</Filter>
+    <ClInclude Include="AudioNode.h">
+      <Filter>Framework\TODO</Filter>
     </ClInclude>
-    <ClInclude Include="ThirdPersonCamera.h">
-      <Filter>Framework</Filter>
+    <ClInclude Include="AudioObject.h">
+      <Filter>Framework\TODO</Filter>
     </ClInclude>
-    <ClInclude Include="FreeCamera.h">
-      <Filter>Framework</Filter>
+    <ClInclude Include="AudioPlayer.h">
+      <Filter>Framework\TODO</Filter>
     </ClInclude>
-    <ClInclude Include="FirstPersonCamera.h">
-      <Filter>Framework</Filter>
-    </ClInclude>
-    <ClInclude Include="GL_Header.h">
-      <Filter>Framework</Filter>
-    </ClInclude>
-    <ClInclude Include="GL_Renderer.h">
-      <Filter>Framework</Filter>
-    </ClInclude>
-    <ClInclude Include="GL_Texture.h">
-      <Filter>Framework</Filter>
-    </ClInclude>
-    <ClInclude Include="GL_Text.h">
-      <Filter>Framework</Filter>
-    </ClInclude>
-    <ClInclude Include="GL_Skybox.h">
-      <Filter>Framework</Filter>
-    </ClInclude>
-    <ClInclude Include="GL_Program.h">
-      <Filter>Framework</Filter>
-    </ClInclude>
-    <ClInclude Include="IModel.h">
-      <Filter>Framework</Filter>
-    </ClInclude>
-    <ClInclude Include="StaticModel.h">
-      <Filter>Framework</Filter>
-    </ClInclude>
-    <ClInclude Include="DynamicModel.h">
-      <Filter>Framework</Filter>
-    </ClInclude>
-    <ClInclude Include="GL_Minimap.h">
-      <Filter>Framework</Filter>
-    </ClInclude>
-    <ClInclude Include="GL_Matrix.h">
-      <Filter>Framework</Filter>
-    </ClInclude>
-    <ClInclude Include="GL_Heightmap.h">
-      <Filter>Framework</Filter>
-    </ClInclude>
-    <ClInclude Include="GL_PostProcessor.h">
-      <Filter>Framework</Filter>
+    <ClInclude Include="AudioSource.h">
+      <Filter>Framework\TODO</Filter>
     </ClInclude>
     <ClInclude Include="Button.h">
-      <Filter>Framework</Filter>
+      <Filter>Framework\TODO</Filter>
     </ClInclude>
-    <ClInclude Include="GL_MapOverlay.h">
-      <Filter>Framework</Filter>
+    <ClInclude Include="DynamicModel.h">
+      <Filter>Framework\TODO</Filter>
+    </ClInclude>
+    <ClInclude Include="FirstPersonCamera.h">
+      <Filter>Framework\TODO</Filter>
+    </ClInclude>
+    <ClInclude Include="FreeCamera.h">
+      <Filter>Framework\TODO</Filter>
+    </ClInclude>
+    <ClInclude Include="MajorInclude.h">
+      <Filter>Framework\TODO</Filter>
+    </ClInclude>
+    <ClInclude Include="HeightmapGL.h">
+      <Filter>Framework\TODO</Filter>
+    </ClInclude>
+    <ClInclude Include="MapOverlayGL.h">
+      <Filter>Framework\TODO</Filter>
+    </ClInclude>
+    <ClInclude Include="MatrixGL.h">
+      <Filter>Framework\TODO</Filter>
+    </ClInclude>
+    <ClInclude Include="MinimapGL.h">
+      <Filter>Framework\TODO</Filter>
+    </ClInclude>
+    <ClInclude Include="PostProcessorGL.h">
+      <Filter>Framework\TODO</Filter>
+    </ClInclude>
+    <ClInclude Include="ProgramGL.h">
+      <Filter>Framework\TODO</Filter>
+    </ClInclude>
+    <ClInclude Include="RendererGL.h">
+      <Filter>Framework\TODO</Filter>
+    </ClInclude>
+    <ClInclude Include="ShaderManagerGL.h">
+      <Filter>Framework\TODO</Filter>
+    </ClInclude>
+    <ClInclude Include="SkyboxGL.h">
+      <Filter>Framework\TODO</Filter>
+    </ClInclude>
+    <ClInclude Include="TextGL.h">
+      <Filter>Framework\TODO</Filter>
+    </ClInclude>
+    <ClInclude Include="TextureGL.h">
+      <Filter>Framework\TODO</Filter>
+    </ClInclude>
+    <ClInclude Include="TextureManagerGL.h">
+      <Filter>Framework\TODO</Filter>
+    </ClInclude>
+    <ClInclude Include="ICamera.h">
+      <Filter>Framework\TODO</Filter>
+    </ClInclude>
+    <ClInclude Include="IModel.h">
+      <Filter>Framework\TODO</Filter>
+    </ClInclude>
+    <ClInclude Include="SceneManager.h">
+      <Filter>Framework\TODO</Filter>
+    </ClInclude>
+    <ClInclude Include="StaticModel.h">
+      <Filter>Framework\TODO</Filter>
+    </ClInclude>
+    <ClInclude Include="SubSurface.h">
+      <Filter>Framework\TODO</Filter>
+    </ClInclude>
+    <ClInclude Include="Surface.h">
+      <Filter>Framework\TODO</Filter>
+    </ClInclude>
+    <ClInclude Include="SurfaceBuilder.h">
+      <Filter>Framework\TODO</Filter>
+    </ClInclude>
+    <ClInclude Include="SurfaceManager.h">
+      <Filter>Framework\TODO</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdPersonCamera.h">
+      <Filter>Framework\TODO</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

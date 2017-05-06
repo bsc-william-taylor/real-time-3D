@@ -2,7 +2,7 @@
 
 #pragma once
 
-#include "GL_Matrix.h"
+#include "MinimapGL.h"
 
 class IModel 
 {

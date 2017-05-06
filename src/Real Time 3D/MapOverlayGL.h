@@ -1,10 +1,10 @@
 
 #pragma once
 
-#include "GL_Texture_Manager.h"
-#include "GL_Program.h"
+#include "TextureManagerGL.h"
+#include "ProgramGL.h"
 
-class GL_MapOverlay
+class MapOverlayGL
 {
 private:
 
@@ -13,8 +13,8 @@ private:
 
 public:
 
-	GL_MapOverlay();
-	~GL_MapOverlay();
+	MapOverlayGL();
+	~MapOverlayGL();
 
 	GLvoid SetOverlayImage(const std::string&);
 	GLvoid SetOverlayMap(const std::string&);

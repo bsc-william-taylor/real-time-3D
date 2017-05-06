@@ -94,7 +94,7 @@ void Surface::render()
 
 void Surface::Setup()
 {
-	m_pProgram = GL_Shader_Manager::get()->GetShader("data/shaders/box.vert", "data/shaders/box.frag");
+	m_pProgram = ShaderManagerGL::get()->GetShader("data/shaders/box.vert", "data/shaders/box.frag");
 
 	vector<vec3> m_Faces;
 

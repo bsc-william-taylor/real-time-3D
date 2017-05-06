@@ -8,7 +8,7 @@
 
  ------------------------------------------------- */
 
-#include "GL_Matrix.h"
+#include "MatrixGL.h"
 
 // Constructor & Deconstructor
 GL_Matrix::GL_Matrix()

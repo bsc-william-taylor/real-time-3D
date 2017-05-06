@@ -194,7 +194,7 @@ GLvoid DynamicModel::ReadMD2Model(const GLchar *filename, GLboolean bound)
 	animVerts = new GLfloat[vertDataSize];
 	memcpy(animVerts,vertData[0],vertDataSize*sizeof(float));
 
-	Program = GL_Shader_Manager::get()->GetShader("data/shaders/model.vert", "data/shaders/model.frag");
+	Program = ShaderManagerGL::get()->GetShader("data/shaders/model.vert", "data/shaders/model.frag");
 
 
 	// generate and set up a VAO for the mesh

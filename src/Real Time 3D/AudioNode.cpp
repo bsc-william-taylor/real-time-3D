@@ -12,9 +12,9 @@ AudioNode::~AudioNode()
 
 GLvoid AudioNode::Initialise(vec3 p, vec3 s)
 {	
-	m_pShader = GL_Shader_Manager::get()->GetShader("data/shaders/cube.vert", "data/shaders/cube.frag");
+	m_pShader = ShaderManagerGL::get()->GetShader("data/shaders/cube.vert", "data/shaders/cube.frag");
 
-	m_pSprite = new GL_Texture();
+	m_pSprite = new TextureGL();
 	m_pSprite->setTexture("data/img/audio.png", GL_CLAMP_TO_EDGE);
 	m_pSprite->Prepare();
 
@@ -22,7 +22,6 @@ GLvoid AudioNode::Initialise(vec3 p, vec3 s)
 	m_pMatrix->LoadIdenditity();
 	m_pMatrix->Perspective(70.0f, vec2(16, 9), vec2(0.1, 10000));
 
-	#pragma region Texture Positions
 	GLfloat texpos[] = {
 		0.0, 1.0,	1.0, 1.0, 
 		1.0, 0.0,	1.0, 0.0, 
@@ -40,8 +39,7 @@ GLvoid AudioNode::Initialise(vec3 p, vec3 s)
 		0.0, 0.0,	0.0, 0.0,
 		0.0, 0.0,	0.0, 0.0,
 	};
-	#pragma endregion
-	#pragma region Position
+
 	vec3 positions[] = 
 	{
 		// Back face
@@ -67,7 +65,7 @@ GLvoid AudioNode::Initialise(vec3 p, vec3 s)
 		vec3(p.x, p.y, s.z), vec3(s.x, p.y, s.z), vec3(s.x, p.y, p.z), 
 		vec3(s.x, p.y, p.z), vec3(p.x, p.y, p.z), vec3(p.x, p.y, s.z),
 	};
-	#pragma endregion
+
 
 	glGenVertexArrays(1, &VAO);
 	glBindVertexArray(VAO);
@@ -99,4 +97,9 @@ GLvoid AudioNode::render()
 	glBindVertexArray(0);
 
 	m_pShader->Release();
+}
+
+GL_Matrix * AudioNode::getMatrix()
+{
+    return m_pMatrix;
 }

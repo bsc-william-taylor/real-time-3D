@@ -124,7 +124,7 @@ GLvoid FreeCamera::setPitch(GLfloat pitch)
 	m_Pitch = pitch;
 }
 
-void FreeCamera::Initialise(GL_Renderer * world)
+void FreeCamera::Initialise(RendererGL * world)
 {
 	m_pWorld = world;
 }

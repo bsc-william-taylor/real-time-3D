@@ -12,29 +12,29 @@
 
 #pragma once
 
-#include "GL_Program.h" 
+#include "ProgramGL.h" 
 
-class GL_Shader_Manager
+class ShaderManagerGL
 {
 private:
 
-	static GL_Shader_Manager * m_pInstance;
+	static ShaderManagerGL * m_pInstance;
 	vector<GL_Program *> m_Programs;
 
 public:
 
 	// Deconstructor
-	~GL_Shader_Manager();
+	~ShaderManagerGL();
 
 	// Member Functions
 	GL_Program * GetShader(const std::string&, const std::string&);
 	GLvoid ReleaseShaders();
 
 	// Get Functions
-	static GL_Shader_Manager * get();
+	static ShaderManagerGL * get();
 
 private:
 
 	// Constructor
-	GL_Shader_Manager();
+	ShaderManagerGL();
 };

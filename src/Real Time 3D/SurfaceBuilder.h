@@ -1,7 +1,7 @@
 
 #pragma once
 
-#include "GL_Header.h"
+#include "MajorInclude.h"
 #include "Surface.h"
 
 class SurfaceBuilder

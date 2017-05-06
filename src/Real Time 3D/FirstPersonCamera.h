@@ -1,7 +1,7 @@
 
 #pragma once
 
-#include "GL_Renderer.h"
+#include "RendererGL.h"
 #include "Win32Codes.h"
 #include "ICamera.h"
 
@@ -9,7 +9,7 @@ class FirstPersonCamera : public ICamera
 {
 private:
 	
-	GL_Renderer * m_pWorld;
+	RendererGL * m_pWorld;
 	
 	GLfloat m_Rotation;
 	GLfloat m_Pitch;
@@ -23,7 +23,7 @@ public:
 	FirstPersonCamera();
 	~FirstPersonCamera();
 
-	GLvoid Initialise(GL_Renderer *);
+	GLvoid Initialise(RendererGL *);
 	GLvoid keyPress(int, int);
 	GLvoid motion(float, float);
 	GLvoid CancelMovement();

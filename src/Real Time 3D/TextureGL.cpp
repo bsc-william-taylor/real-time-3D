@@ -9,11 +9,11 @@
 
  ------------------------------------------------- */
 
-#include "GL_Texture.h"
-#include "GL_Texture_Manager.h"
+#include "TextureGL.h"
+#include "TextureManagerGL.h"
 
 // Constructor & Deconstructor
-GL_Texture::GL_Texture()
+TextureGL::TextureGL()
 	: m_Matrix(new GL_Matrix()),
 	  m_Filename("")
 {	
@@ -23,7 +23,7 @@ GL_Texture::GL_Texture()
 
 }
 
-GL_Texture::~GL_Texture()
+TextureGL::~TextureGL()
 {
 	delete m_Matrix;
 
@@ -32,12 +32,12 @@ GL_Texture::~GL_Texture()
 }
 
 // Member Functions
-GLvoid GL_Texture::SurfacePlacements(GLuint m)
+GLvoid TextureGL::SurfacePlacements(GLuint m)
 {
 	setTexturePositions(vec2(0.0, 0.0), vec2(m, m));
 }
 
-void GL_Texture::Prepare() 
+void TextureGL::Prepare() 
 {
 	GLchar * vs = "data/shaders/texture.vert";
 	GLchar * fs = "data/shaders/texture.frag";
@@ -45,7 +45,7 @@ void GL_Texture::Prepare()
 	vec3 s = m_Size;
 
 	m_Texture = GL_Textures::get()->CreateTexture(m_Filename, m_Setting);
-	m_pShader = GL_Shader_Manager::get()->GetShader(vs, fs);
+	m_pShader = ShaderManagerGL::get()->GetShader(vs, fs);
 
 	GLfloat data[] =  {
 		p.x, p.y, p.z, m_UV.x, m_UV.y,
@@ -70,40 +70,40 @@ void GL_Texture::Prepare()
 	glBindVertexArray(0);
 }
 
-vec4 GL_Texture::getShade()
+vec4 TextureGL::getShade()
 {
 	return this->m_Shade;
 }
 
 // Get & Set Functions
-const std::string& GL_Texture::getPath()
+const std::string& TextureGL::getPath()
 {
 	return m_Filename;
 }
 
-GLvoid GL_Texture::setPosition(vec3 p, vec3 s)
+GLvoid TextureGL::setPosition(vec3 p, vec3 s)
 {
 	m_Position = p;
 	m_Size = p + s;
 }
 
-GLvoid GL_Texture::setShade(vec4 vec)
+GLvoid TextureGL::setShade(vec4 vec)
 {
 	this->m_Shade = vec;
 }
 
-void GL_Texture::setTexture(std::string filename, GLenum e)
+void TextureGL::setTexture(std::string filename, GLenum e)
 {
 	m_Filename = filename;
 	m_Setting = e;
 }
 
-GLvoid GL_Texture::setTexturePositions(vec2 a, vec2 b)
+GLvoid TextureGL::setTexturePositions(vec2 a, vec2 b)
 {
 	m_UV = vec4(a, b);
 }
 
-GLuint GL_Texture::getID()
+GLuint TextureGL::getID()
 {
 	return m_Texture->m_ID;
 }

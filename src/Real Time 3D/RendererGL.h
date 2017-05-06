@@ -14,14 +14,14 @@
 
 #include "DynamicModel.h"
 #include "StaticModel.h"
-#include "GL_Heightmap.h"
-#include "GL_Texture.h"
-#include "GL_Skybox.h"
+#include "HeightmapGL.h"
+#include "TextureGL.h"
+#include "SkyboxGL.h"
 #include "AudioNode.h"
-#include "GL_Text.h"
+#include "TextGL.h"
 #include "Surface.h"
 
-class GL_Renderer
+class RendererGL
 {
 private:
 
@@ -29,11 +29,11 @@ private:
 	vector<Surface *> m_Surfaces;
 	vector<IModel *> m_Models;
 
-	vector<GL_Texture *> m_Textures;
-	vector<GL_Text *> m_Labels;
+	vector<TextureGL *> m_Textures;
+	vector<TextGL *> m_Labels;
 	
-	GL_Heightmap * heightmap;
-	GL_Skybox * m_Skybox;
+	HeightmapGL * heightmap;
+	SkyboxGL * m_Skybox;
 	
 	vec4 m_SurfaceSize;
 	vec2 a, b, c;
@@ -41,23 +41,23 @@ private:
 public:
 
 	// Constructor & Deconstuctor
-	GL_Renderer();	
-	~GL_Renderer();
+	RendererGL();	
+	~RendererGL();
 		
 	// Member Functions
-	GLvoid PushHeightmap(GL_Heightmap *);
+	GLvoid PushHeightmap(HeightmapGL *);
 	GLvoid PushAudioNode(AudioNode *);
-	GLvoid PushTexture(GL_Texture *);
-	GLvoid PushSkybox(GL_Skybox *);
+	GLvoid PushTexture(TextureGL *);
+	GLvoid PushSkybox(SkyboxGL *);
 	GLvoid PushModel(IModel *);
-	GLvoid PushText(GL_Text *);
+	GLvoid PushText(TextGL *);
 	
 	GLvoid PushSurface(Surface *);
 	GLvoid Prepare();
 	GLvoid update();
 	GLvoid render();
 
-	GLvoid RenderTexture(GL_Texture *);
+	GLvoid RenderTexture(TextureGL *);
 	GLvoid RenderModel(IModel *, mat4);
 	GLvoid Render3D(GLboolean);
 	GLvoid Render2D(GLboolean);
@@ -74,5 +74,5 @@ public:
 	// Get & Set Functions
 	GLvoid setSurfaceSize(vec4);
 
-	GL_Heightmap * getHeightmap(){ return heightmap; }
+	HeightmapGL * getHeightmap(){ return heightmap; }
 };

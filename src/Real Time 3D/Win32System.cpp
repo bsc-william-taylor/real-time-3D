@@ -1,85 +1,59 @@
 
-/* -------------------------------------------------
-  
- @Filename  : Win32System.cpp
- @author	: William Taylor
- @date		: 12/02/2014
- @purpose	: Class implementation.
-
- ------------------------------------------------- */
-
 #include "Win32System.h"
 
-// Constructor & Deconstrucor
-Win32System::Win32System()
-	: m_pWindow(new Win32Window()), 
-	  m_pInput(new Win32Driver()),
-	  m_Type(Window::WINDOWED),
-	  m_Quit(FALSE)
+Win32System::Win32System() :
+    type(WindowType::Windowed), quit(FALSE)
 {
 }
 
 Win32System::~Win32System()
 {
-	SAFE_RELEASE(m_pWindow);
-	SAFE_RELEASE(m_pInput);
 }
 
-// Member Functions
-bool Win32System::WindowRunning() 
+bool Win32System::windowRunning()
 {
-	return(m_pWindow->update());
+    return(window.onUpdate());
 }
 
-void Win32System::Show()
+void Win32System::initialise()
 {
-	UpdateWindow(m_pWindow->GetHandle());
-	ShowWindow(m_pWindow->GetHandle(), SW_SHOW);
+    window.initialise();
+    window.display(type);
+    window.enableOpenGL();
+
+    auto handle = window.GetHandle();
+    driver.initialise(&handle);
+    auto error = glewInit();
+
+    if (error != GLEW_OK)
+    {
+        printf("Error: %s\n", glewGetErrorString(error));
+        system("pause");
+    }
 }
 
-void Win32System::Initialise()
+void Win32System::swapWindowBuffers()
 {
-	// Initialise the window & opengl
-	m_pWindow->Initialise();
-	m_pWindow->Display(m_Type);
-	m_pWindow->EnableOpenGL();
-
-	// Initialise input
-	HWND Handle = m_pWindow->GetHandle();
-	m_pInput->Initialise(&Handle);
-
-	// And glew
-	GLenum error = glewInit();
-	if(error != GLEW_OK) 
-	{
-		printf("Error: %s\n", glewGetErrorString(error));
-		system("pause");
-	}
+    SwapBuffers(GetDC(window.GetHandle()));
 }
 
-void Win32System::SwapWindowBuffers()
+void Win32System::onUpdate()
 {
-	SwapBuffers(GetDC(m_pWindow->GetHandle()));
+    window.onUpdate();
+    driver.onUpdate();
 }
 
-void Win32System::update()
+void Win32System::setWindowType(WindowType type)
 {
-	m_pWindow->update();
-	m_pInput->update();
+    this->type = type;
 }
 
-// Get & Set Functions
-void Win32System::setWindowType(Window::Type type)
+void Win32System::setWindowTraits(CHAR * c, Region s)
 {
-	this->m_Type = type;
+    window.setTraits(c, s.x, s.y, s.w, s.h);
 }
 
-void Win32System::setWindowTraits(CHAR * c, Window::Sizes s)
+Win32Window* Win32System::getWindow()
 {
-	m_pWindow->setTraits(c, s.x, s.y, s.w, s.h);
-}
-
-Win32Window * Win32System::getWindow()
-{
-	return m_pWindow;
+    return &window;
 }

@@ -1,22 +1,22 @@
 
-#include "GL_Skybox.h"
+#include "SkyboxGL.h"
 
-GL_Skybox::GL_Skybox()
+SkyboxGL::SkyboxGL()
 {
 	m_Distance = 1000.0f;
 	m_Overdraw = 0.0f;
 
 	for(int i = 0; i < 5; i++)
 	{
-		m_SkyboxTextures.push_back(new GL_Texture());
+		m_SkyboxTextures.push_back(new TextureGL());
 	}
 }
 
-GL_Skybox::~GL_Skybox()
+SkyboxGL::~SkyboxGL()
 {
 }
 
-GLvoid GL_Skybox::Folder(std::string filename)
+GLvoid SkyboxGL::Folder(std::string filename)
 {
 	m_Filenames.push_back(filename + "right.jpg");
 	m_Filenames.push_back(filename + "front.jpg");
@@ -25,7 +25,7 @@ GLvoid GL_Skybox::Folder(std::string filename)
 	m_Filenames.push_back(filename + "top.jpg");
 }
 
-void GL_Skybox::update()
+void SkyboxGL::update()
 {
 	GLfloat position = (GLfloat)(m_Distance / 2.0f);
 
@@ -39,7 +39,7 @@ void GL_Skybox::update()
 	Left->Rotate(1.57079633f, vec3(0.0, 1.0, 0.0));
 }
 
-GLvoid GL_Skybox::Translate(vec3 vector)
+GLvoid SkyboxGL::Translate(vec3 vector)
 {
 	for(GLint i = 0; i < 5; i++)
 	{
@@ -47,7 +47,7 @@ GLvoid GL_Skybox::Translate(vec3 vector)
 	}
 }
 
-void GL_Skybox::Setup()
+void SkyboxGL::Setup()
 {	
 	vec3 Position[5];
 	vec3 Size[5];
@@ -75,17 +75,17 @@ void GL_Skybox::Setup()
 	}
 }
 
-vector<GL_Texture *>& GL_Skybox::getTextures()
+vector<TextureGL *>& SkyboxGL::getTextures()
 {
 	return m_SkyboxTextures;
 }
 
-GLvoid GL_Skybox::SetDistance(GLfloat distance)
+GLvoid SkyboxGL::SetDistance(GLfloat distance)
 {
 	m_Distance = distance;
 }
 
-GLvoid GL_Skybox::SetOverdraw(GLfloat overdraw)
+GLvoid SkyboxGL::SetOverdraw(GLfloat overdraw)
 {
 	m_Overdraw = overdraw;
 }

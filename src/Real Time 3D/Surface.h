@@ -3,8 +3,8 @@
 
 #include "SubSurface.h"
 
-#include "GL_Shader_Manager.h"
-#include "GL_Matrix.h"
+#include "ShaderManagerGL.h"
+#include "MinimapGL.h"
 
 class Surface
 {

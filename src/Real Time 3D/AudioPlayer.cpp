@@ -27,7 +27,7 @@ void AudioPlayer::PopClip(AudioObject * source)
 	std::remove(m_Playables.begin(), m_Playables.end(), source);
 }
 
-void AudioPlayer::Set3DRenderer(GL_Renderer * renderer)
+void AudioPlayer::Set3DRenderer(RendererGL * renderer)
 {
 	this->renderer = renderer;
 }

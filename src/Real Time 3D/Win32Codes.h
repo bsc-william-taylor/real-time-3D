@@ -1,18 +1,5 @@
 
-/* -------------------------------------------------
-  
- @Filename  : Win32Codes.h
- @author	: William Taylor
- @date		: 12/02/2014
-
- @purpose	: Simple include file when reading 
-			  states.
-
- ------------------------------------------------- */
-
 #pragma once
-
-// Usual Key MACROS.
 
 #define A_KEY           30											
 #define S_KEY           31											
@@ -163,8 +150,8 @@
 	Useful check funtions
 */
 
-#define KEY_HOLDING(k, i, b)( b == HOLDING && k == i ) ? true : false
-#define KEY_DOWN(k, i, b)( b == PRESSED && k == i ) ? true : false
-#define KEY_UP(k, i, b)( b == RELEASED && k == i ) ? true : false
+#define KEY_HOLDING(k, i, b)( b == HOLDING && k == i )
+#define KEY_DOWN(k, i, b)( b == PRESSED && k == i )
+#define KEY_UP(k, i, b)( b == RELEASED && k == i )
 
 // END

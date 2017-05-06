@@ -9,17 +9,17 @@
 
  ------------------------------------------------- */
 
-#include "GL_Shader_Manager.h"
+#include "ShaderManagerGL.h"
 
-GL_Shader_Manager * GL_Shader_Manager::m_pInstance = NULL;
+ShaderManagerGL * ShaderManagerGL::m_pInstance = NULL;
 
 // Constructor & Deconstructor
-GL_Shader_Manager::GL_Shader_Manager()
+ShaderManagerGL::ShaderManagerGL()
 {
 	m_Programs.reserve(10);
 }
 
-GL_Shader_Manager::~GL_Shader_Manager()
+ShaderManagerGL::~ShaderManagerGL()
 {
 	auto begin = m_Programs.cbegin();
 	auto end = m_Programs.cend();
@@ -33,7 +33,7 @@ GL_Shader_Manager::~GL_Shader_Manager()
 }
 
 // Member Functions
-GL_Program * GL_Shader_Manager::GetShader(const std::string& vs, const std::string& fs)
+GL_Program * ShaderManagerGL::GetShader(const std::string& vs, const std::string& fs)
 {
 	for(unsigned int i = 0; i < m_Programs.size(); i++)
 	{
@@ -59,11 +59,11 @@ GL_Program * GL_Shader_Manager::GetShader(const std::string& vs, const std::stri
 }
 
 // Set & Get Functions
-GL_Shader_Manager * GL_Shader_Manager::get()
+ShaderManagerGL * ShaderManagerGL::get()
 {
 	if(m_pInstance == NULL)
 	{
-		m_pInstance = new GL_Shader_Manager();
+		m_pInstance = new ShaderManagerGL();
 	}
 
 	return m_pInstance;

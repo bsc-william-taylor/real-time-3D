@@ -1,7 +1,7 @@
 
 #pragma once
 
-#include "GL_Header.h"
+#include "MajorInclude.h"
 
 class ICamera
 {

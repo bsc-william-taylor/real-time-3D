@@ -1,26 +1,26 @@
 
-#include "GL_PostProcessor.h"
+#include "PostProcessorGL.h"
 
-GL_PostProcessor::GL_PostProcessor()
+PostProcessorGL::PostProcessorGL()
 	: m_pMatrix(new GL_Matrix())
 {
 	colour = vec4(1.0, 1.0, 1.0, 1.0);
 	Passes = 1;
 }
 
-GL_PostProcessor::~GL_PostProcessor()
+PostProcessorGL::~PostProcessorGL()
 {
 	SAFE_RELEASE(m_pMatrix);
 }
 
-GLvoid GL_PostProcessor::Enable()
+GLvoid PostProcessorGL::Enable()
 {
 	glBindFramebuffer(GL_FRAMEBUFFER, FrameBuffer);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glClearColor(1.0, 1.0, 1.0, 1.0);
 }
 
-GLvoid GL_PostProcessor::execute()
+GLvoid PostProcessorGL::execute()
 {
 	m_pProgram->Use();
 	m_pProgram->setMatrix("Projection", m_pMatrix->getProjection());
@@ -45,7 +45,7 @@ GLvoid GL_PostProcessor::execute()
 	m_pProgram->Release();
 }
 
-GLvoid GL_PostProcessor::Initialise(GLuint w, GLuint h)
+GLvoid PostProcessorGL::Initialise(GLuint w, GLuint h)
 {
 	VertexArrayObject = NULL;
 
@@ -71,7 +71,7 @@ GLvoid GL_PostProcessor::Initialise(GLuint w, GLuint h)
 	GLchar * vs = "data/shaders/postprocessor.vert";
 	GLchar * fs = "data/shaders/postprocessor.frag";
 	 
-	m_pProgram = GL_Shader_Manager::get()->GetShader(vs, fs);
+	m_pProgram = ShaderManagerGL::get()->GetShader(vs, fs);
 
 	m_pMatrix->Ortho(vec2(0, w), vec2(0, h));
 
@@ -103,7 +103,7 @@ GLvoid GL_PostProcessor::Initialise(GLuint w, GLuint h)
 	glBindVertexArray(0);
 }
 
-GLvoid GL_PostProcessor::setColourChannels(vec4 vec)
+GLvoid PostProcessorGL::setColourChannels(vec4 vec)
 {
 	colour = vec;
 }

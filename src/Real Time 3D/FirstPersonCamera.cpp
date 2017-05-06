@@ -123,7 +123,7 @@ GLvoid FirstPersonCamera::setPitch(GLfloat pitch)
 	m_Pitch = pitch;
 }
 
-void FirstPersonCamera::Initialise(GL_Renderer * world)
+void FirstPersonCamera::Initialise(RendererGL * world)
 {
 	m_pWorld = world;
 }

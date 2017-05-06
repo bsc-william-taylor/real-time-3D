@@ -1,8 +1,8 @@
 
 #pragma once
 
-#include "GL_Program.h"
-#include "GL_Texture.h"
+#include "ProgramGL.h"
+#include "TextureGL.h"
 #include "SubSurface.h"
 #include "Surface.h"
 #include "IModel.h"

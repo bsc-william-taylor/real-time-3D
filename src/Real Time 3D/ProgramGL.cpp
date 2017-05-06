@@ -8,7 +8,7 @@
 
  ------------------------------------------------- */
 
-#include "GL_Program.h"
+#include "ProgramGL.h"
 
 // Constructor & Deconstructor
 GL_Program::GL_Program() 

@@ -11,10 +11,10 @@
 
 #pragma once
 
-#include "GL_Texture_Manager.h"
-#include "GL_Texture.h"
+#include "TextureManagerGL.h"
+#include "TextureGL.h"
 
-class GL_Text
+class TextGL
 {
 private:
 
@@ -35,8 +35,8 @@ private:
 public:
 
 	// Constructor & Deconstructor
-	GL_Text();
-	~GL_Text();
+	TextGL();
+	~TextGL();
 
 	// Member Functions
 	GLvoid render();

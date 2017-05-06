@@ -1,8 +1,8 @@
 
-#include "GL_Shader_Manager.h"
-#include "GL_Heightmap.h"
+#include "ShaderManagerGL.h"
+#include "HeightmapGL.h"
 
-GL_Heightmap::GL_Heightmap()
+HeightmapGL::HeightmapGL()
 	: m_Filename(""), 
 	  m_Scale(50),
 	   m_Matrix (new GL_Matrix())
@@ -21,12 +21,12 @@ GL_Heightmap::GL_Heightmap()
 	glBindVertexArray(0);
 }
 
-GL_Heightmap::~GL_Heightmap()
+HeightmapGL::~HeightmapGL()
 {
 	
 }
 
-GLfloat GL_Heightmap::getY(GLuint x, GLuint z)
+GLfloat HeightmapGL::getY(GLuint x, GLuint z)
 {
 	GLfloat y = 0.0f;
 
@@ -43,12 +43,12 @@ GLfloat GL_Heightmap::getY(GLuint x, GLuint z)
 	return(y);
 }
 
-GLvoid GL_Heightmap::setScale(GLuint scale)
+GLvoid HeightmapGL::setScale(GLuint scale)
 {
 	m_Scale = scale;
 }
 
-GLvoid GL_Heightmap::Prepare()
+GLvoid HeightmapGL::Prepare()
 {
 	m_HeightMap = GL_Textures::get()->CreateTexture(m_Filename, GL_CLAMP_TO_EDGE);
 	m_Texture = GL_Textures::get()->CreateTexture(m_TexFiles, GL_REPEAT);
@@ -160,41 +160,41 @@ GLvoid GL_Heightmap::Prepare()
 	GLchar * vs = "data/shaders/heightmap.vert";
 	GLchar * fs = "data/shaders/heightmap.frag";
 	
-	m_pShader = GL_Shader_Manager::get()->GetShader(vs, fs);
+	m_pShader = ShaderManagerGL::get()->GetShader(vs, fs);
 }
 
-GLfloat GL_Heightmap::getMapY(vec3 camera)
+GLfloat HeightmapGL::getMapY(vec3 camera)
 {
 	m_HeightMap->Height;
 	m_HeightMap->Width;
 	return 0;
 }
 
-GLvoid GL_Heightmap::update()
+GLvoid HeightmapGL::update()
 {
 	m_Matrix->LoadIdenditity();
 	m_Matrix->Translate(vec3(0, -59.5, 0));
 	m_Matrix->Scale(vec3(24, 1, 24));
 }
 
-vec3 GL_Heightmap::getNormal(vec3 v1, vec3 v2, vec3 v3)
+vec3 HeightmapGL::getNormal(vec3 v1, vec3 v2, vec3 v3)
 {
 	vec3 Normal = glm::cross(v2 - v1, v3 - v1);
 	Normal = glm::normalize(Normal);
 	return(Normal);
 }
 
-GLvoid GL_Heightmap::setMapTexture(std::string m_file)
+GLvoid HeightmapGL::setMapTexture(std::string m_file)
 {
 	m_TexFiles = m_file;
 }
 
-GLvoid GL_Heightmap::PushOverlay(GL_MapOverlay * overlay)
+GLvoid HeightmapGL::PushOverlay(MapOverlayGL * overlay)
 {
 	m_Overlays.push_back(overlay);
 }
 
-GLvoid GL_Heightmap::Draw()
+GLvoid HeightmapGL::Draw()
 {
 	m_pShader->Use();
 	glBindVertexArray(VertexArrayObject);
@@ -223,7 +223,7 @@ GLvoid GL_Heightmap::Draw()
 	glBindTexture(GL_TEXTURE_2D, 0);
 }
 
-GLvoid GL_Heightmap::setHeightMap(std::string filename)
+GLvoid HeightmapGL::setHeightMap(std::string filename)
 {
 	m_Filename = filename;
 }

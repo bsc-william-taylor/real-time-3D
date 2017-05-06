@@ -2,15 +2,15 @@
 #pragma once
 
 #include "SceneManager.h"
-#include "GL_Renderer.h"
-#include "GL_Texture.h"
+#include "RendererGL.h"
+#include "TextureGL.h"
 #include "Button.h"
 
 class DemoOptions : public Scene
 {
-    GL_Renderer renderer;
-    GL_Texture texture;
-    GL_Text header;
+    RendererGL renderer;
+    TextureGL texture;
+    TextGL header;
 
     Button showCollisionBoxes;
     Button enablePostEffects;

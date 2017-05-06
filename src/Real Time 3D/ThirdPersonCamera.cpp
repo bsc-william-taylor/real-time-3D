@@ -163,7 +163,7 @@ GLvoid ThirdPersonCamera::setPitch(GLfloat pitch)
 	m_Pitch = pitch;
 }
 
-void ThirdPersonCamera::Initialise(GL_Renderer * world)
+void ThirdPersonCamera::Initialise(RendererGL * world)
 {
 	m_pWorld = world;
 }

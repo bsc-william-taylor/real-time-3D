@@ -8,10 +8,10 @@
 
  ------------------------------------------------- */
 
-#include "GL_Text.h"
+#include "TextGL.h"
 
 // Constructor & Deconstructor
-GL_Text::GL_Text()
+TextGL::TextGL()
 	: m_FontSize(12), 
 	  m_Face(NULL),
 	  m_Matrix (new GL_Matrix())
@@ -24,24 +24,24 @@ GL_Text::GL_Text()
 	loaded = GL_FALSE;
 }
 
-GL_Text::~GL_Text()
+TextGL::~TextGL()
 {
 	FT_Done_Face(m_Face);
 	FT_Done_FreeType(m_Library);
 }
 
-GLvoid GL_Text::Prepare()
+GLvoid TextGL::Prepare()
 {
 	
 }
 
-GLvoid GL_Text::update()
+GLvoid TextGL::update()
 {
 	m_Matrix->LoadIdenditity();
 	m_Matrix->Ortho(vec2(0, 1280), vec2(0, 720));
 }
 
-GLvoid GL_Text::render()
+GLvoid TextGL::render()
 {
 	glBindVertexArray(0);
 
@@ -111,7 +111,7 @@ GLvoid GL_Text::render()
 }
 
 // Set & Get Functions
-GLvoid GL_Text::setSize(GLuint size)
+GLvoid TextGL::setSize(GLuint size)
 {
 	if(m_Face == NULL)
 	{
@@ -127,10 +127,10 @@ GLvoid GL_Text::setSize(GLuint size)
 	const char * vs = "data/shaders/text.vert";
 	const char * fs = "data/shaders/text.frag";
 
-	m_pShader = GL_Shader_Manager::get()->GetShader(vs, fs);
+	m_pShader = ShaderManagerGL::get()->GetShader(vs, fs);
 }
 
-GLuint GL_Text::getHeight()
+GLuint TextGL::getHeight()
 {
 	GLuint Height = NULL;
 	for(GLuint i = 0; i < m_Text.size(); i++)
@@ -143,7 +143,7 @@ GLuint GL_Text::getHeight()
 	return(Height/m_Text.size());
 }
 
-GLuint GL_Text::getWidth()
+GLuint TextGL::getWidth()
 {
 	GLuint Width = NULL;
 	for(GLuint i = 0; i < m_Text.size(); i++)
@@ -157,17 +157,17 @@ GLuint GL_Text::getWidth()
 	return Width;
 }
 
-GLvoid GL_Text::setPosition(vec2 pos)
+GLvoid TextGL::setPosition(vec2 pos)
 {
 	m_Position = pos;
 }
 
-GLvoid GL_Text::setFont(std::string filename)
+GLvoid TextGL::setFont(std::string filename)
 {
 	m_Fontname = filename;
 }
 
-GLvoid GL_Text::setText(std::string text)
+GLvoid TextGL::setText(std::string text)
 {
 	m_Text = text;
 }

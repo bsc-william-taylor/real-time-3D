@@ -12,7 +12,7 @@
 
 #pragma once
 
-#include "GL_Header.h"
+#include "MajorInclude.h"
 
 #pragma region Custom Types
 struct GL_Sprite
@@ -28,19 +28,19 @@ struct GL_Sprite
 
 #pragma endregion
 
-class GL_TextureManager
+class TextureManagerGL
 {
 private:
 
-	static GL_TextureManager * m_pManager;		// Singletons Instance
+	static TextureManagerGL * m_pManager;		// Singletons Instance
 	vector<GL_Sprite *> m_Textures;				// Store all textures created for memory checking
 
 public:
 
 	// Deconstructor
-	~GL_TextureManager();
+	~TextureManagerGL();
 
-	static GL_TextureManager * get();			// Static get function for accessing the class
+	static TextureManagerGL * get();			// Static get function for accessing the class
 
 	// Member Functions
 	GL_Sprite * CreateTexture(GLubyte *, GLuint, GLuint, GLenum);
@@ -54,10 +54,10 @@ public:
 private:
 
 	// Constructor
-	GL_TextureManager();
+	TextureManagerGL();
 
 	GL_Sprite * LoadTexture(const std::string&, GLenum e);
 };
 
 // Helps Reduce line length
-typedef GL_TextureManager GL_Textures;
+typedef TextureManagerGL GL_Textures;

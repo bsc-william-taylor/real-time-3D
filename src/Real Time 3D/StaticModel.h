@@ -1,7 +1,7 @@
 
 #pragma once
 
-#include "GL_Texture.h"
+#include "TextureGL.h"
 #include "Surface.h"
 #include "IModel.h"
 
@@ -11,7 +11,7 @@ private:
 
 	Assimp::Importer m_Importer;
 
-	vector<GL_Texture *> m_Textures;
+	vector<TextureGL *> m_Textures;
 	Surface * m_BoundingBox;
 
 	GLint * m_MatIndices,* m_MeshStart, * m_MeshSizes;

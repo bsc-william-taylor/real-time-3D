@@ -3,16 +3,16 @@
 
 #include "SceneManager.h"
 #include "Win32Timer.h"
-#include "GL_Renderer.h"
-#include "GL_Texture.h"
-#include "GL_Text.h"
+#include "RendererGL.h"
+#include "TextureGL.h"
+#include "TextGL.h"
 
 class DemoMenu : public Scene
 {
-    GL_Renderer* renderer;
-    GL_Texture* image;
-    GL_Text footer;
-    GL_Text header;
+    RendererGL renderer;
+    TextureGL* image;
+    TextGL footer;
+    TextGL header;
 
     Win32Timer timer;
     float alpha;

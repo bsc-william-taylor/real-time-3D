@@ -14,11 +14,11 @@
 
 #pragma once
 
-#include "GL_Texture_Manager.h"
-#include "GL_Shader_Manager.h"
-#include "GL_Matrix.h"
+#include "TextureManagerGL.h"
+#include "ShaderManagerGL.h"
+#include "MinimapGL.h"
 
-class GL_Texture
+class TextureGL
 {
 private:	
 
@@ -40,8 +40,8 @@ private:
 public:
 
 	// Constructor & Deconstructor
-	GL_Texture();
-	~GL_Texture();
+	TextureGL();
+	~TextureGL();
 
 	// Member Functions
 	GLvoid SurfacePlacements(GLuint);

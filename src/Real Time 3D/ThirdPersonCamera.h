@@ -1,7 +1,7 @@
 
 #pragma once
 
-#include "GL_Renderer.h"
+#include "RendererGL.h"
 #include "DynamicModel.h"
 #include "Win32Codes.h"
 #include "ICamera.h"
@@ -10,7 +10,7 @@ class ThirdPersonCamera : public ICamera
 {
 private:
 	
-	GL_Renderer * m_pWorld;
+	RendererGL * m_pWorld;
 	
 	GLfloat m_AnimationStep;
 	GLfloat m_Animation;
@@ -29,7 +29,7 @@ public:
 	ThirdPersonCamera();
 	~ThirdPersonCamera();
 
-	GLvoid Initialise(GL_Renderer *);
+	GLvoid Initialise(RendererGL *);
 	GLvoid keyPress(int, int);
 	GLvoid motion(float, float);
 	GLvoid CancelMovement();

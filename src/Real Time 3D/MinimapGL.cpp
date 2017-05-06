@@ -1,7 +1,7 @@
 
-#include "GL_Minimap.h"
+#include "MinimapGL.h"
 
-GL_Minimap::GL_Minimap()
+MinimapGL::MinimapGL()
 	: m_pMatrix(new GL_Matrix())
 {
 	glGenVertexArrays(1, &VAO);
@@ -11,13 +11,13 @@ GL_Minimap::GL_Minimap()
 	glBindVertexArray(0);
 }
 
-GL_Minimap::~GL_Minimap()
+MinimapGL::~MinimapGL()
 {
 	glDeleteVertexArrays(1, &VAO);
 	glDeleteBuffers(1, &VBO);
 }
 
-GLvoid GL_Minimap::Initialise(ICamera * camera)
+GLvoid MinimapGL::Initialise(ICamera * camera)
 {
 	GLchar * vs = "data/shaders/postprocessor.vert";
 	GLchar * fs = "data/shaders/postprocessor.frag";
@@ -29,7 +29,7 @@ GLvoid GL_Minimap::Initialise(ICamera * camera)
 		 160, 700, 1,  1
 	};
 
-	m_pShader = GL_Shader_Manager::get()->GetShader(vs, fs);
+	m_pShader = ShaderManagerGL::get()->GetShader(vs, fs);
 	m_pMatrix->Ortho(vec2(0, 1280), vec2(0, 720));
 	m_pCamera = camera;
 
@@ -63,7 +63,7 @@ GLvoid GL_Minimap::Initialise(ICamera * camera)
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 }
 
-GLvoid GL_Minimap::RenderToBuffer()
+GLvoid MinimapGL::RenderToBuffer()
 {
 	glBindFramebuffer(GL_FRAMEBUFFER, FrameBuffer);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -78,7 +78,7 @@ GLvoid GL_Minimap::RenderToBuffer()
 	m_pCamera->setPitch(90);
 }
 
-GLvoid GL_Minimap::RenderToScreen()
+GLvoid MinimapGL::RenderToScreen()
 {
 	m_pShader->Use();
 	m_pShader->setMatrix("Projection", m_pMatrix->getProjection());

@@ -8,17 +8,17 @@
 
  ------------------------------------------------- */
 
-#include "GL_Renderer.h"
+#include "RendererGL.h"
 #include "SurfaceManager.h"
 
 // Constructor & Deconstructor
-GL_Renderer::GL_Renderer()
+RendererGL::RendererGL()
 {
 	m_Textures.reserve(20);
 	heightmap = NULL;
 }
 
-GL_Renderer::~GL_Renderer()
+RendererGL::~RendererGL()
 {
 	for(unsigned int i = 0; i < m_Textures.size(); i++)
 	{
@@ -27,7 +27,7 @@ GL_Renderer::~GL_Renderer()
 	}
 }
 
-GLvoid GL_Renderer::PushAudioNode(AudioNode * node)
+GLvoid RendererGL::PushAudioNode(AudioNode * node)
 {
 	if(node != NULL)
 	{
@@ -35,7 +35,7 @@ GLvoid GL_Renderer::PushAudioNode(AudioNode * node)
 	}
 }
 
-GLvoid GL_Renderer::PushHeightmap(GL_Heightmap * object)
+GLvoid RendererGL::PushHeightmap(HeightmapGL * object)
 {
 	if(object != NULL)
 	{
@@ -43,7 +43,7 @@ GLvoid GL_Renderer::PushHeightmap(GL_Heightmap * object)
 	}
 }
 
-GLvoid GL_Renderer::PushSurface(Surface * surface)
+GLvoid RendererGL::PushSurface(Surface * surface)
 {
 	if(surface != NULL)
 	{
@@ -52,7 +52,7 @@ GLvoid GL_Renderer::PushSurface(Surface * surface)
 }
 
 // Member Functions
-GLvoid GL_Renderer::RenderTexture(GL_Texture * texture)
+GLvoid RendererGL::RenderTexture(TextureGL * texture)
 {
 	GL_Program * Program = texture->getProgram();
 	GL_Matrix * Matrix = texture->getMatrix();
@@ -74,7 +74,7 @@ GLvoid GL_Renderer::RenderTexture(GL_Texture * texture)
 	glBindVertexArray(0);
 }
 
-GLvoid GL_Renderer::Render3D(GLboolean wireframe)
+GLvoid RendererGL::Render3D(GLboolean wireframe)
 {
 	glEnable(GL_DEPTH_TEST);
 
@@ -88,7 +88,7 @@ GLvoid GL_Renderer::Render3D(GLboolean wireframe)
 	}
 }
 
-GLvoid GL_Renderer::Render2D(GLboolean wireframe)
+GLvoid RendererGL::Render2D(GLboolean wireframe)
 {
 	glDisable(GL_DEPTH_TEST);
 
@@ -102,7 +102,7 @@ GLvoid GL_Renderer::Render2D(GLboolean wireframe)
 	}
 }
 
-GLvoid GL_Renderer::RenderModel(IModel * model, mat4 mat)
+GLvoid RendererGL::RenderModel(IModel * model, mat4 mat)
 {
 	if(!model->isDynamic())
 	{
@@ -143,7 +143,7 @@ GLvoid GL_Renderer::RenderModel(IModel * model, mat4 mat)
 	}
 }
 
-GLvoid GL_Renderer::PushSkybox(GL_Skybox * object)
+GLvoid RendererGL::PushSkybox(SkyboxGL * object)
 {
 	m_Skybox = object;
 
@@ -155,7 +155,7 @@ GLvoid GL_Renderer::PushSkybox(GL_Skybox * object)
 	}
 }
 
-GLvoid GL_Renderer::PushTexture(GL_Texture * object)
+GLvoid RendererGL::PushTexture(TextureGL * object)
 {
 	if(object != NULL) 
 	{
@@ -163,7 +163,7 @@ GLvoid GL_Renderer::PushTexture(GL_Texture * object)
 	} 
 }
 
-GLvoid GL_Renderer::PushModel(IModel * object)
+GLvoid RendererGL::PushModel(IModel * object)
 {
 	if(object != NULL) 
 	{
@@ -171,7 +171,7 @@ GLvoid GL_Renderer::PushModel(IModel * object)
 	} 
 }
 
-GLvoid GL_Renderer::Ortho(const vec2 a, const vec2 b, const vec2 c)
+GLvoid RendererGL::Ortho(const vec2 a, const vec2 b, const vec2 c)
 {
 	for(unsigned int i = 0; i < m_Textures.size(); i++)
 	{
@@ -179,12 +179,12 @@ GLvoid GL_Renderer::Ortho(const vec2 a, const vec2 b, const vec2 c)
 	}
 }
 
-GLvoid GL_Renderer::setSurfaceSize(vec4 vec)
+GLvoid RendererGL::setSurfaceSize(vec4 vec)
 {
 	this->m_SurfaceSize = vec;
 }
 
-GLvoid GL_Renderer::LoadIdentity()
+GLvoid RendererGL::LoadIdentity()
 {
 	for(unsigned int i = 0; i < m_Textures.size(); i++)
 	{
@@ -216,7 +216,7 @@ GLvoid GL_Renderer::LoadIdentity()
 	}
 }
 
-GLvoid GL_Renderer::update()
+GLvoid RendererGL::update()
 {
 	m_Skybox ? m_Skybox->update() : 0;
 	if(heightmap)heightmap->update();
@@ -228,7 +228,7 @@ GLvoid GL_Renderer::update()
 		m_Models[i]->update();
 }
 
-GLvoid GL_Renderer::Prepare()
+GLvoid RendererGL::Prepare()
 {
 
 	if(heightmap)heightmap->Prepare();
@@ -248,7 +248,7 @@ GLvoid GL_Renderer::Prepare()
 		m_Models[i]->Prepare();
 }
 
-GLvoid GL_Renderer::render()
+GLvoid RendererGL::render()
 {
 	if(heightmap)heightmap->Draw();
 	for(unsigned int i = 0; i < m_Textures.size(); i++)
@@ -266,7 +266,7 @@ GLvoid GL_Renderer::render()
 	} 
 }
 
-GLvoid GL_Renderer::PushText(GL_Text * textItem)
+GLvoid RendererGL::PushText(TextGL * textItem)
 {
 	if(textItem != NULL)
 	{
@@ -274,7 +274,7 @@ GLvoid GL_Renderer::PushText(GL_Text * textItem)
 	}
 }
 
-GLvoid GL_Renderer::Perspective(const float f, const vec2 v1, const vec2 v2)
+GLvoid RendererGL::Perspective(const float f, const vec2 v1, const vec2 v2)
 {
 	for(unsigned int i = 0; i < m_Textures.size(); i++)	{
 		m_Textures[i]->getMatrix()->Perspective(f, v1, v2);
@@ -293,7 +293,7 @@ GLvoid GL_Renderer::Perspective(const float f, const vec2 v1, const vec2 v2)
 	}
 }
 
-GLvoid GL_Renderer::RotateView(GLfloat f, vec3 a)
+GLvoid RendererGL::RotateView(GLfloat f, vec3 a)
 {
 	if(heightmap)heightmap->getMatrix()->RotateView(f, a);
 	for(unsigned int i = 0; i < m_Textures.size(); i++)
@@ -304,7 +304,7 @@ GLvoid GL_Renderer::RotateView(GLfloat f, vec3 a)
 		m_AudioNodes[i]->getMatrix()->RotateView(f, a);
 }
 
-GLvoid GL_Renderer::Rotate(GLfloat f, vec3 a)
+GLvoid RendererGL::Rotate(GLfloat f, vec3 a)
 {
 	if(heightmap)heightmap->getMatrix()->Rotate(f, a);
 	for(unsigned int i = 0; i < m_Textures.size(); i++)
@@ -313,7 +313,7 @@ GLvoid GL_Renderer::Rotate(GLfloat f, vec3 a)
 		m_Models[i]->getMatrix()->Rotate(f, a);
 }
 
-GLvoid GL_Renderer::TranslateView(vec3 v)
+GLvoid RendererGL::TranslateView(vec3 v)
 {
 	if(heightmap)heightmap->getMatrix()->TranslateView(v);
 	m_Skybox ? m_Skybox->Translate(v) : 0;
@@ -325,7 +325,7 @@ GLvoid GL_Renderer::TranslateView(vec3 v)
 		m_AudioNodes[i]->getMatrix()->TranslateView(v);
 }
 
-GLvoid GL_Renderer::Translate(vec3 v)
+GLvoid RendererGL::Translate(vec3 v)
 {
 	if(heightmap)heightmap->getMatrix()->Translate(v);
 	for(unsigned int i = 0; i < m_Textures.size(); i++)

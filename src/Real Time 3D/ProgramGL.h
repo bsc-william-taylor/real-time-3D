@@ -10,7 +10,7 @@
 
 #pragma once
 
-#include "GL_Header.h"
+#include "MajorInclude.h"
 
 class GL_Program 
 {

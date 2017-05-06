@@ -1,129 +1,97 @@
 
-/* -------------------------------------------------
-  
- @Filename  : Win32Mouse.cpp
- @author	: William Taylor
- @date		: 12/02/2014
-
- @purpose	: Class implemntation
-
- ------------------------------------------------- */
-
 #include "SceneManager.h"
 #include "Win32Mouse.h"
 #include "Win32Codes.h"
 
-// Constructor & Deconstructor
-Win32Mouse::Win32Mouse()
+Win32Mouse::Win32Mouse() :
+    position({0, 0})
 {
-	m_Position.x = NULL;
-	m_Position.y = NULL;
-
-	ClearInput();
-	RemoveMsgs();
+	clearInput();
+	removeMsgs();
 }
 
 Win32Mouse::~Win32Mouse()
 {
-	if(m_Mouse != NULL)
+	if(mouse != nullptr)
 	{
-		// Unacqure input device & do a memory cleanup
-		m_Mouse->Unacquire();
-		m_Mouse->Release();
-		m_Mouse = NULL;
+		mouse->Unacquire();
+		mouse->Release();
+		mouse = nullptr;
 	}
 }
 
-// Member Functions
-void Win32Mouse::InitialiseInput(HWND * hWnd)
+void Win32Mouse::initialiseInput(HWND* hwnd)
 {
-	// Describe settings for monitoring input.
-	DWORD Settings = DISCL_FOREGROUND | DISCL_NONEXCLUSIVE;
-	
-	// Set the settings and aquire the device from the OS.
-	m_Mouse->SetDataFormat(&c_dfDIMouse2);
-	m_Mouse->SetCooperativeLevel(*hWnd, Settings);
-	m_Mouse->Acquire();
-	m_Hwnd = *hWnd;
+	DWORD settings = DISCL_FOREGROUND | DISCL_NONEXCLUSIVE;
+	mouse->SetDataFormat(&c_dfDIMouse2);
+	mouse->SetCooperativeLevel(*hwnd, settings);
+	mouse->Acquire();
+	this->hwnd = *hwnd;
 }
 
-void Win32Mouse::UpdateInput()
+void Win32Mouse::updateInput()
 {
-	// Aquire and grab the devices state
-	m_Mouse->Acquire();
-	m_Mouse->GetDeviceState(sizeof(m_State), &m_State);
+	mouse->Acquire();
+	mouse->GetDeviceState(sizeof(state), &state);
 }
 
-void Win32Mouse::OutputInput(Scene * scene)
+void Win32Mouse::outputInput(Scene * scene)
 {
-	FLOAT_POINT pos = getMousePosition();
+	FloatPoint pos = getMousePosition();
 	
-	// Only pass if there is a velocity
 	if(pos.x != 0 || pos.y != 0)
 	{
 		scene->motion(pos.x, pos.y);
 	}
 	
-	// Prepare to get real mouse position
-	POINT Info;
-	RECT Rect;
+	POINT info;
+	RECT rect;
 
-	// get and scale to window region
-	GetCursorPos(&Info);
-	ScreenToClient(m_Hwnd, &Info);
-	GetClientRect(m_Hwnd, &Rect);
+	GetCursorPos(&info);
+	ScreenToClient(hwnd, &info);
+	GetClientRect(hwnd, &rect);
 
-	// Check mouse buttons state
-	for (int i = 0; i < 3; i++)
+	for (auto i = 0; i < 3; i++)
 	{
-		// Check for a pressed button
-		if((m_State.rgbButtons[i] & 0x80) && !m_MouseRelease[i])
+		if((state.rgbButtons[i] & 0x80) && !mouseRelease[i])
 		{
-			scene->mousePress(i, PRESSED, Info.x, Rect.bottom - Info.y);
-			m_MouseRelease[i] = true;
-			m_ReleaseMsg[i] = false;
+			scene->mousePress(i, PRESSED, info.x, rect.bottom - info.y);
+			mouseRelease[i] = true;
+			releaseMsg[i] = false;
 		}
 
-		// Check for a button being held
-		if((m_State.rgbButtons[i] & 0x80) && m_MouseRelease[i])
+		if((state.rgbButtons[i] & 0x80) && mouseRelease[i])
 		{
-			scene->mousePress(i, HOLDING, Info.x, Rect.bottom - Info.y);
-			m_ReleaseMsg[i] = false;
+			scene->mousePress(i, HOLDING, info.x, rect.bottom - info.y);
+			releaseMsg[i] = false;
 		}
 
-		// Check for a released button
-		if(!(m_State.rgbButtons[i] & 0x80) && m_MouseRelease[i])
+		if(!(state.rgbButtons[i] & 0x80) && mouseRelease[i])
 		{
-			scene->mousePress(i, RELEASED, Info.x, Rect.bottom - Info.y);
-			m_MouseRelease[i] = false;
-			m_ReleaseMsg[i] = true;
+			scene->mousePress(i, RELEASED, info.x, rect.bottom - info.y);
+			mouseRelease[i] = false;
+			releaseMsg[i] = true;
 		}
 	}
 }
 
-void Win32Mouse::ClearInput()
+void Win32Mouse::clearInput()
 {
-	// Reset arrays holding information
 	for(int i = 0; i < 3; i++)
 	{
-		m_MouseRelease[i] = false;
+		mouseRelease[i] = false;
 	}
 }
 
-void Win32Mouse::RemoveMsgs()
+void Win32Mouse::removeMsgs()
 {
-	// Reset arrays holding information
 	for(int i = 0; i < 3; i++)
 	{
-		m_ReleaseMsg[i] = false;
+		releaseMsg[i] = false;
 	}
 }
 
-// Get & Set Functions
-Win32Mouse::FLOAT_POINT Win32Mouse::getMousePosition()
+Win32Mouse::FloatPoint Win32Mouse::getMousePosition()
 {
-	FLOAT_POINT Value;
-	Value.x = FLOAT(m_State.lX);
-	Value.y = FLOAT(m_State.lY);
-	return Value;
+	return { float(state.lX),  float(state.lY) };
 }

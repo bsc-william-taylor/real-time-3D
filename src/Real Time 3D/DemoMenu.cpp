@@ -4,8 +4,7 @@
 #include "DemoMenu.h"
 
 DemoMenu::DemoMenu() :
-    renderer(new GL_Renderer()),
-    image(new GL_Texture())
+    image(new TextureGL())
 {
     image->setTexture("data/img/back.png", GL_CLAMP_TO_EDGE);
     image->getMatrix()->Ortho(vec2(0, 1280), vec2(0, 720), vec2(-1, 1));
@@ -21,22 +20,21 @@ DemoMenu::DemoMenu() :
     footer.setPosition(vec2(800, 25));
     footer.setSize(25);
 
-    renderer->PushTexture(image);
-    renderer->Prepare();
+    renderer.PushTexture(image);
+    renderer.Prepare();
     alpha = 0.0f;
 }
 
 DemoMenu::~DemoMenu()
 {
-    SAFE_RELEASE(renderer);
 }
 
 void DemoMenu::update()
 {
     image->setShade(vec4(1, 1, 1, alpha));
-    timer.Stop();
+    timer.stop();
 
-    renderer->update();
+    renderer.update();
     header.update();
     footer.update();
 
@@ -45,19 +43,19 @@ void DemoMenu::update()
 
 void DemoMenu::enter()
 {
-    timer.Start();
+    timer.start();
 }
 
 void DemoMenu::render()
 {
-    renderer->Render2D(GL_FALSE);
-    renderer->render();
+    renderer.Render2D(GL_FALSE);
+    renderer.render();
     header.render();
     footer.render();
 
-    renderer->Render3D(GL_FALSE);
+    renderer.Render3D(GL_FALSE);
 
-    if (timer.Difference(TimeType::MS) > 1000)
+    if (timer.difference(TimeType::Milliseconds) > 1000)
     {
         SceneManager::get()->SwitchTo(1);
     }

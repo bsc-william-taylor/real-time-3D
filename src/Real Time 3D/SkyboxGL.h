@@ -1,9 +1,9 @@
 
 #pragma once
 
-#include "GL_Texture.h"
+#include "TextureGL.h"
 
-class GL_Skybox
+class SkyboxGL
 {
 private:
 
@@ -18,7 +18,7 @@ private:
 
 private:
 
-	vector<GL_Texture *> m_SkyboxTextures;
+	vector<TextureGL *> m_SkyboxTextures;
 	vector<std::string> m_Filenames;
 	
 	GLfloat m_Overdraw;
@@ -26,10 +26,10 @@ private:
 
 public:
 
-	GL_Skybox();
-	~GL_Skybox();
+	SkyboxGL();
+	~SkyboxGL();
 	
-	vector<GL_Texture *>& getTextures();
+	vector<TextureGL *>& getTextures();
 	
 	GLvoid SetOverdraw(GLfloat);
 	GLvoid SetDistance(GLfloat);

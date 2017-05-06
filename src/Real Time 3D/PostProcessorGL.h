@@ -1,10 +1,10 @@
 
 #pragma once
 
-#include "GL_Shader_Manager.h"
-#include "GL_Matrix.h"
+#include "ShaderManagerGL.h"
+#include "MatrixGL.h"
 
-class GL_PostProcessor
+class PostProcessorGL
 {
 private:
 
@@ -22,8 +22,8 @@ private:
 
 public:
 
-	GL_PostProcessor();
-	~GL_PostProcessor();
+	PostProcessorGL();
+	~PostProcessorGL();
 
 	GLvoid Initialise(GLuint, GLuint);
 	GLvoid execute();

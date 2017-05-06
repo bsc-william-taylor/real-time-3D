@@ -42,8 +42,5 @@
 
 using std::vector;
 
-// some useful macros
 #define SAFE_RELEASE(ptr) if(ptr) delete ptr; ptr = 0;
 #define RELEASE_MANAGER(ptr) if(ptr) delete ptr;
-
-// END

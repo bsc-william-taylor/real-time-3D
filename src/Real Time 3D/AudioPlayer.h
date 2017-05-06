@@ -2,7 +2,7 @@
 #pragma once
 
 #include "AudioObject.h"
-#include "GL_Renderer.h"
+#include "RendererGL.h"
 #include "ICamera.h"
 
 class AudioPlayer
@@ -10,7 +10,7 @@ class AudioPlayer
 private:
 
 	std::vector<AudioObject *> m_Playables;
-	GL_Renderer * renderer;
+	RendererGL * renderer;
 	ICamera * m_pCamera;
 
 public:
@@ -18,7 +18,7 @@ public:
 	AudioPlayer();
 	~AudioPlayer();
 
-	void Set3DRenderer(GL_Renderer *);
+	void Set3DRenderer(RendererGL *);
 	void Set3DCamera(ICamera *);
 
 	void PushClip(AudioObject *);

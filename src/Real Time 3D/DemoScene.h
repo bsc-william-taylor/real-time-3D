@@ -7,29 +7,27 @@
 #include "AudioObject.h"
 #include "FreeCamera.h"
 #include "Button.h"
-#include "GL_PostProcessor.h"
-#include "GL_MapOverlay.h"
-#include "GL_Heightmap.h"
-#include "GL_Minimap.h"
+#include "PostProcessorGL.h"
+#include "MinimapGL.h"
+#include "HeightmapGL.h"
+#include "MinimapGL.h"
 
 class DemoScene : public Scene
 {
-    ThirdPersonCamera* camera;
-    DynamicModel* player;
-    StaticModel* city;
-    Button* options;
-    Button* quit;
-
-    GL_PostProcessor* effects;
-    GL_MapOverlay* overlaymap;
-    GL_Heightmap* heightmap;
-    GL_Renderer* renderer;
-    GL_Minimap* miniMap;
-    GL_Skybox* skybox;
-    GLboolean loaded;
-
-    AudioPlayer* audioPlayer;
-    AudioObject* music;
+    ThirdPersonCamera camera;
+    PostProcessorGL effects;
+    MapOverlayGL overlaymap;
+    HeightmapGL heightmap;
+    AudioPlayer audioPlayer;
+    AudioObject music;
+    RendererGL renderer;
+    DynamicModel player;
+    StaticModel city;
+    MinimapGL miniMap;
+    SkyboxGL skybox;
+    Button options;
+    Button quit;
+    bool loaded;
 public:
     DemoScene();
     ~DemoScene();

@@ -1,11 +1,11 @@
 
 #pragma once
 
-#include "GL_Shader_Manager.h"
-#include "GL_Matrix.h"
+#include "ShaderManagerGL.h"
+#include "MatrixGL.h"
 #include "ICamera.h"
 
-class GL_Minimap
+class MinimapGL
 {
 private:
 
@@ -27,8 +27,8 @@ private:
 
 public:
 
-	GL_Minimap();
-	~GL_Minimap();
+	MinimapGL();
+	~MinimapGL();
 
 	GLvoid Initialise(ICamera *);
 	GLvoid RenderToBuffer();

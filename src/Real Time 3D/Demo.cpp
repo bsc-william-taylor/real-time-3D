@@ -1,7 +1,7 @@
 
 
-#include "GL_Texture_Manager.h"
-#include "GL_Shader_Manager.h"
+#include "TextureManagerGL.h"
+#include "ShaderManagerGL.h"
 #include "DemoOptions.h"
 #include "Win32Codes.h"
 #include "SceneManager.h"
@@ -25,12 +25,9 @@ Demo::Demo()
 
 Demo::~Demo()
 {
-    delete GL_TextureManager::get();
-    delete GL_Shader_Manager::get();
+    delete TextureManagerGL::get();
+    delete ShaderManagerGL::get();
     delete SceneManager::get();
-
-    SAFE_RELEASE(timer);
-    SAFE_RELEASE(win32System);
 }
 
 void Demo::execute()
@@ -38,23 +35,23 @@ void Demo::execute()
     setupScenes();
     setupOpenGL();
 
-    while (win32System->WindowRunning())
+    while (system.windowRunning())
     {
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-        win32System->update();
+        system.onUpdate();
         timeLeft = 0;
 
         sceneManager->UpdateManager();
-        win32System->SwapWindowBuffers();
+        system.swapWindowBuffers();
 
         while (timeLeft < (GLfloat)1.0e9 / fps)
         {
-            timer->Stop();
-            timeLeft = timer->Difference(TimeType::NS);
+            timer.stop();
+            timeLeft = timer.difference(TimeType::Nanoseconds);
         }
 
-        timer->Start();
+        timer.start();
     }
 }
 
@@ -87,24 +84,20 @@ void Demo::setupScenes()
     sceneManager->PushState(new DemoOptions());
     sceneManager->StartFrom(0);
     sceneManager->getCurrent()->enter();
-
-    timer = new Win32Timer();
-    timer->Start();
+    timer.start();
 }
 
 void Demo::setWindowSize(int x, int y, int w, int h)
 {
-    Win32Window::Sizes sizes;
+    Region sizes;
     sizes.w = w;
     sizes.h = h;
     sizes.x = x;
     sizes.y = y;
 
-    win32System = new Win32System();
-    win32System->setWindowTraits("Real Time 3D", sizes);
-    win32System->setWindowType(Win32Window::Type::WINDOWED);
-    win32System->Initialise();
-    win32System->Show();
+    system.setWindowTraits("Real Time 3D", sizes);
+    system.setWindowType(WindowType::Windowed);
+    system.initialise();
 }
 
 void Demo::setRedrawRate(int FPS)

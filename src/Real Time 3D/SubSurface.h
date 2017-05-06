@@ -1,8 +1,8 @@
 
 #pragma once
 
-#include "GL_Header.h"
-#include "GL_Matrix.h"
+#include "MajorInclude.h"
+#include "MinimapGL.h"
 #include "ICamera.h"
 
 

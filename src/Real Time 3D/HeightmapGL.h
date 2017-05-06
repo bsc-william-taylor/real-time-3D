@@ -1,11 +1,11 @@
 
 #pragma once
 
-#include "GL_Texture_Manager.h"
-#include "GL_MapOverlay.h"
-#include "GL_Texture.h"
+#include "TextureManagerGL.h"
+#include "MapOverlayGL.h"
+#include "TextureGL.h"
 
-class GL_Heightmap
+class HeightmapGL
 {
 private:
 
@@ -14,7 +14,7 @@ private:
 	GL_Sprite * m_HeightMap;
 	GL_Sprite * m_Texture;
 
-	vector<GL_MapOverlay *> m_Overlays;
+	vector<MapOverlayGL *> m_Overlays;
 	vector<vec3> m_pPositions;
 	vector<vec3> m_pOverlay;
 	vector<vec3> m_pNormals;
@@ -32,10 +32,10 @@ private:
 
 public:
 
-	GL_Heightmap();
-	~GL_Heightmap();
+	HeightmapGL();
+	~HeightmapGL();
 
-	GLvoid PushOverlay(GL_MapOverlay *);
+	GLvoid PushOverlay(MapOverlayGL *);
 	GLvoid Prepare();
 	GLvoid update();
 	GLvoid Draw();

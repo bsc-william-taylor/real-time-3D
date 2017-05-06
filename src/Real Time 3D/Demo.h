@@ -8,8 +8,8 @@
 class Demo
 {
     SceneManager* sceneManager;
-    Win32System* win32System;
-    Win32Timer* timer;
+    Win32System system;
+    Win32Timer timer;
     float timeLeft;
     int fps;
 public:

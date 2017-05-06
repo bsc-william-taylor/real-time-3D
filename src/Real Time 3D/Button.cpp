@@ -13,8 +13,8 @@
 
 // Constructor & Deconstructor
 Button::Button()
-	: m_pSprite(new GL_Texture()),
-	  m_pString(new GL_Text())
+	: m_pSprite(new TextureGL()),
+	  m_pString(new TextGL())
 {
 	m_pSprite->getMatrix()->Ortho(vec2(0, 1280), vec2(0, 720));
 	m_pString->getMatrix()->Ortho(vec2(0, 1280), vec2(0, 720));
@@ -61,20 +61,20 @@ bool Button::MouseState(int Key, int State, int x, int y)
 	return false;
 }
 
-void Button::render(GL_Renderer * renderer)
+void Button::render(RendererGL * renderer)
 {
 	renderer->RenderTexture(m_pSprite);
 	m_pString->render();
 }
 
 // Get & Set Functions
-GL_Texture * Button::getTexture()
+TextureGL * Button::getTexture()
 {
 	return m_pSprite;
 }
 
 
-GL_Text * Button::getString()
+TextGL * Button::getString()
 {
 	return m_pString;
 }
