@@ -26,7 +26,7 @@ private:
 
 	vec2 m_Position;						// Position to render from.
 
-	GLboolean m_Loaded;
+	GLboolean loaded;
 	GLuint m_FontSize;						// Font Size
 	
 	GL_Program * m_pShader;		

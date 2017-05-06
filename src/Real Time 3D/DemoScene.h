@@ -14,22 +14,22 @@
 
 class DemoScene : public Scene
 {
-    ThirdPersonCamera* m_pCamera;
-    DynamicModel* m_pPlayer;
-    StaticModel* m_pCity;
-    Button* m_pOptions;
-    Button* m_pQuit;
+    ThirdPersonCamera* camera;
+    DynamicModel* player;
+    StaticModel* city;
+    Button* options;
+    Button* quit;
 
-    GL_PostProcessor* m_pEffects;
-    GL_MapOverlay* m_Overlaymap;
-    GL_Heightmap* m_Heightmap;
-    GL_Renderer* m_pRenderer;
-    GL_Minimap* m_pMiniMap;
-    GL_Skybox* m_pSkybox;
-    GLboolean m_Loaded;
+    GL_PostProcessor* effects;
+    GL_MapOverlay* overlaymap;
+    GL_Heightmap* heightmap;
+    GL_Renderer* renderer;
+    GL_Minimap* miniMap;
+    GL_Skybox* skybox;
+    GLboolean loaded;
 
-    AudioPlayer* m_pAudioPlayer;
-    AudioObject* m_pMusic;
+    AudioPlayer* audioPlayer;
+    AudioObject* music;
 public:
     DemoScene();
     ~DemoScene();

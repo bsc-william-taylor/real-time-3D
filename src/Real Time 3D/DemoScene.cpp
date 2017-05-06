@@ -5,57 +5,57 @@
 #include "Demo.h"
 
 DemoScene::DemoScene()
-    : m_Loaded(false)
+    : loaded(false)
 {
-    m_pCamera = new ThirdPersonCamera();
-    m_pPlayer = new DynamicModel();
-    m_pCity = new StaticModel();
+    camera = new ThirdPersonCamera();
+    player = new DynamicModel();
+    city = new StaticModel();
 
-    m_pEffects = new GL_PostProcessor();
-    m_Overlaymap = new GL_MapOverlay();
-    m_Heightmap = new GL_Heightmap();
-    m_pRenderer = new GL_Renderer();
-    m_pMiniMap = new GL_Minimap();
-    m_pSkybox = new GL_Skybox();
+    effects = new GL_PostProcessor();
+    overlaymap = new GL_MapOverlay();
+    heightmap = new GL_Heightmap();
+    renderer = new GL_Renderer();
+    miniMap = new GL_Minimap();
+    skybox = new GL_Skybox();
 }
 
 DemoScene::~DemoScene()
 {
-    SAFE_RELEASE(m_pRenderer);
-    SAFE_RELEASE(m_pEffects);
-    SAFE_RELEASE(m_pCamera);
-    SAFE_RELEASE(m_pSkybox);
-    SAFE_RELEASE(m_pMiniMap);
+    SAFE_RELEASE(renderer);
+    SAFE_RELEASE(effects);
+    SAFE_RELEASE(camera);
+    SAFE_RELEASE(skybox);
+    SAFE_RELEASE(miniMap);
 }
 
 void DemoScene::update()
 {
     if (Demo::demoSettings.enableFx)
     {
-        m_pEffects->Enable();
+        effects->Enable();
     }
 
-    m_pRenderer->LoadIdentity();
-    m_pRenderer->update();
+    renderer->LoadIdentity();
+    renderer->update();
 
-    m_pPlayer->getMatrix()->LoadIdenditity();
-    m_pPlayer->getMatrix()->Rotate(RAIDAN(90), vec3(0.0, 0.0, 1.0));
-    m_pPlayer->getMatrix()->Rotate(RAIDAN(90), vec3(0.0, 1.0, 0.0));
-    m_pPlayer->getMatrix()->Scale(vec3(0.03, 0.03, 0.03));
+    player->getMatrix()->LoadIdenditity();
+    player->getMatrix()->Rotate(RAIDAN(90), vec3(0.0, 0.0, 1.0));
+    player->getMatrix()->Rotate(RAIDAN(90), vec3(0.0, 1.0, 0.0));
+    player->getMatrix()->Scale(vec3(0.03, 0.03, 0.03));
 
 
     SurfaceManager::get()->CheckForCollision();
-    m_pCamera->update(true);
+    camera->update(true);
 }
 
 void DemoScene::render()
 {
-    m_pRenderer->render();
-    m_pAudioPlayer->Stream();
+    renderer->render();
+    audioPlayer->Stream();
 
     if (Demo::demoSettings.enableFx)
     {
-        m_pEffects->execute();
+        effects->execute();
     }
 
     if (Demo::demoSettings.showBoundingBoxes)
@@ -63,23 +63,23 @@ void DemoScene::render()
         SurfaceManager::get()->RenderSurfaces();
     }
 
-    m_pRenderer->Render2D(GL_FALSE);
-    m_pOptions->render(m_pRenderer);
-    m_pQuit->render(m_pRenderer);
+    renderer->Render2D(GL_FALSE);
+    options->render(renderer);
+    quit->render(renderer);
 
-    m_pRenderer->Render3D(Demo::demoSettings.wireframeEnabled);
-    m_pMiniMap->RenderToBuffer();
-    m_pRenderer->LoadIdentity();
-    m_pRenderer->update();
-    m_pCamera->update(GL_FALSE);
-    m_pRenderer->render();
-    m_pMiniMap->RenderToScreen();
-    m_pCamera->Reset();
+    renderer->Render3D(Demo::demoSettings.wireframeEnabled);
+    miniMap->RenderToBuffer();
+    renderer->LoadIdentity();
+    renderer->update();
+    camera->update(GL_FALSE);
+    renderer->render();
+    miniMap->RenderToScreen();
+    camera->Reset();
 }
 
 void DemoScene::keyPress(int Key, int State)
 {
-    m_pCamera->keyPress(Key, State);
+    camera->keyPress(Key, State);
 
     if (Key == ENTER && State == PRESSED) 
     {
@@ -94,17 +94,17 @@ void DemoScene::keyPress(int Key, int State)
 
 void DemoScene::motion(float pos_x, float pos_y)
 {
-    m_pCamera->motion(pos_x, pos_y);
+    camera->motion(pos_x, pos_y);
 }
 
 void DemoScene::mousePress(int Key, int State, int x, int y)
 {
-    if (m_pOptions->MouseState(Key, State, x, y)) 
+    if (options->MouseState(Key, State, x, y)) 
     {
         SceneManager::get()->SwitchTo(2);
     }
 
-    if (m_pQuit->MouseState(Key, State, x, y)) 
+    if (quit->MouseState(Key, State, x, y)) 
     {
         PostQuitMessage(0);
     }
@@ -112,28 +112,28 @@ void DemoScene::mousePress(int Key, int State, int x, int y)
 
 void DemoScene::enter()
 {
-    if (!m_Loaded)
+    if (!loaded)
     {
-        m_pOptions = new Button();
-        m_pQuit = new Button();
+        options = new Button();
+        quit = new Button();
 
-        m_pOptions->SetPosition("Options", vec2(1050, 610), vec2(200, 50));
-        m_pOptions->getTexture()->setShade(vec4(1.0, 0.0, 0.0, 1.0));
-        m_pQuit->SetPosition("Quit", vec2(1050, 10), vec2(200, 50));
-        m_pQuit->getTexture()->setShade(vec4(1.0, 0.0, 0.0, 1.0));
+        options->SetPosition("Options", vec2(1050, 610), vec2(200, 50));
+        options->getTexture()->setShade(vec4(1.0, 0.0, 0.0, 1.0));
+        quit->SetPosition("Quit", vec2(1050, 10), vec2(200, 50));
+        quit->getTexture()->setShade(vec4(1.0, 0.0, 0.0, 1.0));
 
-        m_pEffects->Initialise(1280, 720);
-        m_pSkybox->Folder("data/skybox/");
-        m_pSkybox->SetDistance(10000);
-        m_pSkybox->Setup();
+        effects->Initialise(1280, 720);
+        skybox->Folder("data/skybox/");
+        skybox->SetDistance(10000);
+        skybox->Setup();
 
-        m_Overlaymap->SetOverlayImage("data/img/road.jpg");
-        m_Overlaymap->SetOverlayMap("data/img/pathway.png");
-        m_Heightmap->setHeightMap("data/img/heightmap.png");
-        m_Heightmap->setMapTexture("data/img/grass.png");
-        m_Heightmap->PushOverlay(m_Overlaymap);
+        overlaymap->SetOverlayImage("data/img/road.jpg");
+        overlaymap->SetOverlayMap("data/img/pathway.png");
+        heightmap->setHeightMap("data/img/heightmap.png");
+        heightmap->setMapTexture("data/img/grass.png");
+        heightmap->PushOverlay(overlaymap);
 
-        m_Loaded = !m_Loaded;
+        loaded = !loaded;
 
         setupGraphics();
         setupAudio();
@@ -142,39 +142,39 @@ void DemoScene::enter()
 
 void DemoScene::setupGraphics()
 {
-    m_pCity->Load("data/models/Metro 1.3ds", "data/models/", true);
-    m_pCity->SetScale(0.75f);
-    m_pCity->Rotate(RAIDAN(90), vec3(-1, 0, 0));
-    m_pCity->Translate(vec3(-5.0, -2.5, -15));
+    city->Load("data/models/Metro 1.3ds", "data/models/", true);
+    city->SetScale(0.75f);
+    city->Rotate(RAIDAN(90), vec3(-1, 0, 0));
+    city->Translate(vec3(-5.0, -2.5, -15));
 
-    m_pPlayer->ReadTexture("data/models/pac3D.bmp");
-    m_pPlayer->ReadMD2Model("data/models/pac3D.md2", true);
+    player->ReadTexture("data/models/pac3D.bmp");
+    player->ReadMD2Model("data/models/pac3D.md2", true);
 
-    m_pRenderer->PushHeightmap(m_Heightmap);
-    m_pRenderer->PushSkybox(m_pSkybox);
-    m_pRenderer->PushModel(m_pCity);
-    m_pRenderer->Prepare();
-    m_pRenderer->Perspective(70, vec2(16, 9), vec2(0.1, 10000));
-    m_pRenderer->setSurfaceSize(vec4(0, 0, 1280, 720));
+    renderer->PushHeightmap(heightmap);
+    renderer->PushSkybox(skybox);
+    renderer->PushModel(city);
+    renderer->Prepare();
+    renderer->Perspective(70, vec2(16, 9), vec2(0.1, 10000));
+    renderer->setSurfaceSize(vec4(0, 0, 1280, 720));
 
-    m_pCamera->setPlayerModel(m_pPlayer);
-    m_pCamera->Initialise(m_pRenderer);
-    m_pMiniMap->Initialise(m_pCamera);
+    camera->setPlayerModel(player);
+    camera->Initialise(renderer);
+    miniMap->Initialise(camera);
 
-    SurfaceManager::get()->PushCamera(m_pCamera);
-    SurfaceManager::get()->PushCameraObject(m_pPlayer->getSurface());
+    SurfaceManager::get()->PushCamera(camera);
+    SurfaceManager::get()->PushCameraObject(player->getSurface());
 }
 
 void DemoScene::setupAudio()
 {
-    m_pMusic = new AudioObject();
-    m_pMusic->SetAudioSource("data/audio/PianoMono.mp3");
-    m_pMusic->SetPosition(vec3(-1, -1, -1));
-    m_pMusic->Play();
+    music = new AudioObject();
+    music->SetAudioSource("data/audio/PianoMono.mp3");
+    music->SetPosition(vec3(-1, -1, -1));
+    music->Play();
 
-    m_pAudioPlayer = new AudioPlayer();
-    m_pAudioPlayer->PushClip(m_pMusic);
-    m_pAudioPlayer->Set3DCamera(m_pCamera);
-    m_pAudioPlayer->Set3DRenderer(m_pRenderer);
-    m_pAudioPlayer->Initialise();
+    audioPlayer = new AudioPlayer();
+    audioPlayer->PushClip(music);
+    audioPlayer->Set3DCamera(camera);
+    audioPlayer->Set3DRenderer(renderer);
+    audioPlayer->Initialise();
 }

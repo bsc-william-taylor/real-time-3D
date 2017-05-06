@@ -10,7 +10,7 @@ class AudioPlayer
 private:
 
 	std::vector<AudioObject *> m_Playables;
-	GL_Renderer * m_pRenderer;
+	GL_Renderer * renderer;
 	ICamera * m_pCamera;
 
 public:

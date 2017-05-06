@@ -3,7 +3,7 @@
 
 AudioPlayer::AudioPlayer()
 {
-	m_pRenderer = NULL;
+	renderer = NULL;
 	m_pCamera = NULL;
 }
 
@@ -29,7 +29,7 @@ void AudioPlayer::PopClip(AudioObject * source)
 
 void AudioPlayer::Set3DRenderer(GL_Renderer * renderer)
 {
-	this->m_pRenderer = renderer;
+	this->renderer = renderer;
 }
 
 void AudioPlayer::Initialise()
@@ -40,7 +40,7 @@ void AudioPlayer::Initialise()
 	
 	for(unsigned i = 0; i < size; i++)
 	{
-		m_pRenderer->PushAudioNode(m_Playables[i]->getNode());	
+		renderer->PushAudioNode(m_Playables[i]->getNode());	
 	}
 }
 

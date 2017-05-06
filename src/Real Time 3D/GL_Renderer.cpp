@@ -15,7 +15,7 @@
 GL_Renderer::GL_Renderer()
 {
 	m_Textures.reserve(20);
-	m_Heightmap = NULL;
+	heightmap = NULL;
 }
 
 GL_Renderer::~GL_Renderer()
@@ -39,7 +39,7 @@ GLvoid GL_Renderer::PushHeightmap(GL_Heightmap * object)
 {
 	if(object != NULL)
 	{
-		m_Heightmap = object;
+		heightmap = object;
 	}
 }
 
@@ -210,16 +210,16 @@ GLvoid GL_Renderer::LoadIdentity()
 		m_AudioNodes[i]->getMatrix()->LoadIdenditity();
 	} 
 
-	if(m_Heightmap)
+	if(heightmap)
 	{
-		m_Heightmap->getMatrix()->LoadIdenditity();
+		heightmap->getMatrix()->LoadIdenditity();
 	}
 }
 
 GLvoid GL_Renderer::update()
 {
 	m_Skybox ? m_Skybox->update() : 0;
-	if(m_Heightmap)m_Heightmap->update();
+	if(heightmap)heightmap->update();
 	for(unsigned int i = 0; i < m_Textures.size(); i++)
 		m_Textures[i]->update();
 	for(unsigned int i = 0; i < m_Labels.size(); i++)
@@ -231,7 +231,7 @@ GLvoid GL_Renderer::update()
 GLvoid GL_Renderer::Prepare()
 {
 
-	if(m_Heightmap)m_Heightmap->Prepare();
+	if(heightmap)heightmap->Prepare();
 
 
 	for(unsigned int i = 0; i < m_Textures.size(); i++)
@@ -250,7 +250,7 @@ GLvoid GL_Renderer::Prepare()
 
 GLvoid GL_Renderer::render()
 {
-	if(m_Heightmap)m_Heightmap->Draw();
+	if(heightmap)heightmap->Draw();
 	for(unsigned int i = 0; i < m_Textures.size(); i++)
 		RenderTexture(m_Textures[i]);
 	for(unsigned int i = 0; i < m_Models.size(); i++)
@@ -288,14 +288,14 @@ GLvoid GL_Renderer::Perspective(const float f, const vec2 v1, const vec2 v2)
 		m_Labels[i]->getMatrix()->Perspective(f, v1, v2);
 	}
 
-	if(m_Heightmap) {
-		m_Heightmap->getMatrix()->Perspective(f, v1, v2);
+	if(heightmap) {
+		heightmap->getMatrix()->Perspective(f, v1, v2);
 	}
 }
 
 GLvoid GL_Renderer::RotateView(GLfloat f, vec3 a)
 {
-	if(m_Heightmap)m_Heightmap->getMatrix()->RotateView(f, a);
+	if(heightmap)heightmap->getMatrix()->RotateView(f, a);
 	for(unsigned int i = 0; i < m_Textures.size(); i++)
 		m_Textures[i]->getMatrix()->RotateView(f, a);
 	for(unsigned int i = 0; i < m_Models.size(); i++)
@@ -306,7 +306,7 @@ GLvoid GL_Renderer::RotateView(GLfloat f, vec3 a)
 
 GLvoid GL_Renderer::Rotate(GLfloat f, vec3 a)
 {
-	if(m_Heightmap)m_Heightmap->getMatrix()->Rotate(f, a);
+	if(heightmap)heightmap->getMatrix()->Rotate(f, a);
 	for(unsigned int i = 0; i < m_Textures.size(); i++)
 		m_Textures[i]->getMatrix()->Rotate(f, a);
 	for(unsigned int i = 0; i < m_Models.size(); i++)
@@ -315,7 +315,7 @@ GLvoid GL_Renderer::Rotate(GLfloat f, vec3 a)
 
 GLvoid GL_Renderer::TranslateView(vec3 v)
 {
-	if(m_Heightmap)m_Heightmap->getMatrix()->TranslateView(v);
+	if(heightmap)heightmap->getMatrix()->TranslateView(v);
 	m_Skybox ? m_Skybox->Translate(v) : 0;
 	for(unsigned int i = 0; i < m_Textures.size(); i++)
 		m_Textures[i]->getMatrix()->TranslateView(v);
@@ -327,7 +327,7 @@ GLvoid GL_Renderer::TranslateView(vec3 v)
 
 GLvoid GL_Renderer::Translate(vec3 v)
 {
-	if(m_Heightmap)m_Heightmap->getMatrix()->Translate(v);
+	if(heightmap)heightmap->getMatrix()->Translate(v);
 	for(unsigned int i = 0; i < m_Textures.size(); i++)
 		m_Textures[i]->getMatrix()->Translate(v);
 	for(unsigned int i = 0; i < m_Labels.size(); i++)

@@ -32,7 +32,7 @@ private:
 	vector<GL_Texture *> m_Textures;
 	vector<GL_Text *> m_Labels;
 	
-	GL_Heightmap * m_Heightmap;
+	GL_Heightmap * heightmap;
 	GL_Skybox * m_Skybox;
 	
 	vec4 m_SurfaceSize;
@@ -74,5 +74,5 @@ public:
 	// Get & Set Functions
 	GLvoid setSurfaceSize(vec4);
 
-	GL_Heightmap * getHeightmap(){ return m_Heightmap; }
+	GL_Heightmap * getHeightmap(){ return heightmap; }
 };

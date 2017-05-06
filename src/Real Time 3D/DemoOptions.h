@@ -8,14 +8,14 @@
 
 class DemoOptions : public Scene
 {
-    GL_Renderer m_pRenderer;
-    GL_Texture m_pTexture;
-    GL_Text m_pHeader;
+    GL_Renderer renderer;
+    GL_Texture texture;
+    GL_Text header;
 
-    Button m_pShowCollisionBoxes;
-    Button m_pEnablePostEffects;
-    Button m_pEnableWireframe;
-    Button m_pBackButton;
+    Button showCollisionBoxes;
+    Button enablePostEffects;
+    Button enableWireframe;
+    Button backButton;
 public:
     DemoOptions();
     ~DemoOptions();

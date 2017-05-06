@@ -42,13 +42,13 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>$(ProjectDir)include\freetype;$(IncludePath)</IncludePath>
-    <LibraryPath>$(ProjectDir)\lib\freetype;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(SolutionDir)..\include;$(SolutionDir)..\;$(SolutionDir)..\include\freetype;$(IncludePath)</IncludePath>
+    <LibraryPath>$(SolutionDir)..\lib;$(SolutionDir)..\;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
-    <IncludePath>L:\Real Time 3D\Real Time 3D\include\freetype;$(IncludePath)</IncludePath>
-    <LibraryPath>L:\Real Time 3D\Real Time 3D\lib\freetype;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(SolutionDir)..\include;$(SolutionDir)..\;$(SolutionDir)..\include\freetype;$(IncludePath)</IncludePath>
+    <LibraryPath>$(SolutionDir)..\lib;$(SolutionDir)..\;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -63,6 +63,10 @@
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
+    <PostBuildEvent>
+      <Command>xcopy /Y /I /S $(SolutionDir)..\data $(OutDir)Data
+xcopy /Y $(SolutionDir)..\lib\bin $(OutDir)</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
@@ -83,6 +87,10 @@
       <OptimizeReferences>true</OptimizeReferences>
       <ImageHasSafeExceptionHandlers>false</ImageHasSafeExceptionHandlers>
     </Link>
+    <PostBuildEvent>
+      <Command>xcopy /Y /I /S $(SolutionDir)..\data $(OutDir)Data
+xcopy /Y $(SolutionDir)..\lib\bin $(OutDir)</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="AudioPlayer.cpp" />

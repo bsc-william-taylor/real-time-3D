@@ -21,7 +21,7 @@ GL_Text::GL_Text()
 		std::cout <<  "Could not init freetype library\n" << std::endl;
 	}
 
-	m_Loaded = GL_FALSE;
+	loaded = GL_FALSE;
 }
 
 GL_Text::~GL_Text()
@@ -49,7 +49,7 @@ GLvoid GL_Text::render()
 	m_pShader->setMatrix("ModelMatrix", m_Matrix->getModel());
 	m_pShader->setMatrix("ViewMatrix", m_Matrix->getView());
 
-	if(!m_Loaded)
+	if(!loaded)
 	{
 		vec2 PreviousPosition = m_Position;
 		
@@ -95,7 +95,7 @@ GLvoid GL_Text::render()
 		}
 
 		m_Position = PreviousPosition;
-		m_Loaded = GL_TRUE;
+		loaded = GL_TRUE;
 	} 
 		
 	for(unsigned int i = 0; i < m_Characters.size(); i++)
