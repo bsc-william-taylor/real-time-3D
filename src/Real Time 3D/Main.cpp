@@ -1,7 +1,7 @@
 
 #include "Demo.h"
 
-#ifdef _DEBUG
+#ifdef DEV
     #define MAIN main(int argc, const char * argv)
 #else 
     #define MAIN WINAPI WinMain(HINSTANCE h, HINSTANCE p, LPSTR l, int cc)
