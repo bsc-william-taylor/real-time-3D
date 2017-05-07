@@ -1,63 +1,32 @@
 
-/* -------------------------------------------------
-  
- @Filename  : GL_Texture_Manager.h
- @author	: William Taylor
- @date		: 14/02/2014
-
- @purpose	: A texture manager for opengl needs
-              a lot of work done.
-
- ------------------------------------------------- */
-
 #pragma once
 
 #include "MajorInclude.h"
 
-#pragma region Custom Types
-struct GL_Sprite
+struct SpriteGL
 {
-	vector<vector<RGBQUAD>> Colour;
-	std::string m_TextureName;
-	GLint Height;
-	GLint Width;
-	GLuint m_ID;
-
-	~GL_Sprite() { glDeleteTextures(1, &m_ID); }
+    vector<vector<RGBQUAD>> colours;
+    std::string name;
+    GLuint textureID;
+    GLuint height;
+    GLuint width;
 };
-
-#pragma endregion
 
 class TextureManagerGL
 {
-private:
-
-	static TextureManagerGL * m_pManager;		// Singletons Instance
-	vector<GL_Sprite *> m_Textures;				// Store all textures created for memory checking
-
+    static TextureManagerGL* manager;
+    vector<SpriteGL*> textures;
 public:
+    TextureManagerGL();
+    ~TextureManagerGL();
 
-	// Deconstructor
-	~TextureManagerGL();
+    static TextureManagerGL * get();
 
-	static TextureManagerGL * get();			// Static get function for accessing the class
+    SpriteGL* createTexture(GLubyte *, GLuint, GLuint, GLenum);
+    SpriteGL* createTexture(const std::string&, GLenum);
+    SpriteGL* createGlyph(FT_Face, GLenum);
+    SpriteGL* loadTexture(const std::string&, GLenum e);
 
-	// Member Functions
-	GL_Sprite * CreateTexture(GLubyte *, GLuint, GLuint, GLenum);
-	GL_Sprite * CreateTexture(const std::string&, GLenum);
-	GL_Sprite * CreateGlyph(FT_Face, GLenum);
-
-	GLvoid FreeTextures();
-
-	GLuint getTextureCount();
-
-private:
-
-	// Constructor
-	TextureManagerGL();
-
-	GL_Sprite * LoadTexture(const std::string&, GLenum e);
+    GLuint getTextureCount();
+    GLvoid freeTextures();
 };
-
-// Helps Reduce line length
-typedef TextureManagerGL GL_Textures;

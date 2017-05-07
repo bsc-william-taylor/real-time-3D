@@ -39,20 +39,20 @@ void Win32Keyboard::outputInput(Scene * CurrentState)
     {
         if (keyBuffer[i] & 0x80 && !keyRelease[i])
         {
-            CurrentState->keyPress(i, PRESSED);
+            CurrentState->onKeyPress(i, PRESSED);
             releaseMsg[i] = false;
             keyRelease[i] = true;
         }
 
         if (keyRelease[i] && keyBuffer[i] & 0x80)
         {
-            CurrentState->keyPress(i, HOLDING);
+            CurrentState->onKeyPress(i, HOLDING);
             releaseMsg[i] = false;
         }
 
         if (!(keyBuffer[i] & 0x80) && keyRelease[i])
         {
-            CurrentState->keyPress(i, RELEASED);
+            CurrentState->onKeyPress(i, RELEASED);
             keyRelease[i] = false;
             releaseMsg[i] = true;
         }

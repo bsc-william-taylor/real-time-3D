@@ -3,34 +3,29 @@
 
 #include "ShaderManagerGL.h"
 #include "MatrixGL.h"
-#include "ICamera.h"
+#include "Camera.h"
 
 class MinimapGL
 {
-private:
+    ProgramGL* shader;
+    MatrixGL matrix;
+    Camera* camera;
 
-	GL_Program * m_pShader;
-	GL_Matrix * m_pMatrix;
+    GLuint colourBuffer;
+    GLuint frameBuffer;
+    GLuint depthBuffer;
+    GLuint vertexArray;
+    GLuint vertexBuffer;
 
-	ICamera * m_pCamera;
+    GLfloat previousRotation;
+    GLfloat previousPitch;
 
-	GLuint ColourBuffer;
-	GLuint FrameBuffer;
-	GLuint DepthBuffer;
-
-	GLfloat m_PreviousRotation;
-	GLfloat m_PreviousPitch;
-	vec3 m_PreviousPosition;
-
-	GLuint VAO;
-	GLuint VBO;
-
+    vec3 previousPosition;
 public:
+    MinimapGL();
+    ~MinimapGL();
 
-	MinimapGL();
-	~MinimapGL();
-
-	GLvoid Initialise(ICamera *);
-	GLvoid RenderToBuffer();
-	GLvoid RenderToScreen();
+    GLvoid initialise(Camera *);
+    GLvoid renderToBuffer();
+    GLvoid renderToScreen();
 };

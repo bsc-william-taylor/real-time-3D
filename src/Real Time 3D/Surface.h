@@ -8,40 +8,36 @@
 
 class Surface
 {
-private:
+    ProgramGL* program;
+    MatrixGL* matrix;
 
-	GL_Program * m_pProgram;
-	GL_Matrix * m_pMatrix;
+    vector<SubSurface *> surfaces;
+    vector<vec3> positions;
+    vector<vec3> size;
+    vector<int> maxValues;
 
-	vector<SubSurface *> m_Surfaces;
-	vector<vec3> m_Positions;
-	vector<vec3> m_Size;
-	vector<int> m_Max;
+    GLuint vertexBuffer;
+    GLuint vertexArray;
+    GLuint count;
 
-	GLuint Count;
-	GLuint VAO;
-	GLuint VBO;
-
-	bool FirstTime;
-	bool m_Draw;
-
+    bool firstTime;
+    bool shouldDraw;
 public:
+    Surface();
+    ~Surface();
 
-	Surface();
-	~Surface();
+    bool checkForCollision(SubSurface *, Camera *);
+    bool checkForCollision(Camera *);
 
-	bool CheckForCollision(SubSurface *, ICamera *);
-	bool CheckForCollision(ICamera *);
-	
-	void SetSize(vec3, vec3);
-	void update(GL_Matrix *);
-	void AddMaxMeshes(int);
-	void Disable();
-	void Enable();
-	void render();
-	void Setup();
+    vector<SubSurface *>& getSubSurface();
 
-	
-	vector<SubSurface *>& getSubSurface(){ return m_Surfaces; }
-	GL_Matrix * getMatrix();
+    void setSize(vec3, vec3);
+    void onUpdate(MatrixGL*);
+    void addMaxMeshes(int);
+    void disable();
+    void enable();
+    void render();
+    void setup();
+
+    MatrixGL* getMatrix();
 };

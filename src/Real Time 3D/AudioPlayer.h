@@ -3,26 +3,21 @@
 
 #include "AudioObject.h"
 #include "RendererGL.h"
-#include "ICamera.h"
+#include "Camera.h"
 
 class AudioPlayer
 {
-private:
-
-	std::vector<AudioObject *> m_Playables;
-	RendererGL * renderer;
-	ICamera * m_pCamera;
-
+	std::vector<AudioObject *> playables;
+	RendererGL* renderer;
+	Camera* camera;
 public:
-
 	AudioPlayer();
 	~AudioPlayer();
 
-	void Set3DRenderer(RendererGL *);
-	void Set3DCamera(ICamera *);
-
-	void PushClip(AudioObject *);
-	void PopClip(AudioObject *);
-	void Initialise();
-	void Stream();
+	void set3DRenderer(RendererGL*);
+	void set3DCamera(Camera*);
+	void pushClip(AudioObject*);
+	void popClip(AudioObject*);
+	void initialise();
+	void stream();
 };

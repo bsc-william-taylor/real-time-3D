@@ -1,17 +1,4 @@
 
-/* -------------------------------------------------
-  
- @Filename  : GL_Texture.h
- @author	: William Taylor
- @date		: 14/02/2014
-
- @purpose	: Simple GL_Texture object that sets up 
-			  a texture, it can be drawn using the 
-			  draw texture method in the GL_Renderer 
-			  Class.
-
- ------------------------------------------------- */
-
 #pragma once
 
 #include "TextureManagerGL.h"
@@ -20,45 +7,39 @@
 
 class TextureGL
 {
-private:	
-
-	GL_Program * m_pShader;
-	GL_Sprite * m_Texture;	
-	GL_Matrix * m_Matrix;
+	ProgramGL* shader;
+	SpriteGL* texture;	
+	MatrixGL matrix;
 							
-	GLuint VAO;
-	GLuint VBO;
+	GLuint vertexArray;
+	GLuint vertexBuffer;
+    GLenum settings;
 
-	vec3 m_Position;
-	vec4 m_Shade;
-	vec3 m_Size;
-	vec4 m_UV;
+	vec3 position;
+	vec4 shade;
+	vec3 size;
+	vec4 uv;
 
-	std::string m_Filename;	
-	GLenum m_Setting;	
-		
+	std::string filename;	
 public:
-
-	// Constructor & Deconstructor
 	TextureGL();
 	~TextureGL();
 
-	// Member Functions
-	GLvoid SurfacePlacements(GLuint);
-	GLvoid update(){}
-	GLvoid Prepare();
+    const std::string& getPath();
 
-	// Get & Set Function
-	GLvoid setTexturePositions(vec2, vec2);
-	GLvoid setTexture(std::string, GLenum);
-	GLvoid setPosition(vec3, vec3);
+    GLvoid setShade(vec4);
+    GLvoid setTexturePositions(vec2, vec2);
+    GLvoid setTexture(std::string, GLenum);
+    GLvoid setPosition(vec3, vec3);
+	GLvoid surfacePlacements(GLuint);
+	GLvoid onUpdate(){}
+	GLvoid prepare();
 
-	const std::string& getPath();
-	GL_Matrix * getMatrix(){ return m_Matrix; }
-	GL_Program * getProgram(){ return m_pShader; }
-	GLuint getVAO(){ return VAO; }
-	GLuint getID();
+    GLuint getVAO();
+    GLuint getProgramID();
 
-	GLvoid setShade(vec4);
+	MatrixGL* getMatrix();
+	ProgramGL* getProgram();
+
 	vec4 getShade();
 };

@@ -1,9 +1,9 @@
 
 #include "MapOverlayGL.h"
 
-MapOverlayGL::MapOverlayGL()
-	: m_pSprite(NULL),
-	  m_pMap(NULL)
+MapOverlayGL::MapOverlayGL() : 
+    sprite(nullptr),
+    map(nullptr)
 {
 }
 
@@ -11,32 +11,30 @@ MapOverlayGL::~MapOverlayGL()
 {
 }
 
-GLvoid MapOverlayGL::SetOverlayImage(const std::string& filename)
+GLvoid MapOverlayGL::setOverlayImage(const std::string& filename)
 {
-	m_pSprite = TextureManagerGL::get()->CreateTexture(filename, GL_REPEAT);
+    sprite = TextureManagerGL::get()->createTexture(filename, GL_REPEAT);
 }
 
-GLvoid MapOverlayGL::SetOverlayMap(const std::string& filename)
+GLvoid MapOverlayGL::setOverlayMap(const std::string& filename)
 {
-	m_pMap = TextureManagerGL::get()->CreateTexture(filename, GL_CLAMP_TO_EDGE);
+    map = TextureManagerGL::get()->createTexture(filename, GL_CLAMP_TO_EDGE);
 }
 
-GLvoid MapOverlayGL::PrepareShader(GL_Program * program)
+GLvoid MapOverlayGL::prepareShader(ProgramGL * program)
 {
-	GLint Overlay = glGetUniformLocation(program->getID(), "Overlay");
+    GLint overlay = glGetUniformLocation(program->getProgramID(), "Overlay");
+    glActiveTexture(GL_TEXTURE1);
+    glBindTexture(GL_TEXTURE_2D, map->textureID);
+    glUniform1i(overlay, 1);
 
-	glActiveTexture(GL_TEXTURE1);
-	glBindTexture(GL_TEXTURE_2D, m_pMap->m_ID);
-	glUniform1i(Overlay, 1);
-
-	GLint Texture = glGetUniformLocation(program->getID(), "Texture");
-
-	glActiveTexture(GL_TEXTURE2);
-	glBindTexture(GL_TEXTURE_2D, m_pSprite->m_ID);
-	glUniform1i(Texture, 2);
+    GLint texture = glGetUniformLocation(program->getProgramID(), "Texture");
+    glActiveTexture(GL_TEXTURE2);
+    glBindTexture(GL_TEXTURE_2D, sprite->textureID);
+    glUniform1i(texture, 2);
 }
 
-GLuint MapOverlayGL::GetID()
+GLuint MapOverlayGL::getTextureID()
 {
-	return m_pSprite->m_ID;
+    return sprite->textureID;
 }

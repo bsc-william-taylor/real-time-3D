@@ -3,58 +3,57 @@
 
 #include "TextureGL.h"
 #include "Surface.h"
-#include "IModel.h"
+#include "Model.h"
 
-class StaticModel : public IModel
+class StaticModel : public Model
 {
-private:
+    Assimp::Importer assimp;
 
-	Assimp::Importer m_Importer;
+    vector<TextureGL*> textures;
+    Surface* boundingBox;
 
-	vector<TextureGL *> m_Textures;
-	Surface * m_BoundingBox;
+    GLint* matrixIndices;
+    GLint* meshStart;
+    GLint* meshSizes;
 
-	GLint * m_MatIndices,* m_MeshStart, * m_MeshSizes;
-	GLuint VAO,	VBO, Size, MeshNumber;
+    GLuint materialCount;
+    GLuint vertexArray;
+    GLuint vertexBuffer;
+    GLuint meshNumber;
+    GLuint size;
 
-	GLfloat m_Rotation;
-	GLint m_NumMaterials;
+    GLfloat rotation;
 
-	vec3 m_RotateNormal, m_Translate, m_Scale;
+    vector<aiVector3D> data;
+    vec3 rotateNormal;
+    vec3 translate;
+    vec3 scale;
 
-	vector<aiVector3D> m_Data;
-
-	GL_Program * m_pShader;		
-	GL_Matrix * m_Matrix;    
-	
+    ProgramGL* shader;
+    MatrixGL matrix;
 public:
+    StaticModel();
+    ~StaticModel();
 
-	StaticModel();
-	~StaticModel();
+    bool isDynamic();
 
-	bool isDynamic() { return false; }
+    GLvoid prepare();
+    GLvoid onUpdate();
+    GLvoid load(const std::string&, const std::string&, bool);
+    GLvoid setTranslate(vec3);
+    GLvoid setScale(vec3);
+    GLvoid setScale(GLfloat);
+    GLvoid setRotate(GLfloat, vec3);
 
+    GLuint getMaterialIndex(GLuint);
+    GLuint getMeshStart(GLuint);
+    GLuint getTextureID(GLuint);
+    GLuint getMeshEnd(GLuint);
+    GLuint getMeshNumber();
+    GLuint getVAO();
 
-	GLvoid Load(const std::string&, const std::string&, bool);
-	GLvoid Prepare();
-	GLvoid update();
+    ProgramGL* getProgram();
+    MatrixGL* getMatrix();
 
-	GLvoid Translate(vec3);
-	GLvoid SetScale(vec3);
-	GLvoid SetScale(GLfloat);
-	GLvoid Rotate(GLfloat, vec3);
-
-	GLuint getMaterialIndex(GLuint);
-	GLuint getMeshStart(GLuint);
-	GLuint getTextureID(GLuint);
-	GLuint getMeshEnd(GLuint);
-	GLuint getMeshNumber();
-
-	GL_Program * getProgram() { return m_pShader; }
-	GL_Matrix * getMatrix() { return m_Matrix; }
-	GLuint getVAO(){ return VAO; }
-
-private:
-
-	std::string GetDirectoryPath(std::string);
+    std::string getDirectoryPath(std::string);
 };

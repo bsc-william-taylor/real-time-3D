@@ -6,29 +6,20 @@
 
 class AudioObject
 {
-private:
+	AudioSource audioSource;
+	AudioNode audioNode;
 
-	AudioSource * m_pSource;
-	AudioNode * m_pNode;
-
-	const char * m_Filename;
-
+	const char* filename;
 public:
-
 	AudioObject();
 	~AudioObject();
 
 	void SetAudioSource(const char *);
 	void SetPosition(vec3);
 	void RenderNode();
-	void Pause();
-	void Play();
+	void pause();
+	void play();
 
-	AudioSource * getSource() {
-		return m_pSource;
-	}
-
-	AudioNode * getNode() {
-		return m_pNode;
-	}
+	AudioSource * getSource();
+	AudioNode * getNode();
 };

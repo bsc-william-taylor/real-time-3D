@@ -3,38 +3,33 @@
 
 #include "TextureGL.h"
 
+enum SIDES
+{
+    RIGHT,
+    FRONT,
+    BACK,
+    LEFT,
+    TOP,
+};
+
 class SkyboxGL
 {
-private:
+    vector<TextureGL *> skyboxTextures;
+    vector<std::string> filenames;
 
-	enum SIDES 
-	{ 
-		RIGHT,
-		FRONT, 
-		BACK, 
-		LEFT,
-		TOP, 
-	};
-
-private:
-
-	vector<TextureGL *> m_SkyboxTextures;
-	vector<std::string> m_Filenames;
-	
-	GLfloat m_Overdraw;
-	GLfloat m_Distance;
-
+    GLfloat overdraw;
+    GLfloat distance;
 public:
 
-	SkyboxGL();
-	~SkyboxGL();
-	
-	vector<TextureGL *>& getTextures();
-	
-	GLvoid SetOverdraw(GLfloat);
-	GLvoid SetDistance(GLfloat);
-	GLvoid Folder(std::string);
-	GLvoid Translate(vec3);
-	GLvoid update();
-	GLvoid Setup();
+    SkyboxGL();
+    ~SkyboxGL();
+
+    GLvoid setOverdraw(GLfloat);
+    GLvoid setDistance(GLfloat);
+    GLvoid folder(std::string);
+    GLvoid translate(vec3);
+    GLvoid onUpdate();
+    GLvoid setup();
+
+    vector<TextureGL *>& getTextures();
 };

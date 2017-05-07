@@ -4,47 +4,43 @@
 #include "RendererGL.h"
 #include "DynamicModel.h"
 #include "Win32Codes.h"
-#include "ICamera.h"
+#include "Camera.h"
 
-class ThirdPersonCamera : public ICamera
+class ThirdPersonCamera : public Camera
 {
-private:
-	
-	RendererGL * m_pWorld;
-	
-	GLfloat m_AnimationStep;
-	GLfloat m_Animation;
-	GLfloat m_Rotation;
-	GLfloat m_Pitch;
-	GLfloat m_Y;
+    RendererGL* renderer;
 
-	vec3 m_CameraTranslate;
-	vec3 m_CameraSpeed;
-	vec3 m_Movement;
+    GLfloat animationStep;
+    GLfloat animation;
+    GLfloat rotation;
+    GLfloat pitch;
+    GLfloat y;
 
-	DynamicModel * m_Model;
+    vec3 cameraTranslate;
+    vec3 cameraSpeed;
+    vec3 movement;
 
+    DynamicModel* animatedModel;
 public:
+    ThirdPersonCamera();
+    ~ThirdPersonCamera();
 
-	ThirdPersonCamera();
-	~ThirdPersonCamera();
+    GLvoid initialise(RendererGL*);
+    GLvoid onKeyPress(int, int);
+    GLvoid onMotion(float, float);
+    GLvoid cancelMovement();
+    GLvoid onUpdate(bool);
+    GLvoid Reset();
 
-	GLvoid Initialise(RendererGL *);
-	GLvoid keyPress(int, int);
-	GLvoid motion(float, float);
-	GLvoid CancelMovement();
-	GLvoid update(bool);
-	GLvoid Reset();
+    GLvoid setPlayerModel(DynamicModel*);
+    GLvoid setRotation(GLfloat);
+    GLvoid setPitch(GLfloat);
+    GLvoid setPosition(vec3);
 
-	GLvoid setPlayerModel(DynamicModel *);
-	GLvoid setRotation(GLfloat);
-	GLvoid setPitch(GLfloat);
-	GLvoid setPosition(vec3);
-	
-	GLfloat getRotation();
-	GLfloat getPitch();
+    GLfloat getRotation();
+    GLfloat getPitch();
 
-	vec3 getTranslate();
-	vec3 getPosition(vec3);
-	vec3 getPosition();
+    vec3 getTranslate();
+    vec3 getPosition(vec3);
+    vec3 getPosition();
 };

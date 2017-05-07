@@ -3,109 +3,107 @@
 
 SubSurface::SubSurface()
 {
-	m_Position = vec3(0, 0, 0);
-	m_Size = vec3(0, 0, 0);
-	positionCalculated = false;
-	count = 0;
+    positionCalculated = false;
+    position = vec3(0, 0, 0);
+    size = vec3(0, 0, 0);
 }
 
 SubSurface::~SubSurface()
 {
 }
 
-bool SubSurface::CollisionTest(GL_Matrix * matrix, vec3 position, vec3 size)
+bool SubSurface::collisionTest(MatrixGL * matrix, vec3 position, vec3 size)
 {
-	mat4 mat = matrix->getProjection() * matrix->getModel();
-	if(CollisionTest(mat, position)) {
-		return true;
-	}
+    auto mat = matrix->getProjection() * matrix->getModel();
 
-	if(CollisionTest(mat, size)) {
-		return true;
-	}
-	
-	return false;
+    if (collisionTest(mat, position))
+    {
+        return true;
+    }
+
+    if (collisionTest(mat, size))
+    {
+        return true;
+    }
+
+    return false;
 }
 
-bool SubSurface::CollisionTest(mat4 mat, vec3 position)
+bool SubSurface::collisionTest(mat4 mat, vec3 position)
 {
-	if(!positionCalculated)
-	{
-		m_Position = vec3(mat * (vec4(m_Position, 1.0)));
-		m_Size = vec3(mat * (vec4(m_Size, 1.0)));
-		
-		positionCalculated = true;
-	}
-	
-	if(position.x >= m_Position.x && position.x <= m_Size.x)
-	{
-		if(position.z >= m_Position.z && position.z <= m_Size.z)
-		{
-			if(position.y >= m_Position.y && position.y <= m_Size.y)
-			{
-				return true;	
-			}
-		}
-	}
+    if (!positionCalculated)
+    {
+        this->position = vec3(mat * (vec4(this->position, 1.0)));
+        this->size = vec3(mat * (vec4(this->size, 1.0)));
+        positionCalculated = true;
+    }
 
-	return false;
+    if (position.x >= this->position.x && position.x <= size.x)
+    {
+        if (position.z >= this->position.z && position.z <= size.z)
+        {
+            if (position.y >= this->position.y && position.y <= size.y)
+            {
+                return true;
+            }
+        }
+    }
+
+    return false;
 }
 
 vec3 SubSurface::getMeshPosition()
 {
-	return m_Position;
+    return position;
 }
 
 vec3 SubSurface::getMeshSize()
 {
-	return m_Size;
+    return size;
 }
 
-void SubSurface::PrintSurfaceData()
+void SubSurface::printSurfaceData()
 {
-	std::cout << " : " << m_Position.x << " : " << m_Position.y << " : " << m_Position.z << std::endl;
-	std::cout << " : " << m_Size.x << " : " << m_Size.y << " : " << m_Size.z << std::endl;
+    std::cout << " : " << position.x << " : " << position.y << " : " << position.z << std::endl;
+    std::cout << " : " << size.x << " : " << size.y << " : " << size.z << std::endl;
 }
 
-bool SubSurface::PassPoint(vec3 p, vec3 s)
+bool SubSurface::passPoint(vec3 p, vec3 s)
 {
-	if(m_Position == vec3(0, 0, 0))
-	{
-		m_Position = p;
-		m_Size = s;
-		return true;
-	}
+    if (position == vec3(0, 0, 0))
+    {
+        position = p;
+        size = s;
+        return true;
+    }
 
-	if(isConnected(p, s))
-	{
-		if(p.x < m_Position.x)
-			m_Position.x = p.x;
-		if(p.y < m_Position.y)
-			m_Position.y = p.y;	
-		if(p.z < m_Position.z)
-			m_Position.z = p.z;	
+    if (isConnected(p, s))
+    {
+        if (p.x < position.x)
+            position.x = p.x;
+        if (p.y < position.y)
+            position.y = p.y;
+        if (p.z < position.z)
+            position.z = p.z;
 
-		if(s.x > m_Size.x)
-			m_Size.x = s.x;		
-		if(s.y > m_Size.y)
-			m_Size.y = s.y; 
-		if(s.z > m_Size.z)
-			m_Size.z = s.z; 
-		
-		return true;
-	}
+        if (s.x > size.x)
+            size.x = s.x;
+        if (s.y > size.y)
+            size.y = s.y;
+        if (s.z > size.z)
+            size.z = s.z;
 
-	return false;
+        return true;
+    }
+
+    return false;
 }
 
 bool SubSurface::isConnected(vec3 p, vec3 s)
 {
-	if(p.x == m_Position.x || p.y == m_Position.y || p.z == m_Position.z)
-	{
-		return true;
-	}
-	if(s.x == m_Size.x || s.y == m_Size.y || s.z == m_Size.z)
-		return true;
-	else
-		return false;
+    if (p.x == position.x || p.y == position.y || p.z == position.z)
+        return true;
+    if (s.x == size.x || s.y == size.y || s.z == size.z)
+        return true;
+    return false;
 }

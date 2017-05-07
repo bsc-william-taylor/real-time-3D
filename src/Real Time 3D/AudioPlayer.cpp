@@ -3,62 +3,60 @@
 
 AudioPlayer::AudioPlayer()
 {
-	renderer = NULL;
-	m_pCamera = NULL;
+    renderer = nullptr;
+    camera = nullptr;
 }
 
 AudioPlayer::~AudioPlayer()
 {
-	m_pCamera = NULL;
 }
 
-void AudioPlayer::Set3DCamera(ICamera * camera)
+void AudioPlayer::set3DCamera(Camera * camera)
 {
-	m_pCamera = camera;
+    this->camera = camera;
 }
 
-void AudioPlayer::PushClip(AudioObject * source)
+void AudioPlayer::pushClip(AudioObject * source)
 {
-	m_Playables.push_back(source);
+    playables.push_back(source);
 }
 
-void AudioPlayer::PopClip(AudioObject * source)
+void AudioPlayer::popClip(AudioObject* source)
 {
-	std::remove(m_Playables.begin(), m_Playables.end(), source);
+    auto it = std::find(playables.begin(), playables.end(), source);
+
+    if (it != playables.end())
+    {
+        playables.erase(it);
+    }
 }
 
-void AudioPlayer::Set3DRenderer(RendererGL * renderer)
+void AudioPlayer::set3DRenderer(RendererGL * renderer)
 {
-	this->renderer = renderer;
+    this->renderer = renderer;
 }
 
-void AudioPlayer::Initialise()
+void AudioPlayer::initialise()
 {
-	BASS_SetVolume(1.0f);
+    BASS_SetVolume(1.0f);
 
-	unsigned int size = m_Playables.size();
-	
-	for(unsigned i = 0; i < size; i++)
-	{
-		renderer->PushAudioNode(m_Playables[i]->getNode());	
-	}
+    for (auto i = 0; i < playables.size(); i++)
+    {
+        renderer->pushAudioNode(playables[i]->getNode());
+    }
 }
 
-void AudioPlayer::Stream()
+void AudioPlayer::stream()
 {
-	unsigned int size = m_Playables.size();
-	
-	for(unsigned i = 0; i < size; i++)
-	{
-		if(m_pCamera != NULL)
-		{
-			auto source = m_Playables[i]->getSource();
-			vec3 vec = m_pCamera->getPosition();
-			
-			BASS_3DVECTOR p = BASS_3DVECTOR(vec.x, vec.y, vec.z);
-			
-			source->Translate(p);
-			source->UpdatePosition();
-		}
-	}
+    for (auto i = 0; i < playables.size(); i++)
+    {
+        if (camera != nullptr)
+        {
+            auto source = playables[i]->getSource();
+            auto vector = camera->getPosition();
+
+            source->translate({ vector.x, vector.y, vector.z });
+            source->updatePosition();
+        }
+    }
 }

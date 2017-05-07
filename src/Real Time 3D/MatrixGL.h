@@ -1,50 +1,31 @@
 
-/* -------------------------------------------------
-  
- @Filename  : GL_Matrix.h
- @purpose	: Main Definition
- @author	: William Taylor
- @date		: 04/02/2014
-
- ------------------------------------------------- */
-
 #pragma once
 
 #include "MajorInclude.h"
 
-class GL_Matrix
+class MatrixGL
 {
-private:
-
-	GLuint m_Tranformations;	// Transformation Counter
-	mat4 m_Projection;			// Projection Matrix
-	mat4 m_Model;				// Model Matrix
-	mat4 m_View;				// View Matrix
-
+    mat4 projectionMatrix;
+    mat4 modelMatrix;
+    mat4 viewMatrix;
 public:
+    MatrixGL();
+    ~MatrixGL();
 
-	// Constructor & Deconstructor
-	GL_Matrix();				
-	~GL_Matrix();		
+    mat4 getProjection();
+    mat4 getModel();
+    mat4 getView();
 
-	// Basic get operations
-	GLuint getOperations();
-	vec3 getRealPosition(vec3);
-	mat4 getProjection();
-	mat4 getModel();	
-	mat4 getView();
+    GLvoid perspective(const float, const vec2, const vec2);
+    GLvoid ortho(const vec2, const vec2, const vec2);
+    GLvoid rotateView(const float, const vec3);
+    GLvoid rotate(const float, const vec3);
+    GLvoid ortho(const vec2, const vec2);
+    GLvoid translateView(const vec3);
+    GLvoid translate(const vec3);
+    GLvoid scale(const vec3);
+    GLvoid loadIdenditity();
+    GLvoid copy(MatrixGL*);
 
-	// Member function have detailed doc in (GL_Matrix.cpp)
-	GLvoid Perspective(const float, const vec2, const vec2);
-	GLvoid Ortho(const vec2, const vec2, const vec2);
-	GLvoid RotateView(const float, const vec3);
-	GLvoid Rotate(const float, const vec3);
-	GLvoid Ortho(const vec2, const vec2);
-	GLvoid TranslateView(const vec3);
-	GLvoid Translate(const vec3);
-	GLvoid Scale(const vec3);
-	GLvoid LoadIdenditity();
-	GLvoid Copy(GL_Matrix*);
+    vec3 getRealPosition(vec3);
 };
-
-// END

@@ -1,81 +1,81 @@
 
 #include "SurfaceManager.h"
 
-SurfaceManager * SurfaceManager::m_pInstance = NULL;
+SurfaceManager * SurfaceManager::manager = nullptr;
 
 SurfaceManager::SurfaceManager()
 {
-	m_pCameraSurface = NULL;
-	m_pSceneCamera = NULL;
+    cameraSurface = nullptr;
+    sceneCamera = nullptr;
 }
 
 SurfaceManager::~SurfaceManager()
 {
-	for(auto i = m_pSurfaces.begin(); i != m_pSurfaces.end(); ++i)
-	{
-		SAFE_RELEASE((*i));
-	}
+    for (auto i = surfaces.begin(); i != surfaces.end(); ++i)
+    {
+        SAFE_RELEASE(*i);
+    }
 }
 
 vector<Surface *>& SurfaceManager::getSurfaces()
 {
-	return m_pSurfaces;
+    return surfaces;
 }
 
 SurfaceManager * SurfaceManager::get()
 {
-	if(m_pInstance == NULL)
-	{
-		m_pInstance = new SurfaceManager();
-	}
+    if (manager == nullptr)
+    {
+        manager = new SurfaceManager();
+    }
 
-	return m_pInstance;
+    return manager;
 }
 
-void SurfaceManager::PushSurface(Surface * surface)
+void SurfaceManager::pushSurface(Surface * surface)
 {
-	if(surface != NULL)
-	{
-		m_pSurfaces.push_back(surface);
-	}
+    if (surface != nullptr)
+    {
+        surfaces.push_back(surface);
+    }
 }
 
-void SurfaceManager::PushCamera(ICamera * camera)
+void SurfaceManager::pushCamera(Camera * camera)
 {
-	m_pSceneCamera = camera;
+    sceneCamera = camera;
 }
 
-void SurfaceManager::PushCameraObject(Surface * surface)
+void SurfaceManager::pushCameraObject(Surface * surface)
 {
-	this->m_pCameraSurface = surface;
+    cameraSurface = surface;
 }
 
-void SurfaceManager::CheckForCollision()
+void SurfaceManager::checkForCollision()
 {
-	if(m_pCameraSurface != NULL)
-	{
-        auto& surfaces = m_pCameraSurface->getSubSurface();
+    if (cameraSurface != nullptr)
+    {
+        auto& cameraSurfaces = cameraSurface->getSubSurface();
 
-        if (!surfaces.empty())
+        if (!cameraSurfaces.empty())
         {
-            SubSurface * surface = surfaces.front();
-            for (int i = 0; i < m_pSurfaces.size(); ++i)
+            SubSurface* surface = cameraSurfaces.front();
+            for (int i = 0; i < surfaces.size(); ++i)
             {
-                if (m_pSurfaces[i]->CheckForCollision(surface, m_pSceneCamera) ||
-                    m_pSurfaces[i]->CheckForCollision(m_pSceneCamera))
+                if (surfaces[i]->checkForCollision(surface, sceneCamera) ||
+                    surfaces[i]->checkForCollision(sceneCamera))
                 {
-                    m_pSceneCamera->CancelMovement();
+                    sceneCamera->cancelMovement();
                     break;
                 }
             }
         }
-	}
+    }
 }
 
-void SurfaceManager::RenderSurfaces()
+void SurfaceManager::renderSurfaces()
 {
-	for(int i = 0; i < m_pSurfaces.size(); i++)
-	{
-		m_pSurfaces[i]->render();
-	}
+    for (int i = 0; i < surfaces.size(); i++)
+    {
+        surfaces[i]->render();
+    }
 }

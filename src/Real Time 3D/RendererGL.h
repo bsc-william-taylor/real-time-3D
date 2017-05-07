@@ -1,15 +1,4 @@
 
-/* -------------------------------------------------
-  
- @Filename  : GL_Renderer.h
- @author	: William Taylor
- @date		: 14/02/2014
-  @purpose	: A renderer which draws objects
-              and executes operations on all 
-			  objects in a Scene.
-
- ------------------------------------------------- */
-
 #pragma once
 
 #include "DynamicModel.h"
@@ -23,56 +12,44 @@
 
 class RendererGL
 {
-private:
+    vector<AudioNode*> audioNodes;
+    vector<TextureGL*> textures;
+    vector<Surface*> surfaces;
+    vector<TextGL*> labels;
+    vector<Model*> models;
 
-	vector<AudioNode *> m_AudioNodes;
-	vector<Surface *> m_Surfaces;
-	vector<IModel *> m_Models;
+    HeightmapGL* heightmap;
+    SkyboxGL* skybox;
 
-	vector<TextureGL *> m_Textures;
-	vector<TextGL *> m_Labels;
-	
-	HeightmapGL * heightmap;
-	SkyboxGL * m_Skybox;
-	
-	vec4 m_SurfaceSize;
-	vec2 a, b, c;
-
+    vec4 surfaceSize;
 public:
+    RendererGL();
+    ~RendererGL();
 
-	// Constructor & Deconstuctor
-	RendererGL();	
-	~RendererGL();
-		
-	// Member Functions
-	GLvoid PushHeightmap(HeightmapGL *);
-	GLvoid PushAudioNode(AudioNode *);
-	GLvoid PushTexture(TextureGL *);
-	GLvoid PushSkybox(SkyboxGL *);
-	GLvoid PushModel(IModel *);
-	GLvoid PushText(TextGL *);
-	
-	GLvoid PushSurface(Surface *);
-	GLvoid Prepare();
-	GLvoid update();
-	GLvoid render();
+    GLvoid pushHeightmap(HeightmapGL *);
+    GLvoid pushAudioNode(AudioNode *);
+    GLvoid pushTexture(TextureGL *);
+    GLvoid pushSkybox(SkyboxGL *);
+    GLvoid pushModel(Model *);
+    GLvoid pushText(TextGL *);
+    GLvoid pushSurface(Surface *);
+    GLvoid prepare();
+    GLvoid onUpdate();
+    GLvoid render();
 
-	GLvoid RenderTexture(TextureGL *);
-	GLvoid RenderModel(IModel *, mat4);
-	GLvoid Render3D(GLboolean);
-	GLvoid Render2D(GLboolean);
+    GLvoid renderTexture(TextureGL *);
+    GLvoid renderModel(Model *, mat4);
+    GLvoid render3D(GLboolean);
+    GLvoid render2D(GLboolean);
 
-	// Object Operations
-	GLvoid Perspective(const float, const vec2, const vec2);
-	GLvoid Ortho(const vec2, const vec2, const vec2);
-	GLvoid RotateView(GLfloat, vec3);
-	GLvoid Rotate(GLfloat, vec3);
-	GLvoid TranslateView(vec3);
-	GLvoid Translate(vec3);
-	GLvoid LoadIdentity();
+    GLvoid perspective(const float, const vec2, const vec2);
+    GLvoid ortho(const vec2, const vec2, const vec2);
+    GLvoid rotateView(GLfloat, vec3);
+    GLvoid rotate(GLfloat, vec3);
+    GLvoid translateView(vec3);
+    GLvoid translate(vec3);
+    GLvoid LoadIdentity();
+    GLvoid setSurfaceSize(vec4);
 
-	// Get & Set Functions
-	GLvoid setSurfaceSize(vec4);
-
-	HeightmapGL * getHeightmap(){ return heightmap; }
+    HeightmapGL* getHeightmap();
 };

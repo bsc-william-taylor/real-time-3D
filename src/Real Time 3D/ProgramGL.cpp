@@ -1,155 +1,128 @@
 
-/* -------------------------------------------------
-  
- @Filename  : GL_Program.h
- @purpose	: Main Definition
- @author	: William Taylor
- @date		: 04/02/2014
-
- ------------------------------------------------- */
-
 #include "ProgramGL.h"
 
-// Constructor & Deconstructor
-GL_Program::GL_Program() 
+ProgramGL::ProgramGL()
 {
-	VertexFilename = "";
-	FragFilename = "";
-	Program = NULL;
-	Shaders[0] = 0;
-	Shaders[1] = 0;
+    program = NULL;
+    shaders[0] = 0;
+    shaders[1] = 0;
 }
 
-GL_Program::~GL_Program() 
+ProgramGL::~ProgramGL()
 {
 }
 
-// Member Functions
-void GL_Program::OutputLog(Types types) 
+void ProgramGL::outputLog(ShaderTypes types)
 {
-	GLint progress = NULL;
-	
-	// Check to see if it compiled without errors
-	glGetShaderiv(Shaders[types], GL_COMPILE_STATUS, &progress);
+    GLint progress = 0;
+    glGetShaderiv(shaders[types], GL_COMPILE_STATUS, &progress);
 
-	// if so.
-	if(progress == GL_FALSE) 
-	{
-		// Write errors to the console
-		std::cout << "\nErrors with ";
-		types ? std::cout << "Fragment " : std::cout << "Vertex ";
-		std::cout << "Shader \n" << std::endl;
-		
-		GLint Length = 0;
-		glGetShaderiv(Shaders[types], GL_INFO_LOG_LENGTH, &Length);
+    if (progress == GL_FALSE)
+    {
+        std::cout << "\nErrors with " << (types ? "Fragment " : "Vertex ");
+        std::cout << "Shader \n" << std::endl;
 
-		GLchar * Log = new GLchar[Length + 1];
-		glGetShaderInfoLog(Shaders[types], Length, NULL, Log); 
-
-		// Delete log for clean up
-		std::cerr << Log << std::endl;
-		delete[] Log;
-		Log = NULL;
-	}
-}
-
-std::string GL_Program::ReadFile(const std::string& Filename) 
-{
-	// Read shader file into a string
-	std::ifstream File(Filename);
-    std::string Data = "";
-
-	// I dont think i really need to explain this.
-    if(File.is_open()) 
-	{
-		std::string line = "";
-
-        while(!File.eof()) 
-		{
-			getline(File, line);
-			Data.append(line + "\n");
-		}
-
-		std::cout << Filename << " : Shader Loaded" << std::endl;
-		File.close();
+        GLint length = 0;
+        glGetShaderiv(shaders[types], GL_INFO_LOG_LENGTH, &length);
+        GLchar* log = new GLchar[length + 1];
+        glGetShaderInfoLog(shaders[types], length, NULL, log);
+        std::cerr << log << std::endl;
+        delete[] log;
     }
-	else
-	{
-		std::string str = Filename;
-		str += "Error opening this file";
-		printf(str.c_str());
-	}
-
-    return(Data);
 }
 
-GLvoid GL_Program::setTexture(GLuint ID)
+std::string ProgramGL::readFile(const std::string& filename)
 {
-	glBindTexture(GL_TEXTURE_2D, ID);
+    std::ifstream file(filename);
+    std::string data = "";
+
+    if (file.is_open())
+    {
+        while (!file.eof())
+        {
+            std::string line = "";
+            getline(file, line);
+            data.append(line + "\n");
+        }
+
+        std::cout << filename << " : Shader Loaded" << std::endl;
+        file.close();
+    }
+    else
+    {
+        std::string str = filename;
+        str += "Error opening this file";
+        printf(str.c_str());
+    }
+
+    return(data);
 }
 
-GLvoid GL_Program::setMatrix(const std::string& name, mat4 m)
+GLvoid ProgramGL::setTexture(GLuint ID)
 {
-	// get Uniform & set the matrix
-	GLuint matrix = getUniform(name);
-	glUniformMatrix4fv(matrix, 1, false, glm::value_ptr(m));
+    glBindTexture(GL_TEXTURE_2D, ID);
 }
 
-void GL_Program::Create()
+GLvoid ProgramGL::setMatrix(const std::string& name, mat4 m)
 {
-	// Create ID for the program
-	Program = glCreateProgram();
+    GLuint matrix = getUniform(name);
+    glUniformMatrix4fv(matrix, 1, false, glm::value_ptr(m));
 }
 
-void GL_Program::Link()
+void ProgramGL::create()
 {
-	// Attach and link shaders
-	glAttachShader(Program, Shaders[0]);
-	glAttachShader(Program, Shaders[1]);
-	glLinkProgram(Program);
+    program = glCreateProgram();
 }
 
-void GL_Program::Load(Types type, const std::string& Source) 
-{	
-	GLuint i = 0;
-
-	if(type == VERTEX_SHADER) 
-	{
-		Shaders[0] = glCreateShader(GL_VERTEX_SHADER);
-		VertexFilename = Source;
-	}
-	else 
-	{
-		Shaders[1] = glCreateShader(GL_FRAGMENT_SHADER);
-		FragFilename = Source;
-		i = 1;
-	}
-
-	std::string ShaderString = ReadFile(Source);
-
-	const char * ShaderChar = ShaderString.c_str();
-
-	glShaderSource(Shaders[i], 1, &ShaderChar, NULL);
-    glCompileShader(Shaders[i]);
-}
-
-void GL_Program::Release() 
+void ProgramGL::link()
 {
-	glUseProgram(NULL);
+    glAttachShader(program, shaders[0]);
+    glAttachShader(program, shaders[1]);
+    glLinkProgram(program);
 }
 
-void GL_Program::Use() 
+void ProgramGL::load(ShaderTypes type, const std::string& source)
 {
-	glUseProgram(Program);
+    filenames[type] = source;
+    shaders[type] = glCreateShader(type == VERTEX_SHADER ? GL_VERTEX_SHADER : GL_FRAGMENT_SHADER);
+
+    std::string shaderString = readFile(source);
+    const char* charStr = shaderString.c_str();
+    glShaderSource(shaders[type], 1, &charStr, NULL);
+    glCompileShader(shaders[type]);
 }
 
-GLuint GL_Program::getAttribute(const std::string& name)
+void ProgramGL::release()
 {
-	return glGetAttribLocation(this->Program, name.c_str());
+    glUseProgram(0);
 }
 
-GLuint GL_Program::getUniform(const std::string& name)
+void ProgramGL::use()
 {
-	return glGetUniformLocation(this->Program, name.c_str());
+    glUseProgram(program);
 }
 
+GLuint ProgramGL::getAttribute(const std::string& name)
+{
+    return glGetAttribLocation(this->program, name.c_str());
+}
+
+GLuint ProgramGL::getUniform(const std::string& name)
+{
+    return glGetUniformLocation(this->program, name.c_str());
+}
+
+std::string ProgramGL::getVertexShader()
+{
+    return filenames[VERTEX_SHADER];
+}
+
+std::string ProgramGL::getFragmentShader()
+{
+    return filenames[FRAG_SHADER];
+}
+
+GLuint ProgramGL::getProgramID()
+{
+    return program;
+}

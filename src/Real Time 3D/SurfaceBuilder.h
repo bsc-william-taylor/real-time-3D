@@ -6,26 +6,22 @@
 
 class SurfaceBuilder
 {
-private:
+    MatrixGL* matrix;
+	Surface* surface;
+	
+	aiVector3D point;
+	aiVector3D size;
 
-	Surface * surface;
-	GL_Matrix * m_Matrix;
-	aiVector3D m_Point;
-	aiVector3D m_Size;
-	bool IgnoreArea;
-
+	bool ignoreArea;
 public:
 
 	SurfaceBuilder();
 	~SurfaceBuilder();
 
-	void PushSurface(GL_Matrix *);
-	void PushPoint(aiVector3D);
-	void EndOfMesh(int);
+	void pushSurface(MatrixGL *);
+	void pushPoint(aiVector3D);
+	void endOfMesh(int);
+	void ignore();
 	
-	void Ignore() {
-		IgnoreArea = true;
-	}
-	
-	Surface * Release();
+	Surface* release();
 };

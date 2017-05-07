@@ -1,70 +1,54 @@
 
-/* -------------------------------------------------
-  
- @Filename  : GL_Shader_Manager.cpp
- @author	: William Taylor
- @date		: 12/02/2014
-
- @purpose	: Class implementation
-
- ------------------------------------------------- */
-
 #include "ShaderManagerGL.h"
 
-ShaderManagerGL * ShaderManagerGL::m_pInstance = NULL;
+ShaderManagerGL * ShaderManagerGL::manager = nullptr;
 
-// Constructor & Deconstructor
 ShaderManagerGL::ShaderManagerGL()
 {
-	m_Programs.reserve(10);
+    shaders.reserve(10);
 }
 
 ShaderManagerGL::~ShaderManagerGL()
 {
-	auto begin = m_Programs.cbegin();
-	auto end = m_Programs.cend();
+    auto begin = shaders.cbegin();
+    auto end = shaders.cend();
 
-	for(auto i = m_Programs.begin(); i != m_Programs.cend();i++)
-	{
-		SAFE_RELEASE(*i);
-	}
-	
-	m_Programs.clear();
+    for (auto i = shaders.begin(); i != shaders.cend(); i++)
+    {
+        SAFE_RELEASE(*i);
+    }
+
+    shaders.clear();
 }
 
-// Member Functions
-GL_Program * ShaderManagerGL::GetShader(const std::string& vs, const std::string& fs)
+ProgramGL* ShaderManagerGL::getShader(const std::string& vs, const std::string& fs)
 {
-	for(unsigned int i = 0; i < m_Programs.size(); i++)
-	{
-		if(m_Programs[i]->getVS() == vs && m_Programs[i]->getFS() == fs)
-		{
-			return m_Programs[i];
-		}
-	}
+    for (auto i = 0; i < shaders.size(); i++)
+    {
+        if (shaders[i]->getVertexShader() == vs && shaders[i]->getFragmentShader() == fs)
+        {
+            return shaders[i];
+        }
+    }
 
-	GL_Program * Program = new GL_Program();
-	
-	Program->Create();
+    auto program = new ProgramGL();
+    program->create();
+    program->load(VERTEX_SHADER, vs);
+    program->load(FRAG_SHADER, fs);
+    program->outputLog(VERTEX_SHADER);
+    program->outputLog(FRAG_SHADER);
+    program->link();
 
-	Program->Load(Shader::VERTEX_SHADER, vs);
-	Program->Load(Shader::FRAG_SHADER, fs);
-	Program->OutputLog(Shader::VERTEX_SHADER);
-	Program->OutputLog(Shader::FRAG_SHADER);
-	
-	Program->Link();
-
-	m_Programs.push_back(Program);
-	return m_Programs[m_Programs.size() - 1];
+    shaders.push_back(program);
+    return shaders.back();
 }
 
-// Set & Get Functions
 ShaderManagerGL * ShaderManagerGL::get()
 {
-	if(m_pInstance == NULL)
-	{
-		m_pInstance = new ShaderManagerGL();
-	}
+    if (manager == nullptr)
+    {
+        manager = new ShaderManagerGL();
+    }
 
-	return m_pInstance;
+    return manager;
 }

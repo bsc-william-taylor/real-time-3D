@@ -5,7 +5,6 @@
 #include "SceneManager.h"
 #include "AudioPlayer.h"
 #include "AudioObject.h"
-#include "FreeCamera.h"
 #include "Button.h"
 #include "PostProcessorGL.h"
 #include "MinimapGL.h"
@@ -33,11 +32,11 @@ public:
     ~DemoScene();
 
     void mousePress(int, int, int, int);
-    void motion(float, float);
-    void keyPress(int, int);
+    void onMotion(float, float);
+    void onKeyPress(int, int);
     void setupGraphics();
     void setupAudio();
-    void update();
+    void onUpdate();
     void render();
     void enter();
 };

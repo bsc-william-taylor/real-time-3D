@@ -3,37 +3,28 @@
 
 #include "MajorInclude.h"
 #include "MinimapGL.h"
-#include "ICamera.h"
-
+#include "Camera.h"
 
 class SubSurface
 {
-private:
+    GLboolean positionCalculated;
 
-	unsigned int count;
-
-	GLboolean positionCalculated;
-
-	vec3 m_RealPosition;
-	vec3 m_RealSize;
-	vec3 m_Position;
-	vec3 m_Size;
-
+    vec3 realPosition;
+    vec3 realSize;
+    vec3 position;
+    vec3 size;
 public:
+    SubSurface();
+    ~SubSurface();
 
-	SubSurface();
-	~SubSurface();
+    void printSurfaceData();
 
-	bool CollisionTest(GL_Matrix *, vec3, vec3);
-	bool CollisionTest(mat4, vec3);
-	bool PassPoint(vec3, vec3);
-	
-	void PrintSurfaceData();
+    bool collisionTest(MatrixGL *, vec3, vec3);
+    bool collisionTest(mat4, vec3);
+    bool passPoint(vec3, vec3);
 
-	vec3 getMeshPosition();
-	vec3 getMeshSize();
+    vec3 getMeshPosition();
+    vec3 getMeshSize();
 
-private:
-
-	bool isConnected(vec3, vec3);
+    bool isConnected(vec3, vec3);
 };

@@ -16,7 +16,7 @@ Demo::Demo()
     : fps(60)
 {
     sceneManager = SceneManager::get();
-    sceneManager->PassEngine(this);
+    sceneManager->passEngine(this);
 
     demoSettings.wireframeEnabled = false;
     demoSettings.showBoundingBoxes = false;
@@ -42,7 +42,7 @@ void Demo::execute()
         system.onUpdate();
         timeLeft = 0;
 
-        sceneManager->UpdateManager();
+        sceneManager->updateManager();
         system.swapWindowBuffers();
 
         while (timeLeft < (GLfloat)1.0e9 / fps)
@@ -79,10 +79,10 @@ void Demo::setupOpenGL()
 void Demo::setupScenes()
 {
     sceneManager = SceneManager::get();
-    sceneManager->PushState(new DemoMenu());
-    sceneManager->PushState(new DemoScene());
-    sceneManager->PushState(new DemoOptions());
-    sceneManager->StartFrom(0);
+    sceneManager->pushState(new DemoMenu());
+    sceneManager->pushState(new DemoScene());
+    sceneManager->pushState(new DemoOptions());
+    sceneManager->startFrom(0);
     sceneManager->getCurrent()->enter();
     timer.start();
 }

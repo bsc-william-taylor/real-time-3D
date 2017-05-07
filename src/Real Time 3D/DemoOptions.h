@@ -22,6 +22,6 @@ public:
 
     void mousePress(int, int, int, int);
     void activateButton(Button*);
-    void update();
+    void onUpdate();
     void render();
 };

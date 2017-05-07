@@ -3,227 +3,239 @@
 #include "HeightmapGL.h"
 
 HeightmapGL::HeightmapGL()
-	: m_Filename(""), 
-	  m_Scale(50),
-	   m_Matrix (new GL_Matrix())
+    : filename(""),
+    scale(50),
+    matrix(new MatrixGL())
 {
-	m_Matrix->Perspective(70, vec2(16, 9), vec2(0.1, 1000));
-	m_pPositions.reserve(2000);
+    matrix->perspective(70, vec2(16, 9), vec2(0.1, 1000));
+    positions.reserve(2000);
 
-	glGenVertexArrays(1, &VertexArrayObject);
-	glBindVertexArray(VertexArrayObject);
-
-	glGenBuffers(1, &PositionBuffer);
-	glGenBuffers(1, &OverlayBuffer);
-	glGenBuffers(1, &UvBuffer);
-	glGenBuffers(1, &NormalBuffer);
-	
-	glBindVertexArray(0);
+    glGenVertexArrays(1, &vertexArrayObject);
+    glBindVertexArray(vertexArrayObject);
+    glGenBuffers(1, &positionBuffer);
+    glGenBuffers(1, &overlayBuffer);
+    glGenBuffers(1, &uvBuffer);
+    glGenBuffers(1, &normalBuffer);
+    glBindVertexArray(0);
 }
 
 HeightmapGL::~HeightmapGL()
 {
-	
+    glDeleteVertexArrays(1, &vertexArrayObject);
+    glDeleteBuffers(1, &positionBuffer);
+    glDeleteBuffers(1, &overlayBuffer);
+    glDeleteBuffers(1, &uvBuffer);
+    glDeleteBuffers(1, &normalBuffer);
 }
 
 GLfloat HeightmapGL::getY(GLuint x, GLuint z)
 {
-	GLfloat y = 0.0f;
+    GLfloat y = 0.0f;
 
-	if(x < m_HeightMap->Colour.size() && z < m_HeightMap->Colour[x].size()) 
-	{
-		RGBQUAD Colour = m_HeightMap->Colour[x][z];
-	
-		y += ((GLfloat)Colour.rgbReserved) / 255.0f;
-		y += ((GLfloat)Colour.rgbGreen) / 255.0f;
-		y += ((GLfloat)Colour.rgbBlue) / 255.0f;
-		y += ((GLfloat)Colour.rgbRed) / 255.0f;
-	}
+    if (x < heightmap->colours.size() && z < heightmap->colours[x].size())
+    {
+        RGBQUAD colours = heightmap->colours[x][z];
 
-	return(y);
+        y += ((GLfloat)colours.rgbReserved) / 255.0f;
+        y += ((GLfloat)colours.rgbGreen) / 255.0f;
+        y += ((GLfloat)colours.rgbBlue) / 255.0f;
+        y += ((GLfloat)colours.rgbRed) / 255.0f;
+    }
+
+    return(y);
 }
 
 GLvoid HeightmapGL::setScale(GLuint scale)
 {
-	m_Scale = scale;
+    this->scale = scale;
 }
 
-GLvoid HeightmapGL::Prepare()
+GLvoid HeightmapGL::prepare()
 {
-	m_HeightMap = GL_Textures::get()->CreateTexture(m_Filename, GL_CLAMP_TO_EDGE);
-	m_Texture = GL_Textures::get()->CreateTexture(m_TexFiles, GL_REPEAT);
-	
-	GLfloat y2 = 1.0f / (float)m_HeightMap->Height;
-	GLfloat x2 = 1.0f / (float)m_HeightMap->Width;
-	GLfloat TextureX = 0.0f;
-	GLfloat TextureY = 0.0f;
-	
-	GLint x = -m_HeightMap->Width/2;
+    heightmap = TextureManagerGL::get()->createTexture(filename, GL_CLAMP_TO_EDGE);
+    texture = TextureManagerGL::get()->createTexture(textureFilename, GL_REPEAT);
 
-	m_pPositions.reserve(m_HeightMap->Width * m_HeightMap->Width * 6);
-	m_pOverlay.reserve(m_HeightMap->Width * m_HeightMap->Width * 6);
-	m_pNormals.reserve(m_HeightMap->Width * m_HeightMap->Width * 6);
-	m_pUv.reserve(m_HeightMap->Width * m_HeightMap->Width * 6);
+    GLfloat y2 = 1.0f / (float)heightmap->height;
+    GLfloat x2 = 1.0f / (float)heightmap->width;
+    GLfloat tx = 0.0f;
+    GLfloat ty = 0.0f;
 
-	for(GLint c = 0; c < m_HeightMap->Width; c++, x++)
-	{
-		GLint z = -m_HeightMap->Width/2;
-		for(GLint i = 0; i < m_HeightMap->Height; i++, z++)
-		{
-			vec3 v1 = vec3(x, getY(c, i), z);
-			vec3 v2 = vec3(x, getY(c, i+1), z+1);
-			vec3 v3 = vec3(x+1, getY(c+1, i+1), z+1);
-		
-			m_pPositions.push_back(v1);
-			m_pPositions.push_back(v2);
-			m_pPositions.push_back(v3);
+    GLint x = -GLint(heightmap->width / 2);
 
-			m_pOverlay.push_back(vec3(x, z, 0));
-			m_pOverlay.push_back(vec3(x, z+1, 0));
-			m_pOverlay.push_back(vec3(x+1, z+1, 0));
+    positions.reserve(heightmap->width * heightmap->width * 6);
+    overlay.reserve(heightmap->width * heightmap->width * 6);
+    normals.reserve(heightmap->width * heightmap->width * 6);
+    uvs.reserve(heightmap->width * heightmap->width * 6);
 
-			m_pUv.push_back(vec3(TextureX , TextureY, 0));
-			m_pUv.push_back(vec3(TextureX, TextureY + y2, 0));
-			m_pUv.push_back(vec3(TextureX + x2, TextureY + y2, 0));
-			
-			m_pNormals.push_back(getNormal(v1, v3, v2));
-			m_pNormals.push_back(getNormal(v2, v1, v3));
-			m_pNormals.push_back(getNormal(v3, v2, v1));
-			
-			v1 = vec3(x, getY(c, i), z);
-			v2 = vec3(x+1, getY(c+1, i), z);
-			v3 = vec3(x+1, getY(c+1, i+1), z+1);
+    for (GLint c = 0; c < heightmap->width; c++, x++)
+    {
+        GLint z = -GLint(heightmap->width / 2);
+        for (GLint i = 0; i < heightmap->height; i++, z++)
+        {
+            vec3 v1 = vec3(x, getY(c, i), z);
+            vec3 v2 = vec3(x, getY(c, i + 1), z + 1);
+            vec3 v3 = vec3(x + 1, getY(c + 1, i + 1), z + 1);
 
-			m_pPositions.push_back(v1);
-			m_pPositions.push_back(v2);
-			m_pPositions.push_back(v3);
+            positions.push_back(v1);
+            positions.push_back(v2);
+            positions.push_back(v3);
 
-			m_pOverlay.push_back(vec3(x, z, 0));
-			m_pOverlay.push_back(vec3(x+1, z, 0));			
-			m_pOverlay.push_back(vec3(x+1, z+1, 0));
+            overlay.push_back(vec3(x, z, 0));
+            overlay.push_back(vec3(x, z + 1, 0));
+            overlay.push_back(vec3(x + 1, z + 1, 0));
 
-			m_pUv.push_back(vec3(TextureX, TextureY, 0));
-			m_pUv.push_back(vec3(TextureX + x2, TextureY, 0));
-			m_pUv.push_back(vec3(TextureX + x2, TextureY + y2, 0));
+            uvs.push_back(vec3(tx, ty, 0));
+            uvs.push_back(vec3(tx, ty + y2, 0));
+            uvs.push_back(vec3(tx + x2, ty + y2, 0));
 
-			m_pNormals.push_back(getNormal(v1, v2, v3));
-			m_pNormals.push_back(getNormal(v2, v3, v1));
-			m_pNormals.push_back(getNormal(v3, v1, v2));
+            normals.push_back(getNormal(v1, v3, v2));
+            normals.push_back(getNormal(v2, v1, v3));
+            normals.push_back(getNormal(v3, v2, v1));
 
-			TextureY += y2;
-		}
+            v1 = vec3(x, getY(c, i), z);
+            v2 = vec3(x + 1, getY(c + 1, i), z);
+            v3 = vec3(x + 1, getY(c + 1, i + 1), z + 1);
 
-		TextureY = 0.0f;
-		TextureX += x2;
-	}
+            positions.push_back(v1);
+            positions.push_back(v2);
+            positions.push_back(v3);
 
-	for(unsigned int i = 0; i < m_pNormals.size() - 24; i++)
-	{
-		vec3 average = vec3(0.0, 0.0, 0.0);
-		for(unsigned int b = i; b < i + 24; b++)
-		{
-			average += m_pNormals[b];
-		}
+            overlay.push_back(vec3(x, z, 0));
+            overlay.push_back(vec3(x + 1, z, 0));
+            overlay.push_back(vec3(x + 1, z + 1, 0));
 
-		average /= 24;
+            uvs.push_back(vec3(tx, ty, 0));
+            uvs.push_back(vec3(tx + x2, ty, 0));
+            uvs.push_back(vec3(tx + x2, ty + y2, 0));
 
-		for(unsigned int b = i; b < i + 24; b++)
-		{
-			m_pNormals[b] = average;
-		}
-	}
+            normals.push_back(getNormal(v1, v2, v3));
+            normals.push_back(getNormal(v2, v3, v1));
+            normals.push_back(getNormal(v3, v1, v2));
 
-	glBindVertexArray(VertexArrayObject);
-	glBindBuffer(GL_ARRAY_BUFFER, PositionBuffer);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(vec3) * m_pPositions.size(), &m_pPositions[0], GL_STATIC_DRAW);
-	glEnableVertexAttribArray(0);
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, 0);
-	
-	glBindBuffer(GL_ARRAY_BUFFER, UvBuffer);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(vec3) * m_pUv.size(), &m_pUv[0], GL_STATIC_DRAW);
-	glEnableVertexAttribArray(2);
-	glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, 0, 0);
-	
-	glBindBuffer(GL_ARRAY_BUFFER, OverlayBuffer);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(vec3) * m_pOverlay.size(), &m_pOverlay[0], GL_STATIC_DRAW);
-	glEnableVertexAttribArray(1);
-	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 0, 0);
-	
-	glBindBuffer(GL_ARRAY_BUFFER, NormalBuffer);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(vec3) * m_pNormals.size(), &m_pNormals[0], GL_STATIC_DRAW);
-	glEnableVertexAttribArray(3);
-	glVertexAttribPointer(3, 3, GL_FLOAT, GL_FALSE, 0, 0);
+            ty += y2;
+        }
 
-	glBindVertexArray(0);
-	glLineWidth(0.1f);
+        ty = 0.0f;
+        tx += x2;
+    }
 
-	GLchar * vs = "data/shaders/heightmap.vert";
-	GLchar * fs = "data/shaders/heightmap.frag";
-	
-	m_pShader = ShaderManagerGL::get()->GetShader(vs, fs);
+    for (unsigned int i = 0; i < normals.size() - 24; i++)
+    {
+        vec3 average = vec3(0.0, 0.0, 0.0);
+        for (unsigned int b = i; b < i + 24; b++)
+        {
+            average += normals[b];
+        }
+
+        average /= 24;
+
+        for (unsigned int b = i; b < i + 24; b++)
+        {
+            normals[b] = average;
+        }
+    }
+
+    glBindVertexArray(vertexArrayObject);
+    glBindBuffer(GL_ARRAY_BUFFER, positionBuffer);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(vec3) * positions.size(), &positions[0], GL_STATIC_DRAW);
+    glEnableVertexAttribArray(0);
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, 0);
+
+    glBindBuffer(GL_ARRAY_BUFFER, uvBuffer);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(vec3) * uvs.size(), &uvs[0], GL_STATIC_DRAW);
+    glEnableVertexAttribArray(2);
+    glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, 0, 0);
+
+    glBindBuffer(GL_ARRAY_BUFFER, overlayBuffer);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(vec3) * overlay.size(), &overlay[0], GL_STATIC_DRAW);
+    glEnableVertexAttribArray(1);
+    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 0, 0);
+
+    glBindBuffer(GL_ARRAY_BUFFER, normalBuffer);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(vec3) * normals.size(), &normals[0], GL_STATIC_DRAW);
+    glEnableVertexAttribArray(3);
+    glVertexAttribPointer(3, 3, GL_FLOAT, GL_FALSE, 0, 0);
+
+    glBindVertexArray(0);
+    glLineWidth(0.1f);
+
+    GLchar * vs = "data/shaders/heightmap.vert";
+    GLchar * fs = "data/shaders/heightmap.frag";
+
+    shader = ShaderManagerGL::get()->getShader(vs, fs);
 }
 
 GLfloat HeightmapGL::getMapY(vec3 camera)
 {
-	m_HeightMap->Height;
-	m_HeightMap->Width;
-	return 0;
+    heightmap->height;
+    heightmap->width;
+    return 0;
 }
 
-GLvoid HeightmapGL::update()
+GLvoid HeightmapGL::onUpdate()
 {
-	m_Matrix->LoadIdenditity();
-	m_Matrix->Translate(vec3(0, -59.5, 0));
-	m_Matrix->Scale(vec3(24, 1, 24));
+    matrix->loadIdenditity();
+    matrix->translate(vec3(0, -59.5, 0));
+    matrix->scale(vec3(24, 1, 24));
 }
 
 vec3 HeightmapGL::getNormal(vec3 v1, vec3 v2, vec3 v3)
 {
-	vec3 Normal = glm::cross(v2 - v1, v3 - v1);
-	Normal = glm::normalize(Normal);
-	return(Normal);
+    vec3 Normal = glm::cross(v2 - v1, v3 - v1);
+    Normal = glm::normalize(Normal);
+    return(Normal);
 }
 
 GLvoid HeightmapGL::setMapTexture(std::string m_file)
 {
-	m_TexFiles = m_file;
+    textureFilename = m_file;
 }
 
 GLvoid HeightmapGL::PushOverlay(MapOverlayGL * overlay)
 {
-	m_Overlays.push_back(overlay);
+    overlays.push_back(overlay);
 }
 
 GLvoid HeightmapGL::Draw()
 {
-	m_pShader->Use();
-	glBindVertexArray(VertexArrayObject);
-	glActiveTexture(GL_TEXTURE0);
-	glBindTexture(GL_TEXTURE_2D, m_Texture->m_ID);
-	
-	GLint Sampler = glGetUniformLocation(m_pShader->getID(), "ID");
-	glUniform1i(Sampler, 0);
+    shader->use();
+    glBindVertexArray(vertexArrayObject);
+    glActiveTexture(GL_TEXTURE0);
+    glBindTexture(GL_TEXTURE_2D, texture->textureID);
 
-	for(GLuint i = 0; i < m_Overlays.size(); i++)
-	{
-		m_Overlays[i]->PrepareShader(m_pShader);
-	}
+    GLint Sampler = glGetUniformLocation(shader->getProgramID(), "ID");
+    glUniform1i(Sampler, 0);
 
-	m_pShader->setMatrix("Projection", m_Matrix->getProjection());
-	m_pShader->setMatrix("Model", m_Matrix->getModel());
-	m_pShader->setMatrix("View", m_Matrix->getView());
+    for (GLuint i = 0; i < overlays.size(); i++)
+    {
+        overlays[i]->prepareShader(shader);
+    }
 
-	GLint loc = glGetUniformLocation(m_pShader->getID(), "Scale");
-	glUniform1i(loc, m_Scale);
-	glDrawArrays(GL_TRIANGLES, 0, 6 * (m_HeightMap->Height * m_HeightMap->Width));
+    shader->setMatrix("Projection", matrix->getProjection());
+    shader->setMatrix("Model", matrix->getModel());
+    shader->setMatrix("View", matrix->getView());
 
-	m_pShader->Release();
-	glBindVertexArray(0);
-	glActiveTexture(GL_TEXTURE0);
-	glBindTexture(GL_TEXTURE_2D, 0);
+    GLint loc = glGetUniformLocation(shader->getProgramID(), "Scale");
+    glUniform1i(loc, scale);
+    glDrawArrays(GL_TRIANGLES, 0, 6 * (heightmap->height * heightmap->width));
+    glBindVertexArray(0);
+    glActiveTexture(GL_TEXTURE0);
+    glBindTexture(GL_TEXTURE_2D, 0);
+
+    shader->release();
 }
 
 GLvoid HeightmapGL::setHeightMap(std::string filename)
 {
-	m_Filename = filename;
+    this->filename = filename;
+}
+
+ProgramGL* HeightmapGL::getProgram()
+{
+    return shader;
+}
+
+MatrixGL* HeightmapGL::getMatrix()
+{
+    return matrix;
 }

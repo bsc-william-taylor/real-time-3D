@@ -101,8 +101,6 @@ xcopy /Y $(SolutionDir)..\lib\bin $(OutDir)</Command>
     <ClCompile Include="DemoMenu.cpp" />
     <ClCompile Include="DemoScene.cpp" />
     <ClCompile Include="Demo.cpp" />
-    <ClCompile Include="FirstPersonCamera.cpp" />
-    <ClCompile Include="FreeCamera.cpp" />
     <ClCompile Include="HeightmapGL.cpp" />
     <ClCompile Include="MapOverlayGL.cpp" />
     <ClCompile Include="MinimapGL.cpp" />
@@ -141,8 +139,6 @@ xcopy /Y $(SolutionDir)..\lib\bin $(OutDir)</Command>
     <ClInclude Include="DemoMenu.h" />
     <ClInclude Include="DemoScene.h" />
     <ClInclude Include="Demo.h" />
-    <ClInclude Include="FirstPersonCamera.h" />
-    <ClInclude Include="FreeCamera.h" />
     <ClInclude Include="HeightmapGL.h" />
     <ClInclude Include="MapOverlayGL.h" />
     <ClInclude Include="MinimapGL.h" />
@@ -150,8 +146,8 @@ xcopy /Y $(SolutionDir)..\lib\bin $(OutDir)</Command>
     <ClInclude Include="RendererGL.h" />
     <ClInclude Include="MajorInclude.h" />
     <ClInclude Include="MatrixGL.h" />
-    <ClInclude Include="ICamera.h" />
-    <ClInclude Include="IModel.h" />
+    <ClInclude Include="Camera.h" />
+    <ClInclude Include="Model.h" />
     <ClInclude Include="DemoOptions.h" />
     <ClInclude Include="StaticModel.h" />
     <ClInclude Include="ProgramGL.h" />

@@ -1,14 +1,8 @@
 
 #include "AudioObject.h"
 
-using std::string;
-using std::cout;
-using std::endl;
-
 AudioObject::AudioObject()
-	: m_pSource(new AudioSource()),
-	  m_pNode(new AudioNode()),
-	  m_Filename("")
+    : filename("")
 {
 
 }
@@ -18,39 +12,49 @@ AudioObject::~AudioObject()
 
 }
 
-void AudioObject::SetAudioSource(const char * filename)
+void AudioObject::SetAudioSource(const char* filename)
 {
-	m_Filename = filename;
+    this->filename = filename;
 }
 
 void AudioObject::SetPosition(vec3 vec)
 {
-	BASS_3DVECTOR position;
-	position.x = vec.x;
-	position.y = vec.y;
-	position.z = vec.z;
+    BASS_3DVECTOR position;
+    position.x = vec.x;
+    position.y = vec.y;
+    position.z = vec.z;
 
-	m_pSource->Position(position);
-	m_pNode->Initialise(vec, vec + vec3(2, 2, 2));
+    audioSource.position(position);
+    audioNode.initialise(vec, vec + vec3(2, 2, 2));
 }
 
 void AudioObject::RenderNode()
 {
-	m_pNode->render();
+    audioNode.render();
 }
 
-void AudioObject::Pause()
+void AudioObject::pause()
 {
-	if(m_Filename != "")
-	{
-		m_pSource->Stop();
-	}
+    if (filename != "")
+    {
+        audioSource.stop();
+    }
 }
 
-void AudioObject::Play()
+void AudioObject::play()
 {
-	if(m_Filename != "")
-	{
-		m_pSource->Play(m_Filename);
-	}
+    if (filename != "")
+    {
+        audioSource.play(filename);
+    }
+}
+
+AudioSource* AudioObject::getSource()
+{
+    return &audioSource;
+}
+
+AudioNode* AudioObject::getNode()
+{
+    return &audioNode;
 }

@@ -7,9 +7,9 @@
 DemoOptions::DemoOptions()
 {
     texture.setTexture("data/img/back.png", GL_CLAMP_TO_EDGE);
-    texture.getMatrix()->Ortho(vec2(0, 1280), vec2(0, 720), vec2(-1, 1));;
+    texture.getMatrix()->ortho(vec2(0, 1280), vec2(0, 720), vec2(-1, 1));;
     texture.setPosition(vec3(0, 0, 0), vec3(1280, 720, 0));
-    texture.Prepare();
+    texture.prepare();
 
     header.setText("Demo Options");
     header.setFont("data/img/MavenPro-Regular.ttf");
@@ -57,7 +57,7 @@ void DemoOptions::mousePress(int Key, int State, int x, int y)
     }
 
     if (backButton.MouseState(Key, State, x, y))
-        SceneManager::get()->SwitchTo(1);
+        SceneManager::get()->switchTo(1);
 }
 
 void DemoOptions::activateButton(Button * button)
@@ -77,19 +77,19 @@ void DemoOptions::activateButton(Button * button)
     t->setShade(v);
 }
 
-void DemoOptions::update()
+void DemoOptions::onUpdate()
 {
-    texture.update();
-    header.update();
+    texture.onUpdate();
+    header.onUpdate();
 }
 
 void DemoOptions::render()
 {
-    renderer.Render2D(GL_FALSE);
+    renderer.render2D(GL_FALSE);
 
     glDisable(GL_DEPTH_TEST);
 
-    renderer.RenderTexture(&texture);
+    renderer.renderTexture(&texture);
 
     showCollisionBoxes.render(&renderer);
     enablePostEffects.render(&renderer);
@@ -99,5 +99,5 @@ void DemoOptions::render()
 
     glEnable(GL_DEPTH_TEST);
 
-    renderer.Render2D(Demo::demoSettings.wireframeEnabled);
+    renderer.render2D(Demo::demoSettings.wireframeEnabled);
 }

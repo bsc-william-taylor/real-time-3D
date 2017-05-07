@@ -1,14 +1,4 @@
 
-/* -------------------------------------------------
-  
- @Filename  : GL_Text.h
- @author	: William Taylor
- @date		: 04/02/2014
- @purpose	: OpenGL class that can render 
-			  text using the FreeType lib.
-
- ------------------------------------------------- */
-
 #pragma once
 
 #include "TextureManagerGL.h"
@@ -16,52 +6,40 @@
 
 class TextGL
 {
-private:
+    FT_Library freeTypeLibrary;
+    FT_Face freeTypeFace;
 
-	FT_Library m_Library;					// Ptr to the library
-	FT_Face m_Face;							// Ptr to the face
- 
-	std::string m_Fontname;					// Font Filename
-	std::string m_Text;						// Text To Render
+    std::string fontname;
+    std::string text;
 
-	vec2 m_Position;						// Position to render from.
+    ProgramGL* shader;
+    MatrixGL* matrix;
+    GLboolean loaded;
+    GLuint fontSize;
 
-	GLboolean loaded;
-	GLuint m_FontSize;						// Font Size
-	
-	GL_Program * m_pShader;		
-	GL_Matrix * m_Matrix;
+    struct Character
+    {
+        SpriteGL* sprite;
+        GLuint vertexBuffer;
+    };
 
+    vector<Character*> characters;
+    vec2 position;
 public:
+    TextGL();
+    ~TextGL();
 
-	// Constructor & Deconstructor
-	TextGL();
-	~TextGL();
+    GLvoid render();
+    GLvoid prepare();
+    GLvoid onUpdate();
+    GLvoid setPosition(vec2);
+    GLvoid setFont(std::string);
+    GLvoid setText(std::string);
+    GLvoid setSize(GLuint);
 
-	// Member Functions
-	GLvoid render();
-	GLvoid Prepare();
-	GLvoid update();
+    GLuint getHeight();
+    GLuint getWidth();
 
-	// Set & Get Functions
-	GLvoid setPosition(vec2);
-	GLvoid setFont(std::string);
-	GLvoid setText(std::string);
-	GLvoid setSize(GLuint);
-
-	GLuint getHeight();
-	GLuint getWidth();
-
-	GL_Program * getProgram() { return m_pShader; }
-	GL_Matrix * getMatrix() { return m_Matrix; }
-
-private:
-
-	struct Character
-	{
-		GL_Sprite * Sprite;
-		GLuint VBO;
-	};
-
-	vector<Character *> m_Characters;
+    ProgramGL * getProgram();
+    MatrixGL * getMatrix();
 };

@@ -6,258 +6,294 @@
 
 StaticModel::StaticModel()
 {
-	m_Matrix = new GL_Matrix();
-	m_RotateNormal = vec3(1.0, 0.0, 0.0);
-	m_Rotation = 0.0f;
-	m_Scale = vec3(1.0, 1.0, 1.0);
-	Size = 0;
+    rotateNormal = vec3(1.0, 0.0, 0.0);
+    rotation = 0.0f;
+    scale = vec3(1.0, 1.0, 1.0);
+    size = 0;
 
-	m_Textures.reserve(12);
+    textures.reserve(12);
 }
 
 StaticModel::~StaticModel()
 {
-	delete[] m_MatIndices;
-	delete[] m_MeshStart;
-	delete[] m_MeshSizes;
-	glDeleteBuffers(1, &VBO);
-	glDeleteVertexArrays(1, &VAO);
+    delete[] matrixIndices;
+    delete[] meshStart;
+    delete[] meshSizes;
+
+    glDeleteBuffers(1, &vertexBuffer);
+    glDeleteVertexArrays(1, &vertexArray);
 }
 
-std::string StaticModel::GetDirectoryPath(std::string filename)
+std::string StaticModel::getDirectoryPath(std::string filename)
 {
-	// Get directory path
-	std::string Directory = filename;
+    std::string directory = filename;
 
-	for(int i = filename.size() - 1; i >= 0; i--)
-	{
-		if(filename[i] == '\\' || filename[i] == '/')
-		{
-			Directory = filename.substr(i+1, filename.size());
-			break;
-		}
-	}
-	
-	return Directory;
+    for (int i = filename.size() - 1; i >= 0; i--)
+    {
+        if (filename[i] == '\\' || filename[i] == '/')
+        {
+            directory = filename.substr(i + 1, filename.size());
+            break;
+        }
+    }
+
+    return directory;
 }
 
-GLvoid StaticModel::Load(const std::string& sFilePath, const std::string& sTexture,  bool bound)
+GLvoid StaticModel::load(const std::string& sFilePath, const std::string& sTexture, bool bound)
 {
-	const aiScene * scene = m_Importer.ReadFile(sFilePath, aiProcessPreset_TargetRealtime_Fast);
-	
-	if(!scene)
-	{
-		MessageBox(NULL, "Couldn't load model ", "Error Importing Asset", MB_OK);
-	}
-	else
-	{	
-		GLint VertexSize	= sizeof(aiVector3D)*2+sizeof(aiVector2D);
-		GLint NumberFaces	= NULL;
-		GLint SizeBefore	= NULL;
-		GLint MeshCount		= NULL;
-		GLint Vertices		= NULL;
+    const aiScene * scene = assimp.ReadFile(sFilePath, aiProcessPreset_TargetRealtime_Fast);
 
-		m_MatIndices = new GLint[scene->mNumMeshes];
-		m_MeshStart	= new GLint[scene->mNumMeshes];
-		m_MeshSizes	= new GLint[scene->mNumMeshes];
-		m_Data.reserve(scene->mNumMeshes * 12);
+    if (!scene)
+    {
+        MessageBox(NULL, "Couldn't load model ", "Error Importing Asset", MB_OK);
+    }
+    else
+    {
+        GLint vertexSize = sizeof(aiVector3D) * 2 + sizeof(aiVector2D);
+        GLint numberFaces = NULL;
+        GLint sizeBefore = NULL;
+        GLint meshCount = NULL;
+        GLint vertices = NULL;
 
-		SurfaceBuilder * Builder = NULL;
-		aiMesh * Mesh = NULL;
-		if(bound) {
-			Builder = new SurfaceBuilder();
-		}
+        matrixIndices = new GLint[scene->mNumMeshes];
+        meshStart = new GLint[scene->mNumMeshes];
+        meshSizes = new GLint[scene->mNumMeshes];
+        data.reserve(scene->mNumMeshes * 12);
 
-		for(unsigned int i = 0; i < scene->mNumMeshes; i++)
-		{		
-			Mesh = scene->mMeshes[i];
-			NumberFaces = Mesh->mNumFaces;
-			SizeBefore = Size;
-			// Rest of loading
-			m_MatIndices[i] = Mesh->mMaterialIndex;
-			m_MeshStart[i] = SizeBefore/VertexSize;
-		
-			for(GLint j = 0; j < NumberFaces; j++ && MeshCount++)
-			{
-				const aiFace& face = Mesh->mFaces[j];
-			
-				for(GLint k = 0; k < 3; k++)
-				{
-					aiVector3D Normals;
-				
-					if(Mesh->HasNormals()) {
-						Normals = Mesh->mNormals[face.mIndices[k]];
-					}
-					else {
-						Normals = aiVector3D(1, 1, 1);
-					}
+        SurfaceBuilder * builder = NULL;
+        aiMesh * mesh = NULL;
 
-					if(bound) Builder->PushPoint(Mesh->mVertices[face.mIndices[k]]);
+        if (bound)
+        {
+            builder = new SurfaceBuilder();
+        }
 
-					m_Data.push_back(Mesh->mVertices[face.mIndices[k]]);
-					m_Data.push_back(Mesh->mTextureCoords[0][face.mIndices[k]]);
-					m_Data.push_back(Normals);
-				
-					Size += VertexSize;
-				}
+        for (auto i = 0; i < scene->mNumMeshes; i++)
+        {
+            mesh = scene->mMeshes[i];
+            numberFaces = mesh->mNumFaces;
+            sizeBefore = size;
+            matrixIndices[i] = mesh->mMaterialIndex;
+            meshStart[i] = sizeBefore / vertexSize;
 
-				if(bound) Builder->PushSurface(this->getMatrix());
-			}
+            for (GLint j = 0; j < numberFaces; j++ && meshCount++)
+            {
+                const aiFace& face = mesh->mFaces[j];
 
-			if(bound) Builder->EndOfMesh(MeshCount);
-			Vertices += Mesh->mNumVertices;
-			m_MeshSizes[i] = (Size-SizeBefore)/VertexSize;
-		}
+                for (GLint k = 0; k < 3; k++)
+                {
+                    aiVector3D normals;
 
-		GLint * MaterialMap = new GLint[scene->mNumMaterials];	
-	
-		for(GLuint i = 0; i < scene->mNumMaterials; i++)
-		{
-			const aiMaterial * Material = scene->mMaterials[i];
-			MaterialMap[i] = NULL;
-			aiString Path;
-	
-			if(Material->GetTexture(aiTextureType_DIFFUSE, NULL, &Path) == AI_SUCCESS)
-			{
-				std::string FullPath = sTexture + GetDirectoryPath(Path.data);
-			
-				GLint iTexFound = -1;
+                    if (mesh->HasNormals())
+                    {
+                        normals = mesh->mNormals[face.mIndices[k]];
+                    }
+                    else
+                    {
+                        normals = aiVector3D(1, 1, 1);
+                    }
 
-				for(GLuint j = 0; j < m_Textures.size(); j++)
-				{
-					if(FullPath == m_Textures[j]->getPath())
-					{
-						iTexFound = j;
-						break;
-					}
-				}
+                    if (bound)
+                    {
+                        builder->pushPoint(mesh->mVertices[face.mIndices[k]]);
+                    }
 
-				if(iTexFound != -1)
-				{
-					MaterialMap[i] = iTexFound;
-				}
-				else
-				{
-					TextureGL * Texture = new TextureGL();
-					Texture->setTexture(FullPath, GL_REPEAT);
-					Texture->Prepare();
-					//std::cout << FullPath.c_str() << std::endl;
-					MaterialMap[i] = m_Textures.size();
-					m_Textures.push_back(Texture);
-				}
-			}
-		}
+                    data.push_back(mesh->mVertices[face.mIndices[k]]);
+                    data.push_back(mesh->mTextureCoords[0][face.mIndices[k]]);
+                    data.push_back(normals);
 
-		for(GLuint i = 0; i < scene->mNumMeshes; i++)
-		{
-			GLint iOldIndex = m_MatIndices[i];
-			m_MatIndices[i] = MaterialMap[iOldIndex];
-		}
+                    size += vertexSize;
+                }
 
-		if(bound) m_BoundingBox = Builder->Release();
-		else m_BoundingBox = NULL;
+                if (bound)
+                {
+                    builder->pushSurface(this->getMatrix());
+                }
+            }
 
-		MeshNumber = scene->mNumMeshes;
-		m_Importer.FreeScene();
-	
-		if(bound) delete Builder;
-		delete[] MaterialMap;
-	}
+            if (bound)
+            {
+                builder->endOfMesh(meshCount);
+            }
+
+            vertices += mesh->mNumVertices;
+            meshSizes[i] = (size - sizeBefore) / vertexSize;
+        }
+
+        GLint* materialMap = new GLint[scene->mNumMaterials];
+
+        for (GLuint i = 0; i < scene->mNumMaterials; i++)
+        {
+            const aiMaterial* Material = scene->mMaterials[i];
+            materialMap[i] = NULL;
+            aiString path;
+
+            if (Material->GetTexture(aiTextureType_DIFFUSE, NULL, &path) == AI_SUCCESS)
+            {
+                std::string fullPath = sTexture + getDirectoryPath(path.data);
+
+                GLint textureFound = -1;
+
+                for (GLuint j = 0; j < textures.size(); j++)
+                {
+                    if (fullPath == textures[j]->getPath())
+                    {
+                        textureFound = j;
+                        break;
+                    }
+                }
+
+                if (textureFound != -1)
+                {
+                    materialMap[i] = textureFound;
+                }
+                else
+                {
+                    auto texture = new TextureGL();
+                    texture->setTexture(fullPath, GL_REPEAT);
+                    texture->prepare();
+
+                    materialMap[i] = textures.size();
+                    textures.push_back(texture);
+                }
+            }
+        }
+
+        for (GLuint i = 0; i < scene->mNumMeshes; i++)
+        {
+            GLint iOldIndex = matrixIndices[i];
+            matrixIndices[i] = materialMap[iOldIndex];
+        }
+
+        if (bound)
+        {
+            boundingBox = builder->release();
+        }
+        else
+        {
+            boundingBox = NULL;
+        }
+
+        meshNumber = scene->mNumMeshes;
+        assimp.FreeScene();
+
+        if (bound) delete builder;
+        delete[] materialMap;
+    }
 
 
 }
 
-GLvoid StaticModel::Prepare()
+GLvoid StaticModel::prepare()
 {
-	size_t size =  sizeof(aiVector3D);
-	
-	glGenVertexArrays(1, &VAO);
-	glBindVertexArray(VAO);
-	
-	glGenBuffers(1, &VBO);
-	glBindBuffer(GL_ARRAY_BUFFER, VBO);
-	glBufferData(GL_ARRAY_BUFFER, size * m_Data.size(), &m_Data[0], GL_STATIC_DRAW);
-	
-	m_Data.clear();
+    size_t size = sizeof(aiVector3D);
 
-	glEnableVertexAttribArray(0);
-	glEnableVertexAttribArray(1); 
-	glEnableVertexAttribArray(2); 
+    glGenVertexArrays(1, &vertexArray);
+    glBindVertexArray(vertexArray);
 
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 2*size+size, 0); 
-    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 2*size+size, (void*)size); 
-    glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, 2*size+size, (void*)(size+size));
+    glGenBuffers(1, &vertexBuffer);
+    glBindBuffer(GL_ARRAY_BUFFER, vertexBuffer);
+    glBufferData(GL_ARRAY_BUFFER, size * data.size(), &data[0], GL_STATIC_DRAW);
 
-	GLchar * vs = "data/shaders/model.vert";
-	GLchar * fs = "data/shaders/model.frag";
+    data.clear();
 
-	m_pShader = ShaderManagerGL::get()->GetShader(vs, fs);
+    glEnableVertexAttribArray(0);
+    glEnableVertexAttribArray(1);
+    glEnableVertexAttribArray(2);
 
-	glBindVertexArray(0);
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 2 * size + size, 0);
+    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 2 * size + size, (void*)size);
+    glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, 2 * size + size, (void*)(size + size));
+
+    GLchar * vs = "data/shaders/model.vert";
+    GLchar * fs = "data/shaders/model.frag";
+    shader = ShaderManagerGL::get()->getShader(vs, fs);
+    glBindVertexArray(0);
 }
 
-GLvoid StaticModel::Translate(vec3 v)
+GLvoid StaticModel::setTranslate(vec3 v)
 {
-	m_Translate = v;
+    this->translate = v;
 }
 
-GLvoid StaticModel::SetScale(vec3 v)
+GLvoid StaticModel::setScale(vec3 v)
 {
-	m_Scale = v;
+    scale = v;
 }
 
-GLvoid StaticModel::update()
+GLvoid StaticModel::onUpdate()
 {
-	m_Matrix->LoadIdenditity();
-	m_Matrix->Scale(m_Scale);
-	m_Matrix->Translate(m_Translate);
-	m_Matrix->Rotate(m_Rotation, m_RotateNormal);
-	
-	if(m_BoundingBox != NULL)
-	{
-		m_BoundingBox->update(m_Matrix);
-	}
+    matrix.loadIdenditity();
+    matrix.scale(scale);
+    matrix.translate(this->translate);
+    matrix.rotate(rotation, rotateNormal);
+
+    if (boundingBox != nullptr)
+    {
+        boundingBox->onUpdate(&matrix);
+    }
 }
 
-GLvoid StaticModel::Rotate(GLfloat f, vec3 vec)
+GLvoid StaticModel::setRotate(GLfloat f, vec3 vec)
 {
-	m_RotateNormal = vec;
-	m_Rotation = f;
+    rotateNormal = vec;
+    rotation = f;
 }
 
-GLvoid StaticModel::SetScale(GLfloat scale)
+GLvoid StaticModel::setScale(GLfloat scale)
 {
-	this->m_Scale = vec3(scale, scale, scale);
+    this->scale = vec3(scale, scale, scale);
 }
 
 GLuint StaticModel::getTextureID(GLuint i)
 {
-	if(m_Textures.size() > i)
-	{
-		return m_Textures[i]->getID();
-	} 
-	else
-	{
-		return 0;
-	}
+    if (textures.size() > i)
+    {
+        return textures[i]->getProgramID();
+    }
+    else
+    {
+        return 0;
+    }
 }
 
 GLuint StaticModel::getMaterialIndex(GLuint index)
 {
-	return m_MatIndices[index];
+    return matrixIndices[index];
 }
 
 GLuint StaticModel::getMeshStart(GLuint index)
 {
-	return m_MeshStart[index];
+    return meshStart[index];
 }
 
 GLuint StaticModel::getMeshEnd(GLuint index)
 {
-	return m_MeshSizes[index];
+    return meshSizes[index];
 }
 
 GLuint StaticModel::getMeshNumber()
 {
-	return(MeshNumber);
+    return(meshNumber);
+}
+
+ProgramGL * StaticModel::getProgram()
+{
+    return shader;
+}
+
+MatrixGL * StaticModel::getMatrix()
+{
+    return &matrix;
+}
+
+GLuint StaticModel::getVAO()
+{
+    return vertexArray;
+}
+
+bool StaticModel::isDynamic()
+{
+    return false;
 }

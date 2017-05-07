@@ -7,49 +7,45 @@
 
 class HeightmapGL
 {
-private:
+    SpriteGL* heightmap;
+    ProgramGL* shader;
+    SpriteGL* texture;
+    MatrixGL* matrix;
 
-	GL_Program * m_pShader;		
-	GL_Matrix * m_Matrix;
-	GL_Sprite * m_HeightMap;
-	GL_Sprite * m_Texture;
+    vector<MapOverlayGL*> overlays;
+    vector<vec3> positions;
+    vector<vec3> overlay;
+    vector<vec3> normals;
+    vector<vec3> uvs;
 
-	vector<MapOverlayGL *> m_Overlays;
-	vector<vec3> m_pPositions;
-	vector<vec3> m_pOverlay;
-	vector<vec3> m_pNormals;
-	vector<vec3> m_pUv;
+    GLuint vertexArrayObject;
+    GLuint positionBuffer;
+    GLuint overlayBuffer;
+    GLuint normalBuffer;
+    GLuint uvBuffer;
 
-	GLuint VertexArrayObject;
-	GLuint PositionBuffer;
-	GLuint OverlayBuffer;
-	GLuint NormalBuffer;
-	GLuint UvBuffer;
-
-	std::string m_TexFiles;
-	std::string m_Filename;
-	unsigned int m_Scale;
-
+    std::string textureFilename;
+    std::string filename;
+    int scale;
 public:
+    HeightmapGL();
+    ~HeightmapGL();
 
-	HeightmapGL();
-	~HeightmapGL();
+    GLfloat getMapY(vec3);
+    GLfloat getY(GLuint, GLuint);
 
-	GLvoid PushOverlay(MapOverlayGL *);
-	GLvoid Prepare();
-	GLvoid update();
-	GLvoid Draw();
 
-	GLvoid setMapTexture(std::string);
-	GLvoid setHeightMap(std::string);
-	GLvoid setScale(GLuint);
+    GLvoid PushOverlay(MapOverlayGL *);
+    GLvoid prepare();
+    GLvoid onUpdate();
+    GLvoid Draw();
 
-	GL_Program * getProgram() { return m_pShader; }
-	GL_Matrix * getMatrix() { return m_Matrix; }
-	GLfloat getMapY(vec3);
+    GLvoid setMapTexture(std::string);
+    GLvoid setHeightMap(std::string);
+    GLvoid setScale(GLuint);
 
-private:
+    ProgramGL * getProgram();
+    MatrixGL * getMatrix();
 
-	GLfloat getY(GLuint, GLuint);
-	vec3 getNormal(vec3, vec3, vec3);
+    vec3 getNormal(vec3, vec3, vec3);
 };

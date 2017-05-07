@@ -2,194 +2,195 @@
 #include "Surface.h"
 #include "Demo.h"
 
-Surface::Surface()
-	: m_Draw (false),
-    FirstTime(true)
+Surface::Surface() :
+    shouldDraw(false),
+    firstTime(true)
 {
-	m_pMatrix = NULL;
-	VAO = NULL;
-	VBO = NULL;
+    matrix = NULL;
+    vertexArray = NULL;
+    vertexBuffer = NULL;
 }
 
 Surface::~Surface()
 {
-	glDeleteVertexArrays(1, &VAO);
-	glDeleteBuffers(1, &VBO);
-	
-	SAFE_RELEASE(m_pMatrix);
+    glDeleteVertexArrays(1, &vertexArray);
+    glDeleteBuffers(1, &vertexBuffer);
+
+    SAFE_RELEASE(matrix);
 }
 
-void Surface::Enable()
+void Surface::enable()
 {
-	m_Draw = GL_TRUE;
+    shouldDraw = GL_TRUE;
 }
 
-void Surface::Disable()
+void Surface::disable()
 {
-	m_Draw = GL_FALSE;
+    shouldDraw = GL_FALSE;
 }
 
-bool Surface::CheckForCollision(ICamera * camera)
-{	
-	if(!m_Surfaces.empty())
-	{
-		mat4 mat = m_pMatrix->getProjection() * m_pMatrix->getModel();
-		vec3 position = camera->getPosition();
-		for(unsigned int i = 0; i <  m_Surfaces.size(); i++)
-		{
-			if(m_Surfaces[i]->CollisionTest(mat, position))
-			{
-				return true;
-			}
-		}
-	}
-
-	return false;
-}
-
-bool Surface::CheckForCollision(SubSurface * surface, ICamera * camera)
+bool Surface::checkForCollision(Camera * camera)
 {
-	if(!m_Surfaces.empty())
-	{
-		vec3 point = vec3(sin(RAIDAN(camera->getRotation())), 0, cos(RAIDAN(camera->getRotation())));
-		vec3 position =  camera->getPosition() + (point *= 5);
-		mat4 mat = m_pMatrix->getProjection() * m_pMatrix->getModel();
+    if (!surfaces.empty())
+    {
+        mat4 mat = matrix->getProjection() * matrix->getModel();
+        vec3 position = camera->getPosition();
+        for (unsigned int i = 0; i < surfaces.size(); i++)
+        {
+            if (surfaces[i]->collisionTest(mat, position))
+            {
+                return true;
+            }
+        }
+    }
 
-		for(unsigned int i = 0; i < m_Surfaces.size(); i++)
-		{
-			if(m_Surfaces[i]->CollisionTest(mat, position))
-			{
-				return true;
-			}
-		}
-	}
-
-	return false;
+    return false;
 }
 
-void Surface::SetSize(vec3 position, vec3 size)
+bool Surface::checkForCollision(SubSurface * surface, Camera * camera)
 {
-	this->m_Positions.push_back(position);
-	this->m_Size.push_back(size);
+    if (!surfaces.empty())
+    {
+        vec3 point = vec3(sin(RAIDAN(camera->getRotation())), 0, cos(RAIDAN(camera->getRotation())));
+        vec3 position = camera->getPosition() + (point *= 5);
+        mat4 mat = matrix->getProjection() * matrix->getModel();
+
+        for (unsigned int i = 0; i < surfaces.size(); i++)
+        {
+            if (surfaces[i]->collisionTest(mat, position))
+            {
+                return true;
+            }
+        }
+    }
+
+    return false;
+}
+
+void Surface::setSize(vec3 position, vec3 size)
+{
+    this->positions.push_back(position);
+    this->size.push_back(size);
 }
 
 void Surface::render()
 {
-	m_pProgram->Use();
-	m_pProgram->setMatrix("Projection", m_pMatrix->getProjection());
-	m_pProgram->setMatrix("Model", m_pMatrix->getModel());
-	m_pProgram->setMatrix("View", m_pMatrix->getView());
+    program->use();
+    program->setMatrix("Projection", matrix->getProjection());
+    program->setMatrix("Model", matrix->getModel());
+    program->setMatrix("View", matrix->getView());
 
-	glBindVertexArray(VAO);
-	glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
-	glDrawArrays(GL_TRIANGLES, 0, Count);
+    glBindVertexArray(vertexArray);
+    glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+    glDrawArrays(GL_TRIANGLES, 0, count);
 
-	if(!Demo::demoSettings.wireframeEnabled) {
-		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
-	}
+    if (!Demo::demoSettings.wireframeEnabled) {
+        glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+    }
 
-	glBindVertexArray(0);
-	m_pProgram->Release();
+    glBindVertexArray(0);
+    program->release();
 }
 
-void Surface::Setup()
+void Surface::setup()
 {
-	m_pProgram = ShaderManagerGL::get()->GetShader("data/shaders/box.vert", "data/shaders/box.frag");
+    program = ShaderManagerGL::get()->getShader("data/shaders/box.vert", "data/shaders/box.frag");
 
-	vector<vec3> m_Faces;
+    vector<vec3> faces;
+    faces.reserve(24 * surfaces.size());
+    for (GLuint i = 0; i < surfaces.size(); i++)
+    {
+        vec3 p = surfaces[i]->getMeshPosition();
+        vec3 s = surfaces[i]->getMeshSize();
 
-	m_Faces.reserve(24 * m_Surfaces.size());
+        faces.push_back(vec3(p.x, p.y, p.z));
+        faces.push_back(vec3(p.x, s.y, p.z));
+        faces.push_back(vec3(s.x, s.y, p.z));
+        faces.push_back(vec3(p.x, p.y, p.z));
+        faces.push_back(vec3(s.x, p.y, p.z));
+        faces.push_back(vec3(s.x, s.y, p.z));
 
-	for(GLuint i = 0; i < m_Surfaces.size(); i++)
-	{
-		vec3 p = m_Surfaces[i]->getMeshPosition();
-		vec3 s = m_Surfaces[i]->getMeshSize();
+        faces.push_back(vec3(p.x, p.y, s.z));
+        faces.push_back(vec3(p.x, s.y, s.z));
+        faces.push_back(vec3(s.x, s.y, s.z));
+        faces.push_back(vec3(p.x, p.y, s.z));
+        faces.push_back(vec3(s.x, p.y, s.z));
+        faces.push_back(vec3(s.x, s.y, s.z));
 
-		// Front
-		m_Faces.push_back(vec3(p.x, p.y, p.z));	
-		m_Faces.push_back(vec3(p.x, s.y, p.z));
-		m_Faces.push_back(vec3(s.x, s.y, p.z));	
-		m_Faces.push_back(vec3(p.x, p.y, p.z));	
-		m_Faces.push_back(vec3(s.x, p.y, p.z));
-		m_Faces.push_back(vec3(s.x, s.y, p.z));	
+        faces.push_back(vec3(p.x, p.y, p.z));
+        faces.push_back(vec3(p.x, p.y, s.z));
+        faces.push_back(vec3(p.x, s.y, s.z));
+        faces.push_back(vec3(p.x, p.y, p.z));
+        faces.push_back(vec3(p.x, s.y, p.z));
+        faces.push_back(vec3(p.x, s.y, s.z));
 
-		// Back
-		m_Faces.push_back(vec3(p.x, p.y, s.z));	
-		m_Faces.push_back(vec3(p.x, s.y, s.z));
-		m_Faces.push_back(vec3(s.x, s.y, s.z));	
-		m_Faces.push_back(vec3(p.x, p.y, s.z));	
-		m_Faces.push_back(vec3(s.x, p.y, s.z));
-		m_Faces.push_back(vec3(s.x, s.y, s.z));	
+        faces.push_back(vec3(s.x, p.y, p.z));
+        faces.push_back(vec3(s.x, p.y, s.z));
+        faces.push_back(vec3(s.x, s.y, s.z));
+        faces.push_back(vec3(s.x, p.y, p.z));
+        faces.push_back(vec3(s.x, s.y, p.z));
+        faces.push_back(vec3(s.x, s.y, s.z));
+    }
 
-		// Front & Back Sides
-		m_Faces.push_back(vec3(p.x, p.y, p.z));	
-		m_Faces.push_back(vec3(p.x, p.y, s.z));
-		m_Faces.push_back(vec3(p.x, s.y, s.z));	
-		m_Faces.push_back(vec3(p.x, p.y, p.z));	
-		m_Faces.push_back(vec3(p.x, s.y, p.z));
-		m_Faces.push_back(vec3(p.x, s.y, s.z));	
+    count = faces.size();
 
-		m_Faces.push_back(vec3(s.x, p.y, p.z));	
-		m_Faces.push_back(vec3(s.x, p.y, s.z));
-		m_Faces.push_back(vec3(s.x, s.y, s.z));	
-		m_Faces.push_back(vec3(s.x, p.y, p.z));	
-		m_Faces.push_back(vec3(s.x, s.y, p.z));
-		m_Faces.push_back(vec3(s.x, s.y, s.z));
-	}
-	
-	Count = m_Faces.size();
-
-	glGenVertexArrays(1, &VAO);
-	glBindVertexArray(VAO);
-	
-	glGenBuffers(1, &VBO);
-	glBindBuffer(GL_ARRAY_BUFFER, VBO);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(vec3) * m_Faces.size(), &m_Faces[0], GL_STATIC_DRAW);
-	
-	glEnableVertexAttribArray(0);
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, 0);
-	
-	glBindVertexArray(0);
+    glGenVertexArrays(1, &vertexArray);
+    glBindVertexArray(vertexArray);
+    glGenBuffers(1, &vertexBuffer);
+    glBindBuffer(GL_ARRAY_BUFFER, vertexBuffer);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(vec3) * faces.size(), &faces[0], GL_STATIC_DRAW);
+    glEnableVertexAttribArray(0);
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, 0);
+    glBindVertexArray(0);
 }
 
-void Surface::update(GL_Matrix * matrix)
+void Surface::onUpdate(MatrixGL* matrix)
 {
-	m_pMatrix = matrix;
+    this->matrix = matrix;
 
-	if(FirstTime)
-	{
-		SubSurface * NewSurface = new SubSurface();
-		unsigned int MeshNumber = 0;
+    if (firstTime)
+    {
+        SubSurface * newSurface = new SubSurface();
+        unsigned int meshNumber = 0;
 
-		for(unsigned int i = 0; i < m_Positions.size(); i++)
-		{
-			vec3 p = m_Positions[i];
-			vec3 s = m_Size[i];
-			
-			if(!NewSurface->PassPoint(p, s) || MeshNumber != -1 && i >= m_Max[MeshNumber])
-			{
-				m_Surfaces.push_back(NewSurface);
-				NewSurface = new SubSurface();
+        for (unsigned int i = 0; i < positions.size(); i++)
+        {
+            vec3 p = positions[i];
+            vec3 s = size[i];
 
-				if(MeshNumber + 1 < m_Max.size())
-					MeshNumber++;
-				else
-					MeshNumber = -1;
-			}
-		}
+            if (!newSurface->passPoint(p, s) || meshNumber != -1 && i >= maxValues[meshNumber])
+            {
+                surfaces.push_back(newSurface);
+                newSurface = new SubSurface();
 
-		Setup();
-		
-		FirstTime = false;
-	}	
+                if (meshNumber + 1 < maxValues.size())
+                {
+                    meshNumber++;
+                }
+                else
+                {
+                    meshNumber = -1;
+                }
+            }
+        }
+
+        setup();
+
+        firstTime = false;
+    }
 }
 
-GL_Matrix * Surface::getMatrix()
+MatrixGL* Surface::getMatrix()
 {
-	return m_pMatrix;
+    return matrix;
 }
 
-void Surface::AddMaxMeshes(int max)
+void Surface::addMaxMeshes(int max)
 {
-	this->m_Max.push_back(max);
+    maxValues.push_back(max);
+}
+
+vector<SubSurface *>& Surface::getSubSurface()
+{
+    return surfaces;
 }

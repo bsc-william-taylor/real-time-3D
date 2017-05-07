@@ -6,28 +6,23 @@
 
 class PostProcessorGL
 {
-private:
+	ProgramGL* program;
+	MatrixGL matrix;
 
-	GL_Program * m_pProgram;
-	GL_Matrix * m_pMatrix;
-
-	GLuint VertexArrayObject;
-	GLuint TextureBuffer;
-	GLuint VertexBuffer;
-	GLuint DepthBuffer;
-	GLuint FrameBuffer;
-	GLuint Passes;
+	GLuint vertexArrayObject;
+	GLuint textureBuffer;
+	GLuint vertexBuffer;
+	GLuint depthBuffer;
+	GLuint frameBuffer;
 
 	vec4 colour;
-
 public:
-
 	PostProcessorGL();
 	~PostProcessorGL();
 
-	GLvoid Initialise(GLuint, GLuint);
+	GLvoid initialise(GLuint, GLuint);
 	GLvoid execute();
-	GLvoid Enable();
+	GLvoid enable();
 
 	GLvoid setColourChannels(vec4);
 };

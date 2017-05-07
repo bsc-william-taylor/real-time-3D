@@ -13,29 +13,29 @@ DemoScene::~DemoScene()
 {
 }
 
-void DemoScene::update()
+void DemoScene::onUpdate()
 {
     if (Demo::demoSettings.enableFx)
     {
-        effects.Enable();
+        effects.enable();
     }
 
     renderer.LoadIdentity();
-    renderer.update();
+    renderer.onUpdate();
 
-    player.getMatrix()->LoadIdenditity();
-    player.getMatrix()->Rotate(RAIDAN(90), vec3(0.0, 0.0, 1.0));
-    player.getMatrix()->Rotate(RAIDAN(90), vec3(0.0, 1.0, 0.0));
-    player.getMatrix()->Scale(vec3(0.03, 0.03, 0.03));
+    player.getMatrix()->loadIdenditity();
+    player.getMatrix()->rotate(RAIDAN(90), vec3(0.0, 0.0, 1.0));
+    player.getMatrix()->rotate(RAIDAN(90), vec3(0.0, 1.0, 0.0));
+    player.getMatrix()->scale(vec3(0.03, 0.03, 0.03));
 
-    SurfaceManager::get()->CheckForCollision();
-    camera.update(true);
+    SurfaceManager::get()->checkForCollision();
+    camera.onUpdate(true);
 }
 
 void DemoScene::render()
 {
     renderer.render();
-    audioPlayer.Stream();
+    audioPlayer.stream();
 
     if (Demo::demoSettings.enableFx)
     {
@@ -44,30 +44,30 @@ void DemoScene::render()
 
     if (Demo::demoSettings.showBoundingBoxes)
     {
-        SurfaceManager::get()->RenderSurfaces();
+        SurfaceManager::get()->renderSurfaces();
     }
 
-    renderer.Render2D(GL_FALSE);
+    renderer.render2D(GL_FALSE);
     options.render(&renderer);
     quit.render(&renderer);
 
-    renderer.Render3D(Demo::demoSettings.wireframeEnabled);
-    miniMap.RenderToBuffer();
+    renderer.render3D(Demo::demoSettings.wireframeEnabled);
+    miniMap.renderToBuffer();
     renderer.LoadIdentity();
-    renderer.update();
-    camera.update(GL_FALSE);
+    renderer.onUpdate();
+    camera.onUpdate(GL_FALSE);
     renderer.render();
-    miniMap.RenderToScreen();
+    miniMap.renderToScreen();
     camera.Reset();
 }
 
-void DemoScene::keyPress(int Key, int State)
+void DemoScene::onKeyPress(int Key, int State)
 {
-    camera.keyPress(Key, State);
+    camera.onKeyPress(Key, State);
 
     if (Key == ENTER && State == PRESSED)
     {
-        SceneManager::get()->SwitchTo(2);
+        SceneManager::get()->switchTo(2);
     }
 
     if (Key == ESCAPE && State == RELEASED)
@@ -76,16 +76,16 @@ void DemoScene::keyPress(int Key, int State)
     }
 }
 
-void DemoScene::motion(float pos_x, float pos_y)
+void DemoScene::onMotion(float pos_x, float pos_y)
 {
-    camera.motion(pos_x, pos_y);
+    camera.onMotion(pos_x, pos_y);
 }
 
 void DemoScene::mousePress(int Key, int State, int x, int y)
 {
     if (options.MouseState(Key, State, x, y))
     {
-        SceneManager::get()->SwitchTo(2);
+        SceneManager::get()->switchTo(2);
     }
 
     if (quit.MouseState(Key, State, x, y))
@@ -103,13 +103,13 @@ void DemoScene::enter()
         quit.SetPosition("Quit", vec2(1050, 10), vec2(200, 50));
         quit.getTexture()->setShade(vec4(1.0, 0.0, 0.0, 1.0));
 
-        effects.Initialise(1280, 720);
-        skybox.Folder("data/skybox/");
-        skybox.SetDistance(10000);
-        skybox.Setup();
+        effects.initialise(1280, 720);
+        skybox.folder("data/skybox/");
+        skybox.setDistance(10000);
+        skybox.setup();
 
-        overlaymap.SetOverlayImage("data/img/road.jpg");
-        overlaymap.SetOverlayMap("data/img/pathway.png");
+        overlaymap.setOverlayImage("data/img/road.jpg");
+        overlaymap.setOverlayMap("data/img/pathway.png");
         heightmap.setHeightMap("data/img/heightmap.png");
         heightmap.setMapTexture("data/img/grass.png");
         heightmap.PushOverlay(&overlaymap);
@@ -123,37 +123,37 @@ void DemoScene::enter()
 
 void DemoScene::setupGraphics()
 {
-    city.Load("data/models/Metro 1.3ds", "data/models/", true);
-    city.SetScale(0.75f);
-    city.Rotate(RAIDAN(90), vec3(-1, 0, 0));
-    city.Translate(vec3(-5.0, -2.5, -15));
+    city.load("data/models/Metro 1.3ds", "data/models/", true);
+    city.setScale(0.75f);
+    city.setRotate(RAIDAN(90), vec3(-1, 0, 0));
+    city.setTranslate(vec3(-5.0, -2.5, -15));
 
-    player.ReadTexture("data/models/pac3D.bmp");
-    player.ReadMD2Model("data/models/pac3D.md2", true);
+    player.readTexture("data/models/pac3D.bmp");
+    player.readMD2Model("data/models/pac3D.md2", true);
 
-    renderer.PushHeightmap(&heightmap);
-    renderer.PushSkybox(&skybox);
-    renderer.PushModel(&city);
-    renderer.Prepare();
-    renderer.Perspective(70, vec2(16, 9), vec2(0.1, 10000));
+    renderer.pushHeightmap(&heightmap);
+    renderer.pushSkybox(&skybox);
+    renderer.pushModel(&city);
+    renderer.prepare();
+    renderer.perspective(70, vec2(16, 9), vec2(0.1, 10000));
     renderer.setSurfaceSize(vec4(0, 0, 1280, 720));
 
     camera.setPlayerModel(&player);
-    camera.Initialise(&renderer);
-    miniMap.Initialise(&camera);
+    camera.initialise(&renderer);
+    miniMap.initialise(&camera);
 
-    SurfaceManager::get()->PushCamera(&camera);
-    SurfaceManager::get()->PushCameraObject(player.getSurface());
+    SurfaceManager::get()->pushCamera(&camera);
+    SurfaceManager::get()->pushCameraObject(player.getSurface());
 }
 
 void DemoScene::setupAudio()
 {
     music.SetAudioSource("data/audio/PianoMono.mp3");
     music.SetPosition(vec3(-1, -1, -1));
-    music.Play();
+    music.play();
 
-    audioPlayer.PushClip(&music);
-    audioPlayer.Set3DCamera(&camera);
-    audioPlayer.Set3DRenderer(&renderer);
-    audioPlayer.Initialise();
+    audioPlayer.pushClip(&music);
+    audioPlayer.set3DCamera(&camera);
+    audioPlayer.set3DRenderer(&renderer);
+    audioPlayer.initialise();
 }

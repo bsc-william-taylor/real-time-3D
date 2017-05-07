@@ -1,56 +1,45 @@
 
-/* -------------------------------------------------
-  
- @Filename  : Button.cpp
- @author	: William Taylor
- @date		: 19/02/2014
- @purpose	: Class implementation
-
- ------------------------------------------------- */
-
 #include "Button.h"
 #include "Win32Codes.h"
 
-// Constructor & Deconstructor
 Button::Button()
-	: m_pSprite(new TextureGL()),
-	  m_pString(new TextGL())
+	: sprite(new TextureGL()),
+	  string(new TextGL())
 {
-	m_pSprite->getMatrix()->Ortho(vec2(0, 1280), vec2(0, 720));
-	m_pString->getMatrix()->Ortho(vec2(0, 1280), vec2(0, 720));
+	sprite->getMatrix()->ortho(vec2(0, 1280), vec2(0, 720));
+	string->getMatrix()->ortho(vec2(0, 1280), vec2(0, 720));
 }
 
 Button::~Button()
 {
-	SAFE_RELEASE(m_pString);
-	SAFE_RELEASE(m_pSprite);
+	SAFE_RELEASE(string);
+	SAFE_RELEASE(sprite);
 }
 
-// Member Functions
 void Button::SetPosition(std::string str, vec2 position, vec2 size)
 {
-	m_pSprite->setTexture("data/img/button.png", GL_CLAMP_TO_EDGE);
-	m_pSprite->setPosition(vec3(position, 0.0), vec3(size, 0.0));
-	m_pSprite->Prepare();
+	sprite->setTexture("data/img/button.png", GL_CLAMP_TO_EDGE);
+	sprite->setPosition(vec3(position, 0.0), vec3(size, 0.0));
+	sprite->prepare();
 
-	m_pString->setFont("data/img/MavenPro-Regular.ttf");
-	m_pString->setPosition(position);
-	m_pString->setText(str.c_str());
-	m_pString->setSize(25);
-	m_pString->Prepare();
+	string->setFont("data/img/MavenPro-Regular.ttf");
+	string->setPosition(position);
+	string->setText(str.c_str());
+	string->setSize(25);
+	string->prepare();
 
-	GLuint Height = (int)size.y - m_pString->getHeight();
-	GLuint Width = (int)size.x - m_pString->getWidth();
+	GLuint height = (int)size.y - string->getHeight();
+	GLuint width = (int)size.x - string->getWidth();
 
-	m_pString->getMatrix()->Translate(vec3(Width/2, Height/2, 0.0));
-	m_Position = position;
-	m_Size = size;
+	string->getMatrix()->translate(vec3(width/2, height/2, 0.0));
+	this->position = position;
+    this->size = size;
 }
 
 bool Button::MouseState(int Key, int State, int x, int y)
 {
-	if(x >= m_Position.x && x <= m_Position.x + m_Size.x 
-		&& y >= m_Position.y && y <= m_Position.y + m_Size.y)
+	if(x >= position.x && x <= position.x + size.x 
+		&& y >= position.y && y <= position.y + size.y)
 	{
 		if(Key == MOUSE_1 && State == RELEASED)
 		{
@@ -63,18 +52,17 @@ bool Button::MouseState(int Key, int State, int x, int y)
 
 void Button::render(RendererGL * renderer)
 {
-	renderer->RenderTexture(m_pSprite);
-	m_pString->render();
+	renderer->renderTexture(sprite);
+	string->render();
 }
 
-// Get & Set Functions
 TextureGL * Button::getTexture()
 {
-	return m_pSprite;
+	return sprite;
 }
 
 
 TextGL * Button::getString()
 {
-	return m_pString;
+	return string;
 }

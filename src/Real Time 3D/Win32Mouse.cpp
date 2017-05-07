@@ -41,7 +41,7 @@ void Win32Mouse::outputInput(Scene * scene)
 	
 	if(pos.x != 0 || pos.y != 0)
 	{
-		scene->motion(pos.x, pos.y);
+		scene->onMotion(pos.x, pos.y);
 	}
 	
 	POINT info;

@@ -2,75 +2,76 @@
 #include "SurfaceManager.h"
 #include "SurfaceBuilder.h"
 
-SurfaceBuilder::SurfaceBuilder()
+SurfaceBuilder::SurfaceBuilder() :
+    surface(new Surface())
 {
-	m_Point = aiVector3D(0, 0, 0); 
-	m_Size = aiVector3D(0, 0, 0);
-	surface = new Surface();
-	IgnoreArea = false;
+    point = aiVector3D(0, 0, 0);
+    size = aiVector3D(0, 0, 0);
+    ignoreArea = false;
 }
 
 SurfaceBuilder::~SurfaceBuilder()
 {
-	surface->update(m_Matrix);
-	SurfaceManager::get()->PushSurface(surface);
+    surface->onUpdate(matrix);
+    SurfaceManager::get()->pushSurface(surface);
 }
 
-void SurfaceBuilder::PushPoint(aiVector3D p)
+void SurfaceBuilder::pushPoint(aiVector3D p)
 {
-	if(m_Point == aiVector3D(0, 0, 0))
-	{
-		m_Point = p;
-		m_Size = p;
-	}
-	
-	// Look for position
-	if(p.x < m_Point.x)
-		m_Point.x = p.x;
-	if(p.y < m_Point.y)
-		m_Point.y = p.y;
-	if(p.z < m_Point.z)
-		m_Point.z = p.z;
+    if (point == aiVector3D(0, 0, 0))
+    {
+        point = p;
+        size = p;
+    }
 
-	// Look for size
-	if(m_Size.x < p.x)
-		m_Size.x = p.x;
-	if(m_Size.y < p.y)
-		m_Size.y = p.y;
-	if(m_Size.z < p.z)
-		m_Size.z = p.z;
+    if (p.x < point.x)
+        point.x = p.x;
+    if (p.y < point.y)
+        point.y = p.y;
+    if (p.z < point.z)
+        point.z = p.z;
+
+    if (size.x < p.x)
+        size.x = p.x;
+    if (size.y < p.y)
+        size.y = p.y;
+    if (size.z < p.z)
+        size.z = p.z;
 }
 
-Surface * SurfaceBuilder::Release()
+Surface * SurfaceBuilder::release()
 {
-	Surface * temp = surface;
-	return temp;
+    Surface * temp = surface;
+    return temp;
 }
 
-void SurfaceBuilder::PushSurface(GL_Matrix * matrix)
+void SurfaceBuilder::pushSurface(MatrixGL * matrix)
 {
-	m_Matrix = matrix;
+    GLfloat x = size.x - point.x;
+    GLfloat y = size.y - point.y;
+    GLfloat z = size.z - point.z;
+    GLfloat area = (x*x) + (y*y) + (z*z);
 
-	GLfloat x = m_Size.x - m_Point.x;
-	GLfloat y = m_Size.y - m_Point.y;
-	GLfloat z = m_Size.z - m_Point.z;
+    this->matrix = matrix;
 
-	GLfloat Area = (x*x) + (y*y) + (z*z);
+    if (ignoreArea || area >= 150.0 && area <= 5000.0)
+    {
+        vec3 glmPosition = vec3(point.x, point.y, point.z);
+        vec3 glmSize = vec3(size.x, size.y, size.z);
+        surface->setSize(glmPosition, glmSize);
+        surface->enable();
+    }
 
-	if(IgnoreArea || Area >= 150.0 && Area <= 5000.0)
-	{
-		vec3 glmPosition = vec3(m_Point.x, m_Point.y, m_Point.z);
-		vec3 glmSize = vec3(m_Size.x, m_Size.y, m_Size.z);
-
-		surface->SetSize(glmPosition, glmSize);
-		surface->Enable();
-	}
-
-	m_Point = aiVector3D(0, 0, 0); 
-	m_Size = aiVector3D(0, 0, 0);
+    point = aiVector3D(0, 0, 0);
+    size = aiVector3D(0, 0, 0);
 }
 
-void SurfaceBuilder::EndOfMesh(int i)
+void SurfaceBuilder::endOfMesh(int i)
 {
-	surface->AddMaxMeshes(i);
+    surface->addMaxMeshes(i);
+}
+
+void SurfaceBuilder::ignore()
+{
+    ignoreArea = true;
 }

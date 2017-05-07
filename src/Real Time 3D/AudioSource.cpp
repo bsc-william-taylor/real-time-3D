@@ -1,79 +1,73 @@
 
 #include "AudioSource.h"
 
-using std::string;
-using std::cout;
-using std::endl;
-
-
 AudioSource::AudioSource()
 {
-	m_pTranslate = BASS_3DVECTOR(0, 0, 0);
-	m_pPosition = BASS_3DVECTOR(0, 0, 0);
-	m_Stream = NULL;
+    translateVector = BASS_3DVECTOR(0, 0, 0);
+    positionVector = BASS_3DVECTOR(0, 0, 0);
+    stream = NULL;
 
-	if(!BASS_Init(-1, 44100, BASS_DEVICE_3D, NULL, NULL))
-	{
-		cout << "Failed to init BASS" << endl;
-	}
+    if (!BASS_Init(-1, 44100, BASS_DEVICE_3D, NULL, NULL))
+    {
+        std::cout << "Failed to init BASS" << std::endl;
+    }
 }
 
 AudioSource::~AudioSource()
 {
-	BASS_Free();
+    BASS_Free();
 }
 
-void AudioSource::Play(const std::string& filename)
+void AudioSource::play(const std::string& filename)
 {
-	m_Stream = BASS_StreamCreateFile(FALSE, filename.c_str(), 0, FALSE, BASS_SAMPLE_3D);
+    stream = BASS_StreamCreateFile(FALSE, filename.c_str(), 0, FALSE, BASS_SAMPLE_3D);
 
-	BASS_ChannelPlay(m_Stream, FALSE);
+    BASS_ChannelPlay(stream, FALSE);
 }
 
-void AudioSource::Position(const BASS_3DVECTOR position)
+void AudioSource::position(const BASS_3DVECTOR position)
 {
-	m_pPosition = BASS_3DVECTOR(position);
+    positionVector = BASS_3DVECTOR(position);
+    BASS_3DVECTOR newPosition = position;
+    newPosition.x += translateVector.x;
+    newPosition.y += translateVector.y;
+    newPosition.z += translateVector.z;
 
-	BASS_3DVECTOR NewPosition = m_pPosition;
-	NewPosition.x += m_pTranslate.x;
-	NewPosition.y += m_pTranslate.y;
-	NewPosition.z += m_pTranslate.z;
-
-	BASS_ChannelSet3DPosition(m_Stream, &(NewPosition),  NULL,  NULL);
-	BASS_Apply3D();
+    BASS_ChannelSet3DPosition(stream, &(newPosition), NULL, NULL);
+    BASS_Apply3D();
 }
 
-void AudioSource::UpdatePosition()
+void AudioSource::updatePosition()
 {
-	Position(this->m_pPosition);
+    position(positionVector);
 }
 
-void AudioSource::Pause()
+void AudioSource::pause()
 {
-	BASS_ChannelPause(m_Stream);
+    BASS_ChannelPause(stream);
 }
 
-void AudioSource::Stop()
+void AudioSource::stop()
 {
-	BASS_ChannelStop(m_Stream);
+    BASS_ChannelStop(stream);
 }
 
-void AudioSource::ResetPosition()
+void AudioSource::resetPosition()
 {
-	m_pTranslate = BASS_3DVECTOR(0, 0, 0);
+    this->translateVector = BASS_3DVECTOR(0, 0, 0);
 }
 
-void AudioSource::Translate(const BASS_3DVECTOR translate)
+void AudioSource::translate(const BASS_3DVECTOR translate)
 {
-	this->m_pTranslate = translate;
+    this->translateVector = translate;
 }
 
 BASS_3DVECTOR AudioSource::getTranslate()
 {
-	return(this->m_pTranslate);
+    return(translateVector);
 }
 
 BASS_3DVECTOR AudioSource::getPosition()
 {
-	return(this->m_pPosition);
+    return(positionVector);
 }

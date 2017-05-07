@@ -20,7 +20,7 @@ public:
     DemoMenu();
     ~DemoMenu();
 
-    void update();
+    void onUpdate();
     void render();
     void enter();
 };
