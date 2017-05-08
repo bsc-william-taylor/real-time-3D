@@ -45,9 +45,9 @@ GLfloat HeightmapGL::getY(GLuint x, GLuint z)
     return(y);
 }
 
-GLvoid HeightmapGL::setScale(GLuint scale)
+GLvoid HeightmapGL::setScale(GLuint value)
 {
-    this->scale = scale;
+    scale = value;
 }
 
 GLvoid HeightmapGL::prepare()
@@ -165,13 +165,6 @@ GLvoid HeightmapGL::prepare()
     shader = ShaderManagerGL::get()->getShader(vs, fs);
 }
 
-GLfloat HeightmapGL::getMapY(vec3 camera)
-{
-    heightmap->height;
-    heightmap->width;
-    return 0;
-}
-
 GLvoid HeightmapGL::onUpdate()
 {
     matrix->loadIdenditity();
@@ -186,14 +179,14 @@ vec3 HeightmapGL::getNormal(vec3 v1, vec3 v2, vec3 v3)
     return(Normal);
 }
 
-GLvoid HeightmapGL::setMapTexture(std::string m_file)
+GLvoid HeightmapGL::setMapTexture(std::string file)
 {
-    textureFilename = m_file;
+    textureFilename = file;
 }
 
-GLvoid HeightmapGL::PushOverlay(MapOverlayGL * overlay)
+GLvoid HeightmapGL::PushOverlay(MapOverlayGL * newLayer)
 {
-    overlays.push_back(overlay);
+    overlays.push_back(newLayer);
 }
 
 GLvoid HeightmapGL::Draw()
@@ -225,9 +218,9 @@ GLvoid HeightmapGL::Draw()
     shader->release();
 }
 
-GLvoid HeightmapGL::setHeightMap(std::string filename)
+GLvoid HeightmapGL::setHeightMap(std::string fn)
 {
-    this->filename = filename;
+    filename = fn;
 }
 
 ProgramGL* HeightmapGL::getProgram()

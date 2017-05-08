@@ -36,8 +36,8 @@ public:
     void initialise();
     bool onUpdate();
 
-    HWND& GetHandle();
-    MSG& GetMsg();
+    HWND& getHandle();
+    MSG& getMsg();
 private:
     static LRESULT __stdcall WndProc(HWND, UINT, WPARAM, LPARAM);
 };

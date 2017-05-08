@@ -65,7 +65,7 @@ void SceneManager::switchTo(unsigned int newPlace)
     scenes[currentIndex]->enter();
 }
 
-Scene * SceneManager::getCurrent()
+Scene* SceneManager::getCurrent()
 {
     if (scenes.empty())
     {
@@ -75,7 +75,7 @@ Scene * SceneManager::getCurrent()
     return scenes[currentIndex];
 }
 
-SceneManager * SceneManager::get()
+SceneManager* SceneManager::get()
 {
     if (manager == nullptr)
     {

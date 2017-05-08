@@ -16,13 +16,13 @@ DemoOptions::DemoOptions()
     header.setPosition(vec2(400, 550));
     header.setSize(100);
 
-    showCollisionBoxes.SetPosition("Show Collision Boxes?", vec2(450, 400), vec2(400, 100));
+    showCollisionBoxes.setPosition("Show Collision Boxes?", vec2(450, 400), vec2(400, 100));
     showCollisionBoxes.getTexture()->setShade(vec4(1.0, 0.0, 0.0, 1.0));
-    enablePostEffects.SetPosition("Enable Post FX Effects", vec2(450, 250), vec2(400, 100));
+    enablePostEffects.setPosition("Enable Post FX Effects", vec2(450, 250), vec2(400, 100));
     enablePostEffects.getTexture()->setShade(vec4(1.0, 0.0, 0.0, 1.0));
-    enableWireframe.SetPosition("Enable Wireframe", vec2(450, 100), vec2(400, 100));
+    enableWireframe.setPosition("Enable Wireframe", vec2(450, 100), vec2(400, 100));
     enableWireframe.getTexture()->setShade(vec4(1.0, 0.0, 0.0, 1.0));
-    backButton.SetPosition("Back", vec2(10, 625), vec2(200, 50));
+    backButton.setPosition("Back", vec2(10, 625), vec2(200, 50));
     backButton.getTexture()->setShade(vec4(1.0, 0.0, 0.0, 1.0));
 }
 
@@ -32,7 +32,7 @@ DemoOptions::~DemoOptions()
 
 void DemoOptions::mousePress(int Key, int State, int x, int y)
 {
-    if (enableWireframe.MouseState(Key, State, x, y))
+    if (enableWireframe.mouseState(Key, State, x, y))
     {
         if (Demo::demoSettings.enableFx)
         {
@@ -44,19 +44,19 @@ void DemoOptions::mousePress(int Key, int State, int x, int y)
         activateButton(&enableWireframe);
     }
 
-    if (showCollisionBoxes.MouseState(Key, State, x, y))
+    if (showCollisionBoxes.mouseState(Key, State, x, y))
     {
         Demo::demoSettings.showBoundingBoxes = !Demo::demoSettings.showBoundingBoxes;
         activateButton(&showCollisionBoxes);
     }
 
-    if (enablePostEffects.MouseState(Key, State, x, y))
+    if (enablePostEffects.mouseState(Key, State, x, y))
     {
         Demo::demoSettings.enableFx = !Demo::demoSettings.enableFx;
         activateButton(&enablePostEffects);
     }
 
-    if (backButton.MouseState(Key, State, x, y))
+    if (backButton.mouseState(Key, State, x, y))
         SceneManager::get()->switchTo(1);
 }
 

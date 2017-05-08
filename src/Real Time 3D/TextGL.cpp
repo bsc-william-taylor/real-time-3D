@@ -3,8 +3,7 @@
 
 TextGL::TextGL() :
     fontSize(12),
-    freeTypeFace(NULL),
-    matrix(new MatrixGL())
+    freeTypeFace(NULL)
 {
     if (FT_Init_FreeType(&freeTypeLibrary))
     {
@@ -26,8 +25,8 @@ GLvoid TextGL::prepare()
 
 GLvoid TextGL::onUpdate()
 {
-    matrix->loadIdenditity();
-    matrix->ortho(vec2(0, 1280), vec2(0, 720));
+    matrix.loadIdenditity();
+    matrix.ortho(vec2(0, 1280), vec2(0, 720));
 }
 
 GLvoid TextGL::render()
@@ -35,8 +34,8 @@ GLvoid TextGL::render()
     glBindVertexArray(0);
 
     shader->use();
-    shader->setMatrix("ModelMatrix", matrix->getModel());
-    shader->setMatrix("ViewMatrix", matrix->getView());
+    shader->setMatrix("ModelMatrix", matrix.getModel());
+    shader->setMatrix("ViewMatrix", matrix.getView());
 
     if (!loaded)
     {
@@ -161,12 +160,12 @@ GLvoid TextGL::setText(std::string val)
     text = val;
 }
 
-ProgramGL * TextGL::getProgram()
+ProgramGL* TextGL::getProgram()
 {
     return shader;
 }
 
-MatrixGL * TextGL::getMatrix()
+MatrixGL* TextGL::getMatrix()
 {
-    return matrix;
+    return &matrix;
 }

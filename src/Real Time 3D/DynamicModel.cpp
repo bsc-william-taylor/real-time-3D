@@ -39,7 +39,6 @@ DynamicModel::DynamicModel()
     currentAnim = 0;
     nextFrame = 1;
     interp = 0.0f;
-    matrix = new MatrixGL();
 }
 
 DynamicModel::~DynamicModel()
@@ -207,7 +206,7 @@ GLvoid DynamicModel::readMD2Model(const GLchar *filename, GLboolean bound)
     glEnableVertexAttribArray(1);
     glBindVertexArray(0);
 
-    matrix->perspective(70.0f, vec2(16, 9), vec2(0.1, 1000));
+    matrix.perspective(70.0f, vec2(16, 9), vec2(0.1, 1000));
 
     if (bound)
     {
@@ -223,7 +222,7 @@ GLvoid DynamicModel::readMD2Model(const GLchar *filename, GLboolean bound)
         }
 
         builder->ignore();
-        builder->pushSurface(matrix);
+        builder->pushSurface(&matrix);
         builder->endOfMesh(0);
         boundingBox = builder->release();
         delete builder;
@@ -240,10 +239,10 @@ GLvoid DynamicModel::onUpdate()
 void DynamicModel::render(mat4 m)
 {
     program->use();
-    program->setMatrix("Projection", matrix->getProjection());
+    program->setMatrix("Projection", matrix.getProjection());
     program->setMatrix("NormalMat", glm::transpose(m));
-    program->setMatrix("Model", matrix->getModel());
-    program->setMatrix("View", matrix->getView());
+    program->setMatrix("Model", matrix.getModel());
+    program->setMatrix("View", matrix.getView());
 
     glBindVertexArray(vertexArray);
     glBindTexture(GL_TEXTURE_2D, texture->textureID);
@@ -382,5 +381,5 @@ bool DynamicModel::isDynamic()
 
 MatrixGL* DynamicModel::getMatrix()
 {
-    return matrix;
+    return &matrix;
 }

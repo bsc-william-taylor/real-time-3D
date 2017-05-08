@@ -16,7 +16,7 @@ MinimapGL::~MinimapGL()
     glDeleteBuffers(1, &vertexBuffer);
 }
 
-GLvoid MinimapGL::initialise(Camera * camera)
+GLvoid MinimapGL::initialise(Camera* newCamera)
 {
     GLchar* vs = "data/shaders/postprocessor.vert";
     GLchar* fs = "data/shaders/postprocessor.frag";
@@ -29,7 +29,7 @@ GLvoid MinimapGL::initialise(Camera * camera)
 
     shader = ShaderManagerGL::get()->getShader(vs, fs);
     matrix.ortho(vec2(0, 1280), vec2(0, 720));
-    this->camera = camera;
+    camera = newCamera;
 
     glBindVertexArray(vertexArray);
     glBindBuffer(GL_ARRAY_BUFFER, vertexBuffer);

@@ -5,14 +5,14 @@
 
 class ShaderManagerGL
 {
-	static ShaderManagerGL* manager;
-	vector<ProgramGL*> shaders;
+    static ShaderManagerGL* manager;
+    vector<ProgramGL*> shaders;
 public:
     ShaderManagerGL();
-	~ShaderManagerGL();
+    ~ShaderManagerGL();
 
-	ProgramGL* getShader(const std::string&, const std::string&);
-	GLvoid freeShaders();
+    ProgramGL* getShader(const std::string&, const std::string&);
+    GLvoid freeShaders();
 
-	static ShaderManagerGL * get();
+    static ShaderManagerGL * get();
 };

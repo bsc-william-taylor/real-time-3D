@@ -107,7 +107,7 @@ class DynamicModel : public Model
 
     ProgramGL* program;
     SpriteGL* texture;
-    MatrixGL* matrix;
+    MatrixGL matrix;
 
     GLuint vertDataSize;
     GLuint vertexBuffer;

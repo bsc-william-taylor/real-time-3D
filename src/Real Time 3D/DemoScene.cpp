@@ -83,12 +83,12 @@ void DemoScene::onMotion(float pos_x, float pos_y)
 
 void DemoScene::mousePress(int Key, int State, int x, int y)
 {
-    if (options.MouseState(Key, State, x, y))
+    if (options.mouseState(Key, State, x, y))
     {
         SceneManager::get()->switchTo(2);
     }
 
-    if (quit.MouseState(Key, State, x, y))
+    if (quit.mouseState(Key, State, x, y))
     {
         PostQuitMessage(0);
     }
@@ -98,9 +98,9 @@ void DemoScene::enter()
 {
     if (!loaded)
     {
-        options.SetPosition("Options", vec2(1050, 610), vec2(200, 50));
+        options.setPosition("Options", vec2(1050, 610), vec2(200, 50));
         options.getTexture()->setShade(vec4(1.0, 0.0, 0.0, 1.0));
-        quit.SetPosition("Quit", vec2(1050, 10), vec2(200, 50));
+        quit.setPosition("Quit", vec2(1050, 10), vec2(200, 50));
         quit.getTexture()->setShade(vec4(1.0, 0.0, 0.0, 1.0));
 
         effects.initialise(1280, 720);
@@ -148,8 +148,8 @@ void DemoScene::setupGraphics()
 
 void DemoScene::setupAudio()
 {
-    music.SetAudioSource("data/audio/PianoMono.mp3");
-    music.SetPosition(vec3(-1, -1, -1));
+    music.setAudioSource("data/audio/PianoMono.mp3");
+    music.setPosition(vec3(-1, -1, -1));
     music.play();
 
     audioPlayer.pushClip(&music);

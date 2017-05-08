@@ -6,20 +6,20 @@
 
 class AudioObject
 {
-	AudioSource audioSource;
-	AudioNode audioNode;
+    AudioSource audioSource;
+    AudioNode audioNode;
 
-	const char* filename;
+    std::string filename;
 public:
-	AudioObject();
-	~AudioObject();
+    AudioObject();
+    ~AudioObject();
 
-	void SetAudioSource(const char *);
-	void SetPosition(vec3);
-	void RenderNode();
-	void pause();
-	void play();
+    void setAudioSource(const char*);
+    void setPosition(vec3);
+    void renderNode();
+    void pause();
+    void play();
 
-	AudioSource * getSource();
-	AudioNode * getNode();
+    AudioSource* getSource();
+    AudioNode* getNode();
 };

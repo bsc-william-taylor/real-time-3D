@@ -47,7 +47,7 @@ bool Surface::checkForCollision(Camera * camera)
     return false;
 }
 
-bool Surface::checkForCollision(SubSurface * surface, Camera * camera)
+bool Surface::checkForCollision(SubSurface* surface, Camera* camera)
 {
     if (!surfaces.empty())
     {
@@ -67,10 +67,10 @@ bool Surface::checkForCollision(SubSurface * surface, Camera * camera)
     return false;
 }
 
-void Surface::setSize(vec3 position, vec3 size)
+void Surface::setSize(vec3 pos, vec3 sz)
 {
-    this->positions.push_back(position);
-    this->size.push_back(size);
+    positions.push_back(pos);
+    size.push_back(sz);
 }
 
 void Surface::render()
@@ -144,14 +144,14 @@ void Surface::setup()
     glBindVertexArray(0);
 }
 
-void Surface::onUpdate(MatrixGL* matrix)
+void Surface::onUpdate(MatrixGL* trans)
 {
-    this->matrix = matrix;
+    matrix = trans;
 
     if (firstTime)
     {
-        SubSurface * newSurface = new SubSurface();
-        unsigned int meshNumber = 0;
+        auto newSurface = new SubSurface();
+        auto meshNumber = 0;
 
         for (unsigned int i = 0; i < positions.size(); i++)
         {

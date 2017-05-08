@@ -9,21 +9,21 @@
 
 class AudioSource
 {
-	BASS_3DVECTOR translateVector;
-	BASS_3DVECTOR positionVector;
-	HSTREAM stream;
+    BASS_3DVECTOR translateVector;
+    BASS_3DVECTOR positionVector;
+    HSTREAM stream;
 public:
-	AudioSource();
-	~AudioSource();
+    AudioSource();
+    ~AudioSource();
 
-	void translate(const BASS_3DVECTOR);
-	void position(const BASS_3DVECTOR);
-	void play(const std::string&);
-	void updatePosition();
-	void resetPosition();
-	void pause();
-	void stop();
+    void translate(const BASS_3DVECTOR);
+    void position(const BASS_3DVECTOR);
+    void play(const std::string&);
+    void updatePosition();
+    void resetPosition();
+    void pause();
+    void stop();
 
-	BASS_3DVECTOR getTranslate();
-	BASS_3DVECTOR getPosition();
+    BASS_3DVECTOR getTranslate();
+    BASS_3DVECTOR getPosition();
 };

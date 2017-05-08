@@ -10,11 +10,11 @@ Win32Driver::~Win32Driver()
 {
 }
 
-void Win32Driver::initialise(HWND * handle)
+void Win32Driver::initialise(HWND * hwnd)
 {
     HINSTANCE instance = GetModuleHandle(NULL);
     DirectInput8Create(instance, DIRECTINPUT_VERSION, IID_IDirectInput8, (void**)&driver, NULL);
-    this->handle = handle;
+    handle = hwnd;
 
     driver->CreateDevice(GUID_SysKeyboard, (Win32Device *)&keyboard, NULL);
     driver->CreateDevice(GUID_SysMouse, (Win32Device *)&mouse, NULL);

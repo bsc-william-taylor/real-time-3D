@@ -45,14 +45,14 @@ Surface * SurfaceBuilder::release()
     return temp;
 }
 
-void SurfaceBuilder::pushSurface(MatrixGL * matrix)
+void SurfaceBuilder::pushSurface(MatrixGL* model)
 {
     GLfloat x = size.x - point.x;
     GLfloat y = size.y - point.y;
     GLfloat z = size.z - point.z;
     GLfloat area = (x*x) + (y*y) + (z*z);
 
-    this->matrix = matrix;
+    matrix = model;
 
     if (ignoreArea || area >= 150.0 && area <= 5000.0)
     {

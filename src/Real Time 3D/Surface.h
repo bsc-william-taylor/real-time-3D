@@ -2,7 +2,6 @@
 #pragma once
 
 #include "SubSurface.h"
-
 #include "ShaderManagerGL.h"
 #include "MinimapGL.h"
 

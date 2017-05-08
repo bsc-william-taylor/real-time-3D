@@ -43,15 +43,15 @@ void Win32Window::initialise()
 
 bool Win32Window::onUpdate()
 {
-    PeekMessage(&GetMsg(), NULL, NULL, NULL, PM_REMOVE);
+    PeekMessage(&getMsg(), NULL, NULL, NULL, PM_REMOVE);
 
-    if (GetMsg().message == WM_QUIT)
+    if (getMsg().message == WM_QUIT)
     {
         return FALSE;
     }
 
-    TranslateMessage(&GetMsg());
-    DispatchMessage(&GetMsg());
+    TranslateMessage(&getMsg());
+    DispatchMessage(&getMsg());
     return TRUE;
 }
 
@@ -59,14 +59,14 @@ LRESULT CALLBACK Win32Window::WndProc(HWND Hwnd, UINT Message, WPARAM wParam, LP
 {
     switch (Message)
     {
-        case WM_DESTROY: 
-            PostQuitMessage(0); 
-            return NULL;
-        case WM_SIZE: 
-            glViewport(0, 0, LOWORD(lParam), HIWORD(lParam));  
-            break;
-        default:
-            break;
+    case WM_DESTROY:
+        PostQuitMessage(0);
+        return NULL;
+    case WM_SIZE:
+        glViewport(0, 0, LOWORD(lParam), HIWORD(lParam));
+        break;
+    default:
+        break;
     }
 
     return DefWindowProc(Hwnd, Message, wParam, lParam);
@@ -129,19 +129,18 @@ void Win32Window::enableOpenGL()
     wglMakeCurrent(hDC, context);
 }
 
-HWND& Win32Window::GetHandle()
+HWND& Win32Window::getHandle()
 {
     return window;
 }
 
-MSG& Win32Window::GetMsg()
+MSG& Win32Window::getMsg()
 {
     return message;
 }
 
-void Win32Window::setTraits(TCHAR* title, int x, int y, int width, int height)
+void Win32Window::setTraits(TCHAR* t, int x, int y, int width, int height)
 {
-    this->title = title;
     region.h = height;
     region.w = width;
     region.x = x;
@@ -156,5 +155,7 @@ void Win32Window::setTraits(TCHAR* title, int x, int y, int width, int height)
     {
         region.y = (GetSystemMetrics(SM_CYSCREEN) - height) / 2;
     }
+
+    title = t;
 }
 

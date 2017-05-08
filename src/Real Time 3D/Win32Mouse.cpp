@@ -20,13 +20,13 @@ Win32Mouse::~Win32Mouse()
 	}
 }
 
-void Win32Mouse::initialiseInput(HWND* hwnd)
+void Win32Mouse::initialiseInput(HWND* hWnd)
 {
 	DWORD settings = DISCL_FOREGROUND | DISCL_NONEXCLUSIVE;
 	mouse->SetDataFormat(&c_dfDIMouse2);
-	mouse->SetCooperativeLevel(*hwnd, settings);
+	mouse->SetCooperativeLevel(*hWnd, settings);
 	mouse->Acquire();
-	this->hwnd = *hwnd;
+	hwnd = *hWnd;
 }
 
 void Win32Mouse::updateInput()

@@ -6,15 +6,15 @@
 
 class MapOverlayGL
 {
-	SpriteGL* sprite;
-	SpriteGL* map;
+    SpriteGL* sprite;
+    SpriteGL* map;
 public:
-	MapOverlayGL();
-	~MapOverlayGL();
+    MapOverlayGL();
+    ~MapOverlayGL();
 
-	GLvoid setOverlayImage(const std::string&);
-	GLvoid setOverlayMap(const std::string&);
-	GLvoid prepareShader(ProgramGL *);
+    GLvoid setOverlayImage(const std::string&);
+    GLvoid setOverlayMap(const std::string&);
+    GLvoid prepareShader(ProgramGL *);
 
-	GLuint getTextureID();
+    GLuint getTextureID();
 };

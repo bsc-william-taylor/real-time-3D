@@ -58,7 +58,8 @@ void SurfaceManager::checkForCollision()
 
         if (!cameraSurfaces.empty())
         {
-            SubSurface* surface = cameraSurfaces.front();
+            auto surface = cameraSurfaces.front();
+
             for (int i = 0; i < surfaces.size(); ++i)
             {
                 if (surfaces[i]->checkForCollision(surface, sceneCamera) ||

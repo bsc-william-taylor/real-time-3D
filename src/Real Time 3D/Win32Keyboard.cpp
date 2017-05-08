@@ -18,13 +18,13 @@ Win32Keyboard::~Win32Keyboard()
     }
 }
 
-void Win32Keyboard::initialiseInput(HWND* hwnd)
+void Win32Keyboard::initialiseInput(HWND* handle)
 {
     DWORD Settings = DISCL_FOREGROUND | DISCL_NONEXCLUSIVE;
     keyboard->SetDataFormat(&c_dfDIKeyboard);
-    keyboard->SetCooperativeLevel(*hwnd, Settings);
+    keyboard->SetCooperativeLevel(*handle, Settings);
     keyboard->Acquire();
-    this->hwnd = hwnd;
+    hwnd = handle;
 }
 
 void Win32Keyboard::updateInput()

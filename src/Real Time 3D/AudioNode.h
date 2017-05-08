@@ -7,19 +7,19 @@
 
 class AudioNode
 {
-	ProgramGL* shader;
-	TextureGL sprite;
-	MatrixGL matrix;
+    ProgramGL* shader;
+    TextureGL sprite;
+    MatrixGL matrix;
 
-	GLuint textureBuffer;
-	GLuint vertexBuffer;
-	GLuint vertexArray;
+    GLuint textureBuffer;
+    GLuint vertexBuffer;
+    GLuint vertexArray;
 public:
-	AudioNode();
-	~AudioNode();
+    AudioNode();
+    ~AudioNode();
 
-	GLvoid initialise(vec3, vec3);
-	GLvoid render();
+    GLvoid initialise(vec3, vec3);
+    GLvoid render();
 
-	MatrixGL* getMatrix();
+    MatrixGL* getMatrix();
 };

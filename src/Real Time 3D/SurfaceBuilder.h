@@ -7,21 +7,21 @@
 class SurfaceBuilder
 {
     MatrixGL* matrix;
-	Surface* surface;
-	
-	aiVector3D point;
-	aiVector3D size;
+    Surface* surface;
 
-	bool ignoreArea;
+    aiVector3D point;
+    aiVector3D size;
+
+    bool ignoreArea;
 public:
 
-	SurfaceBuilder();
-	~SurfaceBuilder();
+    SurfaceBuilder();
+    ~SurfaceBuilder();
 
-	void pushSurface(MatrixGL *);
-	void pushPoint(aiVector3D);
-	void endOfMesh(int);
-	void ignore();
-	
-	Surface* release();
+    void pushSurface(MatrixGL *);
+    void pushPoint(aiVector3D);
+    void endOfMesh(int);
+    void ignore();
+
+    Surface* release();
 };

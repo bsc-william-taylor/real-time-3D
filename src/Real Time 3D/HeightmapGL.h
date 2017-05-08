@@ -31,9 +31,7 @@ public:
     HeightmapGL();
     ~HeightmapGL();
 
-    GLfloat getMapY(vec3);
     GLfloat getY(GLuint, GLuint);
-
 
     GLvoid PushOverlay(MapOverlayGL *);
     GLvoid prepare();

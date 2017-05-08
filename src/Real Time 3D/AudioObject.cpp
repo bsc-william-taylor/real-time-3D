@@ -1,23 +1,20 @@
 
 #include "AudioObject.h"
 
-AudioObject::AudioObject()
-    : filename("")
+AudioObject::AudioObject() : filename("")
 {
-
 }
 
 AudioObject::~AudioObject()
 {
-
 }
 
-void AudioObject::SetAudioSource(const char* filename)
+void AudioObject::setAudioSource(const char* fn)
 {
-    this->filename = filename;
+    filename = fn;
 }
 
-void AudioObject::SetPosition(vec3 vec)
+void AudioObject::setPosition(vec3 vec)
 {
     BASS_3DVECTOR position;
     position.x = vec.x;
@@ -28,14 +25,14 @@ void AudioObject::SetPosition(vec3 vec)
     audioNode.initialise(vec, vec + vec3(2, 2, 2));
 }
 
-void AudioObject::RenderNode()
+void AudioObject::renderNode()
 {
     audioNode.render();
 }
 
 void AudioObject::pause()
 {
-    if (filename != "")
+    if (!filename.empty())
     {
         audioSource.stop();
     }
@@ -43,7 +40,7 @@ void AudioObject::pause()
 
 void AudioObject::play()
 {
-    if (filename != "")
+    if (!filename.empty())
     {
         audioSource.play(filename);
     }

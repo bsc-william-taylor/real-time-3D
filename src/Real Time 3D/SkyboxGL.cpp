@@ -84,12 +84,12 @@ vector<TextureGL *>& SkyboxGL::getTextures()
     return skyboxTextures;
 }
 
-GLvoid SkyboxGL::setDistance(GLfloat distance)
+GLvoid SkyboxGL::setDistance(GLfloat value)
 {
-    this->distance = distance;
+    distance = value;
 }
 
-GLvoid SkyboxGL::setOverdraw(GLfloat overdraw)
+GLvoid SkyboxGL::setOverdraw(GLfloat value)
 {
-    this->overdraw = overdraw;
+    overdraw = value;
 }

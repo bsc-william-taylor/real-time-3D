@@ -187,14 +187,12 @@ GLvoid StaticModel::load(const std::string& sFilePath, const std::string& sTextu
 
 GLvoid StaticModel::prepare()
 {
-    size_t size = sizeof(aiVector3D);
-
     glGenVertexArrays(1, &vertexArray);
     glBindVertexArray(vertexArray);
 
     glGenBuffers(1, &vertexBuffer);
     glBindBuffer(GL_ARRAY_BUFFER, vertexBuffer);
-    glBufferData(GL_ARRAY_BUFFER, size * data.size(), &data[0], GL_STATIC_DRAW);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(aiVector3D) * data.size(), &data[0], GL_STATIC_DRAW);
 
     data.clear();
 
@@ -202,9 +200,10 @@ GLvoid StaticModel::prepare()
     glEnableVertexAttribArray(1);
     glEnableVertexAttribArray(2);
 
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 2 * size + size, 0);
-    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 2 * size + size, (void*)size);
-    glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, 2 * size + size, (void*)(size + size));
+    size_t vecSize = sizeof(aiVector3D);
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, vecSize * 3, 0);
+    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, vecSize * 3, (void*)vecSize);
+    glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, vecSize * 3, (void*)(vecSize * 2));
 
     GLchar * vs = "data/shaders/model.vert";
     GLchar * fs = "data/shaders/model.frag";
@@ -214,7 +213,7 @@ GLvoid StaticModel::prepare()
 
 GLvoid StaticModel::setTranslate(vec3 v)
 {
-    this->translate = v;
+    translate = v;
 }
 
 GLvoid StaticModel::setScale(vec3 v)
@@ -241,9 +240,9 @@ GLvoid StaticModel::setRotate(GLfloat f, vec3 vec)
     rotation = f;
 }
 
-GLvoid StaticModel::setScale(GLfloat scale)
+GLvoid StaticModel::setScale(GLfloat value)
 {
-    this->scale = vec3(scale, scale, scale);
+    scale = vec3(value, value, value);
 }
 
 GLuint StaticModel::getTextureID(GLuint i)

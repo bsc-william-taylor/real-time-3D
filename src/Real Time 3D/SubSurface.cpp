@@ -12,16 +12,16 @@ SubSurface::~SubSurface()
 {
 }
 
-bool SubSurface::collisionTest(MatrixGL * matrix, vec3 position, vec3 size)
+bool SubSurface::collisionTest(MatrixGL* matrix, vec3 pos, vec3 sz)
 {
     auto mat = matrix->getProjection() * matrix->getModel();
 
-    if (collisionTest(mat, position))
+    if (collisionTest(mat, pos))
     {
         return true;
     }
 
-    if (collisionTest(mat, size))
+    if (collisionTest(mat, sz))
     {
         return true;
     }
@@ -29,20 +29,20 @@ bool SubSurface::collisionTest(MatrixGL * matrix, vec3 position, vec3 size)
     return false;
 }
 
-bool SubSurface::collisionTest(mat4 mat, vec3 position)
+bool SubSurface::collisionTest(mat4 mat, vec3 pos)
 {
     if (!positionCalculated)
     {
-        this->position = vec3(mat * (vec4(this->position, 1.0)));
-        this->size = vec3(mat * (vec4(this->size, 1.0)));
+        position = vec3(mat * (vec4(position, 1.0)));
+        size = vec3(mat * (vec4(size, 1.0)));
         positionCalculated = true;
     }
 
-    if (position.x >= this->position.x && position.x <= size.x)
+    if (pos.x >= position.x && pos.x <= size.x)
     {
-        if (position.z >= this->position.z && position.z <= size.z)
+        if (pos.z >= position.z && pos.z <= size.z)
         {
-            if (position.y >= this->position.y && position.y <= size.y)
+            if (pos.y >= position.y && pos.y <= size.y)
             {
                 return true;
             }

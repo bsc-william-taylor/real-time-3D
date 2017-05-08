@@ -11,9 +11,9 @@ AudioPlayer::~AudioPlayer()
 {
 }
 
-void AudioPlayer::set3DCamera(Camera * camera)
+void AudioPlayer::set3DCamera(Camera* newCamera)
 {
-    this->camera = camera;
+    camera = newCamera;
 }
 
 void AudioPlayer::pushClip(AudioObject * source)
@@ -31,9 +31,9 @@ void AudioPlayer::popClip(AudioObject* source)
     }
 }
 
-void AudioPlayer::set3DRenderer(RendererGL * renderer)
+void AudioPlayer::set3DRenderer(RendererGL* newRenderer)
 {
-    this->renderer = renderer;
+    renderer = newRenderer;
 }
 
 void AudioPlayer::initialise()

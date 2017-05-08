@@ -28,8 +28,6 @@
 #define N_KEY           49											
 #define M_KEY           50
 
-// Other Key MACROS
-
 #define ESCAPE          1	
 #define ONE             2		
 #define TWO             3											
@@ -60,8 +58,6 @@
 #define LEFT_ALT        56																					
 #define CAPS_LOCK       58	
 
-// Function Keys.
-
 #define F1              59											
 #define F2              60											
 #define F3              61											
@@ -78,8 +74,6 @@
 #define F14             101											
 #define F15             102		
 
-// Calculater Keys.
-
 #define NUMLOCK         69											
 #define SCROLL          70											
 #define NUMPAD7         71											
@@ -94,8 +88,6 @@
 #define NUMPAD2         80											
 #define NUMPAD3         81											
 #define NUMPAD0         82		
-
-// Other Keys.
 
 #define FULLSTOP        83	
 #define NUMPAD_ENTER    156			
@@ -121,8 +113,6 @@
 #define RIGHT_WINDOWS   220											
 #define ENTER			28	
 
-// Get Function MACROS.
-
 #define WINDOW_WIDTH	100
 #define WINDOW_HEIGHT   101
 #define MOUSE_X			102
@@ -130,28 +120,15 @@
 #define WINDOW_RATIO	104
 #define INVALID_PARAM	1
 
-// Mouse Buttons Macros.
-
 #define NOT_PRESSED		4	
 #define MOUSE_MIDDLE	2													
 #define MOUSE_1			0														
 #define MOUSE_2			1
 
-/*
-	Keys states macros used for identifying
-	different types of key interaction.
-*/
-				
 #define RELEASED		1														
 #define HOLDING			3														
 #define PRESSED			0	
 
-/*
-	Useful check funtions
-*/
-
 #define KEY_HOLDING(k, i, b)( b == HOLDING && k == i )
 #define KEY_DOWN(k, i, b)( b == PRESSED && k == i )
 #define KEY_UP(k, i, b)( b == RELEASED && k == i )
-
-// END

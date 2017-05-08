@@ -38,22 +38,16 @@ GLvoid AudioNode::initialise(vec3 p, vec3 s)
 
     vec3 positions[] =
     {
-        // Back face
         vec3(p.x, s.y, s.z), vec3(s.x, s.y, s.z), vec3(s.x, p.y, s.z),
         vec3(s.x, p.y, s.z), vec3(p.x, p.y, s.z), vec3(p.x, s.y, s.z),
-        // Font face
         vec3(s.x, s.y, p.z), vec3(p.x, s.y, p.z), vec3(p.x, p.y, p.z),
         vec3(p.x, p.y, p.z), vec3(s.x, p.y, p.z), vec3(s.x, s.y, p.z),
-        // Left face
         vec3(p.x, s.y, p.z), vec3(p.x, s.y, s.z), vec3(p.x, p.y, s.z),
         vec3(p.x, p.y, s.z), vec3(p.x, p.y, p.z), vec3(p.x, s.y, p.z),
-        // Right face
         vec3(s.x, s.y, s.z), vec3(s.x, s.y, p.z), vec3(s.x, p.y, p.z),
         vec3(s.x, p.y, p.z), vec3(s.x, p.y, s.z), vec3(s.x, s.y, s.z),
-        // Top face 
         vec3(p.x, s.y, p.z), vec3(s.z, s.y, p.z), vec3(s.x, s.y, s.z),
         vec3(s.x, s.y, s.z), vec3(p.x, s.y, s.y), vec3(p.x, s.y, p.z),
-        // Bottom face
         vec3(p.x, p.y, s.z), vec3(s.x, p.y, s.z), vec3(s.x, p.y, p.z),
         vec3(s.x, p.y, p.z), vec3(p.x, p.y, p.z), vec3(p.x, p.y, s.z),
     };

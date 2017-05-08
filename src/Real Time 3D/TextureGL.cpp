@@ -4,7 +4,9 @@
 
 TextureGL::TextureGL() :
     settings(GL_CLAMP_TO_EDGE),
-    filename("")
+    filename(""),
+    vertexArray(0),
+    vertexBuffer(0)
 {
     shade = vec4(1.0, 1.0, 1.0, 1.0);
     uv = vec4(0, 0, 1, 1);
@@ -12,8 +14,11 @@ TextureGL::TextureGL() :
 
 TextureGL::~TextureGL()
 {
-    glDeleteVertexArrays(1, &vertexArray);
-    glDeleteBuffers(1, &vertexBuffer);
+    if(vertexArray != 0 && vertexBuffer != 0)
+    {
+        glDeleteVertexArrays(1, &vertexArray);
+        glDeleteBuffers(1, &vertexBuffer);
+    }
 }
 
 GLvoid TextureGL::surfacePlacements(GLuint m)
@@ -72,10 +77,10 @@ GLvoid TextureGL::setShade(vec4 vec)
     this->shade = vec;
 }
 
-void TextureGL::setTexture(std::string filename, GLenum e)
+void TextureGL::setTexture(std::string fn, GLenum s)
 {
-    this->filename = filename;
-    settings = e;
+    filename = fn;
+    settings = s;
 }
 
 GLvoid TextureGL::setTexturePositions(vec2 a, vec2 b)

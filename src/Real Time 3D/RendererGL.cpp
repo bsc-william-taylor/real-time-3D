@@ -10,7 +10,6 @@ RendererGL::RendererGL()
 
 RendererGL::~RendererGL()
 {
-    // Add cleanup code
 }
 
 GLvoid RendererGL::pushAudioNode(AudioNode * node)

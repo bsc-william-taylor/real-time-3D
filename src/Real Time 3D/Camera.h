@@ -19,6 +19,5 @@ public:
     virtual GLfloat getPitch() = 0;
 
     virtual vec3 getTranslate() = 0;
-    virtual vec3 getPosition(vec3) { return vec3(); }
     virtual vec3 getPosition() = 0;
 };

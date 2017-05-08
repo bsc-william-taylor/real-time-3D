@@ -3,66 +3,62 @@
 #include "Win32Codes.h"
 
 Button::Button()
-	: sprite(new TextureGL()),
-	  string(new TextGL())
 {
-	sprite->getMatrix()->ortho(vec2(0, 1280), vec2(0, 720));
-	string->getMatrix()->ortho(vec2(0, 1280), vec2(0, 720));
+    sprite.getMatrix()->ortho(vec2(0, 1280), vec2(0, 720));
+    string.getMatrix()->ortho(vec2(0, 1280), vec2(0, 720));
 }
 
 Button::~Button()
 {
-	SAFE_RELEASE(string);
-	SAFE_RELEASE(sprite);
 }
 
-void Button::SetPosition(std::string str, vec2 position, vec2 size)
+void Button::setPosition(std::string str, vec2 pos, vec2 sz)
 {
-	sprite->setTexture("data/img/button.png", GL_CLAMP_TO_EDGE);
-	sprite->setPosition(vec3(position, 0.0), vec3(size, 0.0));
-	sprite->prepare();
+    position = pos;
+    size = sz;
 
-	string->setFont("data/img/MavenPro-Regular.ttf");
-	string->setPosition(position);
-	string->setText(str.c_str());
-	string->setSize(25);
-	string->prepare();
+    sprite.setTexture("data/img/button.png", GL_CLAMP_TO_EDGE);
+    sprite.setPosition(vec3(pos, 0.0), vec3(sz, 0.0));
+    sprite.prepare();
 
-	GLuint height = (int)size.y - string->getHeight();
-	GLuint width = (int)size.x - string->getWidth();
+    string.setFont("data/img/MavenPro-Regular.ttf");
+    string.setPosition(pos);
+    string.setText(str.c_str());
+    string.setSize(25);
+    string.prepare();
 
-	string->getMatrix()->translate(vec3(width/2, height/2, 0.0));
-	this->position = position;
-    this->size = size;
+    GLuint height = (int)size.y - string.getHeight();
+    GLuint width = (int)size.x - string.getWidth();
+
+    string.getMatrix()->translate(vec3(width / 2, height / 2, 0.0));
 }
 
-bool Button::MouseState(int Key, int State, int x, int y)
+bool Button::mouseState(int key, int state, int x, int y)
 {
-	if(x >= position.x && x <= position.x + size.x 
-		&& y >= position.y && y <= position.y + size.y)
-	{
-		if(Key == MOUSE_1 && State == RELEASED)
-		{
-			return true;
-		}
-	}
+    if (x >= position.x && x <= position.x + size.x
+        && y >= position.y && y <= position.y + size.y)
+    {
+        if (key == MOUSE_1 && state == RELEASED)
+        {
+            return true;
+        }
+    }
 
-	return false;
+    return false;
 }
 
 void Button::render(RendererGL * renderer)
 {
-	renderer->renderTexture(sprite);
-	string->render();
+    renderer->renderTexture(&sprite);
+    string.render();
 }
 
-TextureGL * Button::getTexture()
+TextureGL* Button::getTexture()
 {
-	return sprite;
+    return &sprite;
 }
 
-
-TextGL * Button::getString()
+TextGL* Button::getString()
 {
-	return string;
+    return &string;
 }

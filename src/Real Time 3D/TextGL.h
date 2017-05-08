@@ -6,6 +6,12 @@
 
 class TextGL
 {
+    struct Character
+    {
+        SpriteGL* sprite;
+        GLuint vertexBuffer;
+    };
+
     FT_Library freeTypeLibrary;
     FT_Face freeTypeFace;
 
@@ -13,15 +19,9 @@ class TextGL
     std::string text;
 
     ProgramGL* shader;
-    MatrixGL* matrix;
+    MatrixGL matrix;
     GLboolean loaded;
     GLuint fontSize;
-
-    struct Character
-    {
-        SpriteGL* sprite;
-        GLuint vertexBuffer;
-    };
 
     vector<Character*> characters;
     vec2 position;

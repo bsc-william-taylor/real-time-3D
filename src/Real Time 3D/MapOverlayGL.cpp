@@ -1,7 +1,7 @@
 
 #include "MapOverlayGL.h"
 
-MapOverlayGL::MapOverlayGL() : 
+MapOverlayGL::MapOverlayGL() :
     sprite(nullptr),
     map(nullptr)
 {
