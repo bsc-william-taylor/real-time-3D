@@ -8,7 +8,7 @@
 The real time 3D module taught basic 3D graphics using an industry standard graphics library and programming language. Students learn the theoretical underpinnings of 3D graphics - from elementary viewing to scene graphs, gain a basic understanding of contemporary graphics hardware. It is assessed with a practical coursework where students develop a 3D demo and show it both to fellow students and module lectures. 
 
 ## Assignment
- 
+
 Using C++ and OpenGL students were to produce a 3D tech demo in which a player can control an animated character around a 3D,lit, environment. The demo should then be presented to students and module lectures and a 3D recording made available should our project fail to build on university machines. Students could investigate advanced graphics topics and if implemented students would receive extra marks although a basic level would still yield a pass. Along with the practical aspect the following elements were mandatory for a basic pass (C Grade). 
 
 * Software design document
